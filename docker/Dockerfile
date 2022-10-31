@@ -106,4 +106,8 @@ RUN mkdir -p /home/log && \
     mkdir -p /home/log/other_test_log
 
 RUN cd /home/ros_catkin_ws/src && \
-    git clone 
+    git clone https://github.com/Hibiki1020/integrated_attitude_estimator.git --recursive && \
+    cd /home/ros_catkin_ws && \
+    /bin/bash -c "source /opt/ros/noetic/setup.bash; catkin_make; source devel/setup.bash"
+
+WORKDIR /home/ros_catkin_ws/
