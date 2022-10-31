@@ -53,7 +53,13 @@ RUN pip3 install torch \
                 grad-cam \
                 tensorboardX
 
-## ROS Setup
+######### ROS Noetic insatall ##########
+## NOTE: "lsb_release" -> "lsb-release"
+RUN apt-get update && apt-get install -y lsb-release &&\
+	sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' &&\
+	apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 &&\
+	apt-get update && apt-get install -y ros-noetic-desktop-full
+########## ROS setup ##########
 RUN mkdir -p /home/ros_catkin_ws/src && \
 	cd /home/ros_catkin_ws/src && \
 	/bin/bash -c "source /opt/ros/noetic/setup.bash; catkin_init_workspace" && \
@@ -68,7 +74,6 @@ RUN echo "function cmk(){\n	lastpwd=\$OLDPWD \n	cpath=\$(pwd) \n cd /home/ros_ca
 ########## dnn_attitude_estimation ##########
 ##### NO cache #####
 ARG CACHEBUST=1
-
 ###IMU
 RUN cd /home && \
     wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=10y-YuB2QB48mQqsSwTpSID-qK7Hrgty5' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=10y-YuB2QB48mQqsSwTpSID-qK7Hrgty5" -O /home/MT_Software_Suite_linux-x86_2021.4.tar.gz && rm -rf /tmp/cookies.txt
