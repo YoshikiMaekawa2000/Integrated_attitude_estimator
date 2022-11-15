@@ -29,19 +29,22 @@ import torch.backends.cudnn as cudnn
 
 from tensorboardX import SummaryWriter
 
-from models import vit
-from common import dataset_mod
+import sys
+sys.path.append('../')
+from common import network_mod
 from common import make_datalist_mod
 from common import data_transform_mod
+from common import dataset_mod
+from common import make_datalist_mod
 
 class Trainer:
     def __init__(self,
         save_top_path,
-        pretrained_weights_path,
         multiGPU,
         img_size,
         mean_element,
         std_element,
+        dropout_rate,
         num_classes,
         deg_threshold,
         batch_size,
@@ -49,20 +52,18 @@ class Trainer:
         optimizer_name,
         lr,
         alpha,
-        num_frames,
-        patch_size,
         net,
         train_dataset,
         valid_dataset,
         num_workers,
         save_step):
-
+        super(Trainer, self).__init__()
         self.save_top_path = save_top_path
-        self.pretrained_weights_path = pretrained_weights_path
         self.multiGPU = multiGPU
         self.img_size = img_size
         self.mean_element = mean_element
         self.std_element = std_element
+        self.dropout_rate = dropout_rate
         self.num_classes = num_classes
         self.deg_threshold = deg_threshold
         self.batch_size = batch_size
@@ -70,12 +71,9 @@ class Trainer:
         self.optimizer_name = optimizer_name
         self.lr = lr
         self.alpha = alpha
-        self.num_frames = num_frames
-        self.patch_size = patch_size
-
+        self.net = net
         self.train_dataset = train_dataset
         self.valid_dataset = valid_dataset
-
         self.num_workers = num_workers
         self.save_step = save_step
 
@@ -118,15 +116,15 @@ class Trainer:
 
         return dataloaders_dict
 
-    def getOptimizer(self, optimizer_name, lr_vit):
+    def getOptimizer(self, optimizer_name, lr):
 
         if optimizer_name == "SGD":
             optimizer = optim.SGD(self.net.parameters() ,lr = lr, momentum=0.9, 
             weight_decay=0.0)
         elif optimizer_name == "Adam":
-            optimizer = optim.Adam(self.net.parameters(), lr = lr_vit, weight_decay=0.0)
+            optimizer = optim.Adam(self.net.parameters(), lr = lr, weight_decay=0.0)
         elif optimizer_name == "RAdam":
-            optimizer = optim.RAdam(self.net.parameters(), lr = lr_vit, weight_decay=0.0)
+            optimizer = optim.RAdam(self.net.parameters(), lr = lr, weight_decay=0.0)
 
         print("optimizer: {}".format(optimizer_name))
         return optimizer
@@ -168,14 +166,14 @@ class Trainer:
                 #Data Load
                 epoch_loss = 0.0
 
-                for img_list, label_roll, label_pitch in tqdm(self.dataloaders_dict[phase]):
+                for img, label_roll, label_pitch in tqdm(self.dataloaders_dict[phase]):
                     self.optimizer.zero_grad()
 
                     #print(img_list.size())
 
                     #img_list = torch.FloatTensor(1, 3, 8, 224, 224)
 
-                    img_list = img_list.to(self.device)
+                    img = img.to(self.device)
 
                     label_roll = label_roll.to(self.device)
                     label_pitch = label_pitch.to(self.device)
@@ -184,7 +182,7 @@ class Trainer:
                     self.optimizer.zero_grad()
 
                     with torch.set_grad_enabled(phase=="train"):
-                        roll_inf, pitch_inf = self.net(img_list)
+                        roll_inf, pitch_inf = self.net(img)
 
                         #print(roll_inf, pitch_inf)
 
@@ -210,7 +208,7 @@ class Trainer:
                             total_loss.backward()
                             self.optimizer.step()
 
-                        epoch_loss += total_loss.item() * img_list.size(0)
+                        epoch_loss += total_loss.item() * img.size(0)
 
                 epoch_loss = epoch_loss/len(self.dataloaders_dict[phase].dataset)
                 print("{} Loss: {:.4f}".format(phase, epoch_loss))
@@ -237,12 +235,12 @@ class Trainer:
         self.saveGraph(record_train_loss, record_valid_loss)
 
     def saveParam(self):
-        save_path = self.save_top_path + "/weights.pth"
+        save_path = self.save_top_path + "/weights_SII2022.pth"
         torch.save(self.net.state_dict(), save_path)
         print("Saved Weight")
 
     def saveWeight_Interval(self, epoch):
-        save_path = self.save_top_path + "/weights" + "_" + str(epoch) + ".pth"
+        save_path = self.save_top_path + "/weights_SII2022" + "_" + str(epoch) + ".pth"
         torch.save(self.net.state_dict(), save_path)
         print("Saved Weight in Epoch: {}".format(epoch))
 
@@ -257,6 +255,7 @@ class Trainer:
         graph.savefig(self.save_top_path + "/train_log.jpg")
         plt.show()
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("train.py")
 
@@ -264,7 +263,7 @@ if __name__ == "__main__":
         '--train_cfg', '-c',
         type=str,
         required=False,
-        default='../../pyyaml/train_config.yaml',
+        default='../pyyaml/train_config_SII2022.yaml',
         help='Training configuration file'
     )
 
@@ -281,13 +280,10 @@ if __name__ == "__main__":
         quit()
 
     save_top_path = CFG["save_top_path"]
-    yaml_path = save_top_path + "/train_config.yaml"
+    save_yaml_name = CFG["save_yaml_name"]
+    yaml_path = save_top_path + "/" + save_yaml_name
     shutil.copy(FLAGS.train_cfg, yaml_path)
 
-    pretrained_weights_top_directory = CFG["pretrained_weights_top_directory"]
-    pretrained_weights_file_name = CFG["pretrained_weights_file_name"]
-    pretrained_weights_path = os.path.join(pretrained_weights_top_directory, pretrained_weights_file_name)
-    
     train_sequence = CFG["train"]
     valid_sequence = CFG["valid"]
     csv_name = CFG["csv_name"]
@@ -297,12 +293,7 @@ if __name__ == "__main__":
 
     img_size = int(CFG["hyperparameters"]["img_size"])
     resize = int(CFG["hyperparameters"]["resize"])
-    patch_size = int(CFG["hyperparameters"]["patch_size"])
     num_classes = int(CFG["hyperparameters"]["num_classes"])
-    num_frames = int(CFG["hyperparameters"]["num_frames"])
-    attention_type = str(CFG["hyperparameters"]["attention_type"])
-    depth = int(CFG["hyperparameters"]["depth"])
-    num_heads = int(CFG["hyperparameters"]["num_heads"])
     deg_threshold = float(CFG["hyperparameters"]["deg_threshold"])
     batch_size = int(CFG["hyperparameters"]["batch_size"])
     num_epochs = int(CFG["hyperparameters"]["num_epochs"])
@@ -313,61 +304,51 @@ if __name__ == "__main__":
     save_step = int(CFG["hyperparameters"]["save_step"])
     mean_element = float(CFG["hyperparameters"]["mean_element"])
     std_element = float(CFG["hyperparameters"]["std_element"])
+    dropout_rate = float(CFG["hyperparameters"]["dropout_rate"])
     do_white_makeup = bool(CFG["hyperparameters"]["do_white_makeup"])
     do_white_makeup_from_back = bool(CFG["hyperparameters"]["do_white_makeup_from_back"])
     whiteup_frame = int(CFG["hyperparameters"]["whiteup_frame"])
 
-    print("Load Train Dataset")
 
-    train_dataset = dataset_mod.AttitudeEstimatorDataset(
+    print("Load Train Sequence\n")
+    train_dataset = dataset_mod.ClassOriginalDataset(
         data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
         transform = data_transform_mod.DataTransform(
             resize,
             mean_element,
-            std_element
+            std_element,
         ),
         phase = "train",
         index_dict_path = index_csv_path,
         dim_fc_out = num_classes,
-        timesteps = num_frames,
         deg_threshold = deg_threshold,
-        resize = resize,
-        do_white_makeup = do_white_makeup,
-        do_white_makeup_from_back = do_white_makeup_from_back,
-        whiteup_frame = whiteup_frame
     )
 
-    print("Load Valid Dataset")
-
-    valid_dataset = dataset_mod.AttitudeEstimatorDataset(
+    print("Load Valid Sequence\n")
+    valid_dataset = dataset_mod.ClassOriginalDataset(
         data_list = make_datalist_mod.makeMultiDataList(valid_sequence, csv_name),
         transform = data_transform_mod.DataTransform(
             resize,
             mean_element,
-            std_element
+            std_element,
         ),
         phase = "valid",
         index_dict_path = index_csv_path,
         dim_fc_out = num_classes,
-        timesteps = num_frames,
         deg_threshold = deg_threshold,
-        resize = resize,
-        do_white_makeup = do_white_makeup,
-        do_white_makeup_from_back = do_white_makeup_from_back,
-        whiteup_frame = whiteup_frame
     )
 
     print("Load Network")
-    net = vit.TimeSformer(img_size, patch_size, num_classes, num_frames, depth, num_heads, attention_type, pretrained_weights_path, 'train')
+    net = network_mod.Network(resize, num_classes, dropout_rate)
     print(net)
 
     trainer = Trainer(
         save_top_path,
-        pretrained_weights_path,
         multiGPU,
         img_size,
         mean_element,
         std_element,
+        dropout_rate,
         num_classes,
         deg_threshold,
         batch_size,
@@ -375,8 +356,6 @@ if __name__ == "__main__":
         optimizer_name,
         lr,
         alpha,
-        num_frames,
-        patch_size,
         net,
         train_dataset,
         valid_dataset,
