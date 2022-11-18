@@ -190,18 +190,6 @@ class VisionTransformer(nn.Module):
 
         num_patches = self.patch_embed.num_patches
 
-        self.mlp_head_roll = nn.Sequential(
-            nn.LayerNorm(self.embed_dim),
-            nn.Linear(self.embed_dim, num_classes),
-            nn.Softmax(dim=1)
-        )
-
-        self.mlp_head_pitch = nn.Sequential(
-            nn.LayerNorm(self.embed_dim),
-            nn.Linear(self.embed_dim, num_classes),
-            nn.Softmax(dim=1)
-        )
-
         ## Positional Embeddings
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
         self.pos_embed = nn.Parameter(torch.zeros(1, num_patches+1, embed_dim))
@@ -236,6 +224,18 @@ class VisionTransformer(nn.Module):
                       nn.init.constant_(m.temporal_fc.weight, 0)
                       nn.init.constant_(m.temporal_fc.bias, 0)
                     i += 1
+
+        self.mlp_head_roll = nn.Sequential(
+            nn.LayerNorm(self.embed_dim),
+            nn.Linear(self.embed_dim, num_classes),
+            nn.Softmax(dim=1)
+        )
+
+        self.mlp_head_pitch = nn.Sequential(
+            nn.LayerNorm(self.embed_dim),
+            nn.Linear(self.embed_dim, num_classes),
+            nn.Softmax(dim=1)
+        )
 
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
