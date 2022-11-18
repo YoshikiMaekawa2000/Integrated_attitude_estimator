@@ -264,7 +264,7 @@ if __name__ == "__main__":
         '--train_cfg', '-c',
         type=str,
         required=False,
-        default='../../pyyaml/train_config_vit.yaml',
+        default='../pyyaml/train_config_vit.yaml',
         help='Training configuration file'
     )
 
