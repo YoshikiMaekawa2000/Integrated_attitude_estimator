@@ -203,7 +203,8 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
     #     state_dict = new_state_dict
 
     ## Loading the weights
-    model.load_state_dict(state_dict, strict=False)
+    # model.load_state_dict(state_dict, strict=False)
+    model.load_state_dict(torch.load(pretrained_model), strict=False)
 
 
 def extract_layer(model, layer):
