@@ -109,6 +109,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
          state_dict = load_state_dict(pretrained_model)
 
     print(state_dict.keys())
+    print(cfg)
 
 
     if filter_fn is not None:
