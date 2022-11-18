@@ -11,7 +11,7 @@ docker run -it \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --name="integrated_attitude_estimator" \
-    --volume="$script_dir/:/home/pycode/$image_name/" \
+    --volume="$script_dir/:/home/ros_catkin_ws/src/$image_name/" \
     --volume="/home/kawai/ssd_dir/:/home/ssd_dir/" \
     --volume="/fs/kawai/:/home/strage/" \
     $image_name:$tag_name
