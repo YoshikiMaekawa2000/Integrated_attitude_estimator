@@ -154,24 +154,12 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
         state_dict[classifier_name + '.weight'] = classifier_weight[1:]
         classifier_bias = state_dict[classifier_name + '.bias']
         state_dict[classifier_name + '.bias'] = classifier_bias[1:]
-    else:
+    elif num_classes != state_dict[classifier_name + '.weight'].size(0):
         #print('Removing the last fully connected layer due to dimensions mismatch ('+str(num_classes)+ ' != '+str(state_dict[classifier_name + '.weight'].size(0))+').', flush=True)
         # completely discard fully connected for all other differences between pretrained and created model
-        # del state_dict[classifier_name + '.weight']
-        # del state_dict[classifier_name + '.bias']
-        del state_dict[classifier_name + '.mlp_head_roll.weight']
-        del state_dict[classifier_name + '.mlp_head_roll.bias']
-
-        del state_dict[classifier_name + '.mlp_head_pitch.weight']
-        del state_dict[classifier_name + '.mlp_head_pitch.bias']
-
+        del state_dict[classifier_name + '.weight']
+        del state_dict[classifier_name + '.bias']
         strict = False
-    # elif num_classes != state_dict[classifier_name + '.weight'].size(0):
-    #     #print('Removing the last fully connected layer due to dimensions mismatch ('+str(num_classes)+ ' != '+str(state_dict[classifier_name + '.weight'].size(0))+').', flush=True)
-    #     # completely discard fully connected for all other differences between pretrained and created model
-    #     del state_dict[classifier_name + '.weight']
-    #     del state_dict[classifier_name + '.bias']
-    #     strict = False
 
 
     ## Resizing the positional embeddings in case they don't match
