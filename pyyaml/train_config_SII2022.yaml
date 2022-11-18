@@ -27,7 +27,7 @@ valid:
 
 csv_name: "data_list.csv"
 
-index_csv_path: "/home/pycode/verify_for_SI2022/index_dict/index_dict_-30_30_range_step1deg.csv"
+index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
 
 multiGPU: 1 #1 is ture.
 
