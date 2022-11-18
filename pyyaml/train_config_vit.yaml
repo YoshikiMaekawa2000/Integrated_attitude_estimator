@@ -1,6 +1,6 @@
 save_top_path: "/home/log/train_log"
 
-pretrained_weights_top_directory: "/home/ros_catkin_ws/integrated_attitude_estimator/weights/"
+pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
 pretrained_weights_file_name: "weights_2022_0831_timesformer.pth"
 
 train:
