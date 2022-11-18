@@ -5,7 +5,6 @@ script_dir=$(cd $(dirname $0); pwd)
 
 docker run -it \
     --net="host" \
-    --rm \
     --gpus all \
     --privileged \
     --shm-size=400g \
