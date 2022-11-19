@@ -6,7 +6,7 @@ infer_dataset:
 csv_name: "data_list.csv"
 
 weights_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1119/train_log/"
-weights_file_name: "weights.pth"
+weights_file_name: "weights_vit.pth"
 
 infer_log_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1119/inference_test_log/"
 infer_log_file_name: "frame_infer_relust.csv"
@@ -15,7 +15,7 @@ yaml_name: "infer_config.yaml"
 
 index_dict_name: "index_dict_-30_30_range_step1deg.csv"
 
-index_csv_path: "/home/pycode/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
+index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
 
 hyperparameters:
   img_size: 224

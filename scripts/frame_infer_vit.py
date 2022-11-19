@@ -116,7 +116,7 @@ class FrameInfer:
         )
 
     def getNetwork(self):
-        net = vit.TimeSformer(self.img_size, self.patch_size, self.num_classes, self.num_frames, self.depth, self.num_heads, self.attention_type, self.weights_path, 'train')
+        net = vit.TimeSformer(self.img_size, self.patch_size, self.num_classes, self.num_frames, self.depth, self.num_heads, self.attention_type, self.weights_path, 'eval')
         print("Load Network")
         net.to(self.device)
         net.eval()
@@ -277,3 +277,5 @@ if __name__ == "__main__":
         quit()
 
     frame_infer = FrameInfer(CFG, FLAGS)
+    result_csv = frame_infer.spin()
+    frame_infer.save_csv(result_csv)
