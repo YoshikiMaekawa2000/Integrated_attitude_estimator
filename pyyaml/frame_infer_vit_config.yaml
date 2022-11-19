@@ -1,0 +1,34 @@
+infer_dataset:
+  - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145457/"
+  - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145840/"
+  - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_150138/"
+
+csv_name: "data_list.csv"
+
+weights_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1119/train_log/"
+weights_file_name: "weights.pth"
+
+infer_log_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1119/inference_test_log/"
+infer_log_file_name: "frame_infer_relust.csv"
+
+yaml_name: "infer_config.yaml"
+
+index_dict_name: "index_dict_-30_30_range_step1deg.csv"
+
+index_csv_path: "/home/pycode/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
+
+hyperparameters:
+  img_size: 224
+  resize: 224
+  patch_size: 16
+  num_classes: 63
+  num_frames: 8
+  attention_type: 'divided_space_time'
+  depth: 3 #num transforemer layers
+  num_heads: 12
+  deg_threshold: 30
+  mean_element: 0.5
+  std_element: 0.5
+  do_white_makeup: False
+  do_white_makeup_from_back: False
+  whiteup_frame: 0
