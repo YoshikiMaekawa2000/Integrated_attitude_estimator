@@ -118,12 +118,14 @@ class FrameInfer:
     def getNetwork(self):
         net = vit.TimeSformer(self.img_size, self.patch_size, self.num_classes, self.num_frames, self.depth, self.num_heads, self.attention_type, self.weights_path, 'eval')
         print("Load Network")
+        print(net)
         net.to(self.device)
         net.eval()
 
         print("Load state_dict")
         if torch.cuda.is_available:
             state_dict = torch.load(self.weights_path, map_location=lambda storage, loc: storage)
+            #print(state_dict.keys())
             new_state_dict = OrderedDict()
 
             for k, v in state_dict.items():
@@ -133,11 +135,13 @@ class FrameInfer:
 
             state_dict = new_state_dict
             print("Load .pth file")
+            #print(state_dict.keys())
         else:
             state_dict = torch.load(self.weights_path, map_location={"cuda:0": "cpu"})
             print("Load to CPU")
 
-        net.load_state_dict(state_dict, strict=False)
+        #net.load_state_dict(state_dict, strict=False)
+        net.load_state_dict(state_dict)
         return net
 
     def spin(self):
