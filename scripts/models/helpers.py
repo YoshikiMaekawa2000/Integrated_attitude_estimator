@@ -151,7 +151,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
 
     module_base = 'module.model.'
     # classifier_name = module_base + cfg['classifier']
-    classifier_name = module_base + 'mlp_head_roll'
+    classifier_name = module_base + 'mlp_head_roll.0'
     # print(classifier_name)
     if num_classes == 1000 and cfg['num_classes'] == 1001:
         # special case for imagenet trained models with extra background class in pretrained weights
@@ -166,7 +166,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
         del state_dict[classifier_name + '.bias']
         strict = False
 
-    classifier_name = module_base + 'mlp_head_pitch'
+    classifier_name = module_base + 'mlp_head_pitch.1'
     # print(classifier_name)
     if num_classes == 1000 and cfg['num_classes'] == 1001:
         # special case for imagenet trained models with extra background class in pretrained weights
