@@ -1,7 +1,7 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "weights_2022_0831_timesformer.pth"
+pretrained_weights_file_name: "weights_2022_1123_timesformer.pth"
 
 train:
   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131145"
