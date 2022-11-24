@@ -1,25 +1,55 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "weights_2022_1123_timesformer.pth"
+pretrained_weights_file_name: "resnet101-63fe2227.pth" 
+# weights_2022_1123_timesformer.pth
+# resnet101-63fe2227.pth
 
+# #For Pretrain
 train:
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131145"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131610"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_132306"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_114642"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_115528"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_155909"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_160802"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_161232"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_161633"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_162644"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_154646"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_155836"
-
+  - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
+  - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
+  - "/home/strage/flight_airsim_image/train_sequence1/degree_10"
+  - "/home/strage/flight_airsim_image/train_sequence2/degree_0"
+  - "/home/strage/flight_airsim_image/train_sequence2/degree_5"
+  - "/home/strage/flight_airsim_image/train_sequence2/degree_10"
+  - "/home/strage/flight_airsim_image/train_sequence3/degree_0"
+  - "/home/strage/flight_airsim_image/train_sequence3/degree_5"
+  - "/home/strage/flight_airsim_image/train_sequence3/degree_10"
+  - "/home/strage/flight_airsim_image/sequence1"
+  - "/home/strage/flight_airsim_image/sequence2"
+  - "/home/strage/flight_airsim_image/sequence3"
+  - "/home/strage/flight_airsim_image/sequence4"
+  - "/home/strage/flight_airsim_image/sequence5"
+  - "/home/strage/flight_airsim_image/sequence9"
+  - "/home/strage/flight_airsim_image/sequence10"
 valid:
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_162156"
-  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_163059"
+  - "/home/strage/flight_airsim_image/sequence6"
+  - "/home/strage/flight_airsim_image/sequence7"
+  - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
+  - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
+  - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
+
+# #For Real Env
+# train:
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131145"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131610"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_132306"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_114642"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_115528"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_155909"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_160802"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_161232"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_161633"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_162644"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_154646"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_155836"
+
+# valid:
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_162156"
+#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_163059"
+
+
 
 csv_name: "data_list.csv"
 
@@ -31,18 +61,15 @@ multiGPU: 1 #1 is ture
 hyperparameters:
   img_size: 224
   resize: 224
-  patch_size: 16
+  network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
-  attention_type: 'divided_space_time'
-  depth: 3 #num transforemer layers
-  num_heads: 12
   deg_threshold: 30
-  batch_size: 220
+  batch_size: 512 # 220
   num_epochs: 80
   optimizer_name: "RAdam"
   lr: 1e-5
-  alpha: 1e-4
+  alpha: 1e-5
   num_workers: 60
   save_step: 10
   mean_element: 0.5
@@ -50,3 +77,10 @@ hyperparameters:
   do_white_makeup: False
   do_white_makeup_from_back: False
   whiteup_frame: 0
+  timesformer:
+    patch_size: 16
+    attention_type: 'divided_space_time'
+    depth: 3 #num transforemer layers
+    num_heads: 12
+  senet:
+    resnet_model: "resnet101" # 18 34 50 101 152

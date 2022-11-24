@@ -258,7 +258,7 @@ class VisionTransformer(nn.Module):
         #self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
     def forward_features(self, x):
-        #print(x.size())
+        # print(x.size())
         B = x.shape[0]
         x, T, W = self.patch_embed(x)
         cls_tokens = self.cls_token.expand(x.size(0), -1, -1)

@@ -13,5 +13,10 @@ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=downloa
 # Original Weights of TimeSformer
 wget -O TimeSformer_divST_8x32_224_K600.pyth "https://www.dropbox.com/s/4h2qt41m2z3aqrb/TimeSformer_divST_8x32_224_K600.pyth?dl=1"
 
+wget https://download.pytorch.org/models/resnet18-f37072fd.pth
+wget https://download.pytorch.org/models/resnet34-b627a593.pth
+wget https://download.pytorch.org/models/resnet50-0676ba61.pth
+wget https://download.pytorch.org/models/resnet101-63fe2227.pth
+wget https://download.pytorch.org/models/resnet152-394f9c45.pth
 
 cd $script_dir

@@ -13,5 +13,5 @@ docker run -it \
     --env="QT_X11_NO_MITSHM=1" \
     --name="integrated_attitude_estimator" \
     --volume="$script_dir/:/home/ros_catkin_ws/src/$image_name/" \
-    --volume="/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca21/:/home/ssd_dir/" \
+    --volume="/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca21/:/home/strage/" \
     $image_name:$tag_name

@@ -30,6 +30,7 @@ import torch.backends.cudnn as cudnn
 from tensorboardX import SummaryWriter
 
 from models import vit
+from models import senet
 from common import dataset_mod
 from common import make_datalist_mod
 from common import data_transform_mod
@@ -171,7 +172,7 @@ class Trainer:
                 for img_list, label_roll, label_pitch in tqdm(self.dataloaders_dict[phase]):
                     self.optimizer.zero_grad()
 
-                    #print(img_list.size())
+                    # print(img_list.size())
 
                     #img_list = torch.FloatTensor(1, 3, 8, 224, 224)
 
@@ -297,12 +298,9 @@ if __name__ == "__main__":
 
     img_size = int(CFG["hyperparameters"]["img_size"])
     resize = int(CFG["hyperparameters"]["resize"])
-    patch_size = int(CFG["hyperparameters"]["patch_size"])
+    network_type = str(CFG["hyperparameters"]["network_type"])
     num_classes = int(CFG["hyperparameters"]["num_classes"])
     num_frames = int(CFG["hyperparameters"]["num_frames"])
-    attention_type = str(CFG["hyperparameters"]["attention_type"])
-    depth = int(CFG["hyperparameters"]["depth"])
-    num_heads = int(CFG["hyperparameters"]["num_heads"])
     deg_threshold = float(CFG["hyperparameters"]["deg_threshold"])
     batch_size = int(CFG["hyperparameters"]["batch_size"])
     num_epochs = int(CFG["hyperparameters"]["num_epochs"])
@@ -316,6 +314,16 @@ if __name__ == "__main__":
     do_white_makeup = bool(CFG["hyperparameters"]["do_white_makeup"])
     do_white_makeup_from_back = bool(CFG["hyperparameters"]["do_white_makeup_from_back"])
     whiteup_frame = int(CFG["hyperparameters"]["whiteup_frame"])
+
+    # TimeSformer params
+    patch_size = int(CFG["hyperparameters"]["timesformer"]["patch_size"])
+    attention_type = str(CFG["hyperparameters"]["timesformer"]["attention_type"])
+    depth = int(CFG["hyperparameters"]["timesformer"]["depth"])
+    num_heads = int(CFG["hyperparameters"]["timesformer"]["num_heads"])
+
+    # SENet params
+    resnet_model = str(CFG["hyperparameters"]["senet"]["resnet_model"])
+
 
     print("Load Train Dataset")
 
@@ -358,7 +366,14 @@ if __name__ == "__main__":
     )
 
     print("Load Network")
-    net = vit.TimeSformer(img_size, patch_size, num_classes, num_frames, depth, num_heads, attention_type, pretrained_weights_path, 'train')
+    if network_type == "TimeSformer":
+        net = vit.TimeSformer(img_size, patch_size, num_classes, num_frames, depth, num_heads, attention_type, pretrained_weights_path, 'train')
+    elif network_type == "SENet":
+        net = senet.SENet(model=resnet_model, dim_fc_out=num_classes, norm_layer=nn.BatchNorm2d, pretrained_model=pretrained_weights_path, time_step=num_frames, use_SELayer=True)
+    else:
+        print("Error: Network type is not defined")
+        quit()
+
     print(net)
 
     trainer = Trainer(
