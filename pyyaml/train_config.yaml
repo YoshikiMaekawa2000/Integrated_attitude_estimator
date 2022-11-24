@@ -27,6 +27,7 @@ index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dic
 
 multiGPU: 1 #1 is ture
 
+#For TimeSformer
 hyperparameters:
   img_size: 224
   resize: 224

@@ -135,12 +135,13 @@ class FrameInfer:
 
             state_dict = new_state_dict
             print("Load .pth file")
-            #print(state_dict.keys())
+            # print(state_dict.keys())
+            # print(state_dict['model.mlp_head_roll.1.weight'].size())
         else:
             state_dict = torch.load(self.weights_path, map_location={"cuda:0": "cpu"})
             print("Load to CPU")
 
-        #net.load_state_dict(state_dict, strict=False)
+        # net.load_state_dict(state_dict, strict=False)
         net.load_state_dict(state_dict)
         return net
 

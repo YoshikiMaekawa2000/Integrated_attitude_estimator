@@ -227,13 +227,13 @@ class VisionTransformer(nn.Module):
 
         self.mlp_head_roll = nn.Sequential(
             nn.LayerNorm(self.embed_dim),
-            nn.Linear(self.embed_dim, num_classes),
+            nn.Linear(self.embed_dim, self.num_classes),
             nn.Softmax(dim=1)
         )
 
         self.mlp_head_pitch = nn.Sequential(
             nn.LayerNorm(self.embed_dim),
-            nn.Linear(self.embed_dim, num_classes),
+            nn.Linear(self.embed_dim, self.num_classes),
             nn.Softmax(dim=1)
         )
 

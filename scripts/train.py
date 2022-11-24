@@ -258,13 +258,13 @@ class Trainer:
         plt.show()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("train_vit.py")
+    parser = argparse.ArgumentParser("train.py")
 
     parser.add_argument(
         '--train_cfg', '-c',
         type=str,
         required=False,
-        default='../pyyaml/train_config_vit.yaml',
+        default='../pyyaml/train_config.yaml',
         help='Training configuration file'
     )
 

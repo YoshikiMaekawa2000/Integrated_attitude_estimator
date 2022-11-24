@@ -181,6 +181,36 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
         del state_dict[classifier_name + '.bias']
         strict = False
 
+    classifier_name = module_base + 'mlp_head_roll.1'
+    # print(classifier_name)
+    if num_classes == 1000 and cfg['num_classes'] == 1001:
+        # special case for imagenet trained models with extra background class in pretrained weights
+        classifier_weight = state_dict[classifier_name + '.weight']
+        state_dict[classifier_name + '.weight'] = classifier_weight[1:]
+        classifier_bias = state_dict[classifier_name + '.bias']
+        state_dict[classifier_name + '.bias'] = classifier_bias[1:]
+    elif num_classes != state_dict[classifier_name + '.weight'].size(0):
+        #print('Removing the last fully connected layer due to dimensions mismatch ('+str(num_classes)+ ' != '+str(state_dict[classifier_name + '.weight'].size(0))+').', flush=True)
+        # completely discard fully connected for all other differences between pretrained and created model
+        del state_dict[classifier_name + '.weight']
+        del state_dict[classifier_name + '.bias']
+        strict = False
+
+    classifier_name = module_base + 'mlp_head_pitch.1'
+    # print(classifier_name)
+    if num_classes == 1000 and cfg['num_classes'] == 1001:
+        # special case for imagenet trained models with extra background class in pretrained weights
+        classifier_weight = state_dict[classifier_name + '.weight']
+        state_dict[classifier_name + '.weight'] = classifier_weight[1:]
+        classifier_bias = state_dict[classifier_name + '.bias']
+        state_dict[classifier_name + '.bias'] = classifier_bias[1:]
+    elif num_classes != state_dict[classifier_name + '.weight'].size(0):
+        #print('Removing the last fully connected layer due to dimensions mismatch ('+str(num_classes)+ ' != '+str(state_dict[classifier_name + '.weight'].size(0))+').', flush=True)
+        # completely discard fully connected for all other differences between pretrained and created model
+        del state_dict[classifier_name + '.weight']
+        del state_dict[classifier_name + '.bias']
+        strict = False
+
 
     ## Resizing the positional embeddings in case they don't match
     if num_patches + 1 != state_dict[module_base + 'pos_embed'].size(1):

@@ -5,10 +5,10 @@ infer_dataset:
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1119/train_log/"
+weights_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1124/train_log/"
 weights_file_name: "weights_vit.pth"
 
-infer_log_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1119/inference_test_log/"
+infer_log_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1124/inference_test_log/"
 infer_log_file_name: "frame_infer_relust.csv"
 
 yaml_name: "infer_config.yaml"
