@@ -33,4 +33,6 @@ class EKFAttitudeEstimator{
 
         integrated_attitude_estimator::EularAngle dnn_angle;
         sensor_msgs::Imu imu_data;
+
+        integrated_attitude_estimator::EularAngle ekf_angle;
 };
