@@ -1,9 +1,10 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "resnet101-63fe2227.pth" 
+pretrained_weights_file_name: "resnet50-0676ba61.pth" 
 # weights_2022_1123_timesformer.pth
 # resnet101-63fe2227.pth
+# resnet50-0676ba61.pth
 
 # #For Pretrain
 train:
@@ -83,4 +84,4 @@ hyperparameters:
     depth: 3 #num transforemer layers
     num_heads: 12
   senet:
-    resnet_model: "resnet101" # 18 34 50 101 152
+    resnet_model: "resnet50" # 18 34 50 101 152
