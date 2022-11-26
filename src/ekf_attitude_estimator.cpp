@@ -1,6 +1,6 @@
 #include "integrated_attitude_estimator/ekf_attitude_estimator.h"
 
-EKFAttitudeEstimator::EKFAttitudeEstimator(): private_nh("~"){
+EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffer){
     //Subscribers
     imu_sub = nh.subscribe("/imu/data", 1, &EKFAttitudeEstimator::imu_callback, this);
     angle_sub = nh.subscribe("/dnn_angle", 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
@@ -14,14 +14,14 @@ EKFAttitudeEstimator::EKFAttitudeEstimator(): private_nh("~"){
     }
 }
 
-bool init_process(){
+bool EKFAttitudeEstimator::init_process(){
     bool result = true;
 
 
     return result;
 }
 
-EFKAttitudeEstimator::~EKFAttitudeEstimator(){}
+EKFAttitudeEstimator::~EKFAttitudeEstimator(){}
 
 void EKFAttitudeEstimator::imu_callback(const sensor_msgs::Imu::ConstPtr& msg){
     imu_data = *msg;

@@ -12,7 +12,7 @@
 class EKFAttitudeEstimator{
     public:
         EKFAttitudeEstimator();
-        ~EKFAttitudeEstimator(){};
+        ~EKFAttitudeEstimator();
         bool init_process();
         void imu_callback(const sensor_msgs::Imu::ConstPtr& msg);
         void dnn_angle_callback(const integrated_attitude_estimator::EularAngle::ConstPtr& msg);
@@ -28,8 +28,9 @@ class EKFAttitudeEstimator{
         ros::Subscriber angle_sub;
         ros::Publisher ekf_angle_pub;
 
-        tf2_ros::TransformBroadcaster br;
-        tf2_ros::TransformListener listener;
+        tf2_ros::Buffer tfBuffer;
+        tf2_ros::TransformListener tfListener;
+        tf2_ros::TransformBroadcaster tfBroadcaster;
 
         integrated_attitude_estimator::EularAngle dnn_angle;
         sensor_msgs::Imu imu_data;
