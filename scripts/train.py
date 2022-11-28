@@ -31,8 +31,8 @@ from tensorboardX import SummaryWriter
 
 from models import vit
 from models import senet
-from scripts.common import dataset_mod_gimbal
-from scripts.common import dataset_mod_AirSim
+from common import dataset_mod_gimbal
+from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
 
