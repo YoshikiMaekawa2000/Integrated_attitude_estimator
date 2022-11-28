@@ -31,7 +31,8 @@ from tensorboardX import SummaryWriter
 
 from models import vit
 from models import senet
-from common import dataset_mod
+from scripts.common import dataset_mod_gimbal
+from scripts.common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
 
@@ -285,6 +286,9 @@ if __name__ == "__main__":
     yaml_path = save_top_path + "/train_config_vit.yaml"
     shutil.copy(FLAGS.train_cfg, yaml_path)
 
+    train_type = str(CFG["train_type"])
+    print("Training type: ", train_type)
+
     pretrained_weights_top_directory = CFG["pretrained_weights_top_directory"]
     pretrained_weights_file_name = CFG["pretrained_weights_file_name"]
     pretrained_weights_path = os.path.join(pretrained_weights_top_directory, pretrained_weights_file_name)
@@ -327,43 +331,89 @@ if __name__ == "__main__":
 
     print("Load Train Dataset")
 
-    train_dataset = dataset_mod.AttitudeEstimatorDataset(
-        data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
-        transform = data_transform_mod.DataTransform(
-            resize,
-            mean_element,
-            std_element
-        ),
-        phase = "train",
-        index_dict_path = index_csv_path,
-        dim_fc_out = num_classes,
-        timesteps = num_frames,
-        deg_threshold = deg_threshold,
-        resize = resize,
-        do_white_makeup = do_white_makeup,
-        do_white_makeup_from_back = do_white_makeup_from_back,
-        whiteup_frame = whiteup_frame
-    )
+    if train_type == "AirSim":
+        train_dataset = dataset_mod_AirSim.AttitudeEstimatorDataset(
+            data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
+            transform = data_transform_mod.DataTransform(
+                resize,
+                mean_element,
+                std_element
+            ),
+            phase = "train",
+            index_dict_path = index_csv_path,
+            dim_fc_out = num_classes,
+            timesteps = num_frames,
+            deg_threshold = deg_threshold,
+            resize = resize,
+            do_white_makeup = do_white_makeup,
+            do_white_makeup_from_back = do_white_makeup_from_back,
+            whiteup_frame = whiteup_frame
+        )
+    elif train_type == "Gimbal":
+        train_dataset = dataset_mod_gimbal.AttitudeEstimatorDataset(
+            data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
+            transform = data_transform_mod.DataTransform(
+                resize,
+                mean_element,
+                std_element
+            ),
+            phase = "train",
+            index_dict_path = index_csv_path,
+            dim_fc_out = num_classes,
+            timesteps = num_frames,
+            deg_threshold = deg_threshold,
+            resize = resize,
+            do_white_makeup = do_white_makeup,
+            do_white_makeup_from_back = do_white_makeup_from_back,
+            whiteup_frame = whiteup_frame
+        )
+    else:
+        print("Error: train_type is not defined")
+        quit()
+        
+
 
     print("Load Valid Dataset")
 
-    valid_dataset = dataset_mod.AttitudeEstimatorDataset(
-        data_list = make_datalist_mod.makeMultiDataList(valid_sequence, csv_name),
-        transform = data_transform_mod.DataTransform(
-            resize,
-            mean_element,
-            std_element
-        ),
-        phase = "valid",
-        index_dict_path = index_csv_path,
-        dim_fc_out = num_classes,
-        timesteps = num_frames,
-        deg_threshold = deg_threshold,
-        resize = resize,
-        do_white_makeup = do_white_makeup,
-        do_white_makeup_from_back = do_white_makeup_from_back,
-        whiteup_frame = whiteup_frame
-    )
+    if train_type == "AirSim":
+        valid_dataset = dataset_mod_AirSim.AttitudeEstimatorDataset(
+            data_list = make_datalist_mod.makeMultiDataList(valid_sequence, csv_name),
+            transform = data_transform_mod.DataTransform(
+                resize,
+                mean_element,
+                std_element
+            ),
+            phase = "valid",
+            index_dict_path = index_csv_path,
+            dim_fc_out = num_classes,
+            timesteps = num_frames,
+            deg_threshold = deg_threshold,
+            resize = resize,
+            do_white_makeup = do_white_makeup,
+            do_white_makeup_from_back = do_white_makeup_from_back,
+            whiteup_frame = whiteup_frame
+        )
+    elif train_type == "Gimbal":
+        valid_dataset = dataset_mod_gimbal.AttitudeEstimatorDataset(
+            data_list = make_datalist_mod.makeMultiDataList(valid_sequence, csv_name),
+            transform = data_transform_mod.DataTransform(
+                resize,
+                mean_element,
+                std_element
+            ),
+            phase = "valid",
+            index_dict_path = index_csv_path,
+            dim_fc_out = num_classes,
+            timesteps = num_frames,
+            deg_threshold = deg_threshold,
+            resize = resize,
+            do_white_makeup = do_white_makeup,
+            do_white_makeup_from_back = do_white_makeup_from_back,
+            whiteup_frame = whiteup_frame
+        )
+    else:
+        print("Error: train_type is not defined")
+        quit()
 
     print("Load Network")
     if network_type == "TimeSformer":

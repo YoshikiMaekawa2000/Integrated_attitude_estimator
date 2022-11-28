@@ -33,7 +33,7 @@ from collections import OrderedDict
 from tensorboardX import SummaryWriter
 
 from models import vit
-from common import dataset_mod
+from scripts.common import dataset_mod_gimbal
 from common import make_datalist_mod
 from common import data_transform_mod
 
@@ -96,7 +96,7 @@ class FrameInfer:
 
         #self.data_list = self.getDatalist()
 
-        self.test_dataset = dataset_mod.AttitudeEstimatorDataset(
+        self.test_dataset = dataset_mod_gimbal.AttitudeEstimatorDataset(
             data_list=make_datalist_mod.makeMultiDataList(self.infer_sequence, self.csv_name),
             #data_list = self.data_list,
             transform = data_transform_mod.DataTransform(
