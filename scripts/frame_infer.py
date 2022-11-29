@@ -72,12 +72,8 @@ class FrameInfer:
 
         self.img_size = int(self.cfg['hyperparameters']['img_size'])
         self.resize = int(self.cfg['hyperparameters']['resize'])
-        self.patch_size = int(self.cfg['hyperparameters']['patch_size'])
         self.num_classes = int(self.cfg['hyperparameters']['num_classes'])
         self.num_frames = int(self.cfg['hyperparameters']['num_frames'])
-        self.attention_type = self.cfg['hyperparameters']['attention_type']
-        self.depth = int(self.cfg['hyperparameters']['depth'])
-        self.num_heads = int(self.cfg['hyperparameters']['num_heads'])
         self.deg_threshold = int(self.cfg['hyperparameters']['deg_threshold'])
         self.mean_element = float(self.cfg['hyperparameters']['mean_element'])
         self.std_element = float(self.cfg['hyperparameters']['std_element'])

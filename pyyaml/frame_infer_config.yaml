@@ -1,16 +1,19 @@
 dataset_type: "AirSim" # AirSim or Gimbal
 
+# infer_dataset:
+#   - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145457/"
+#   - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145840/"
+#   - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_150138/"
+
 infer_dataset:
-  - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145457/"
-  - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145840/"
-  - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_150138/"
+  - "/home/strage/flight_airsim_image/sequence8"
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1124/train_log/"
-weights_file_name: "weights_vit.pth"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_2022_11_29/train_log/"
+weights_file_name: "weights.pth"
 
-infer_log_top_directory: "/home/ssd_dir/integrated_attitude_estimator_log/ViT/train_log_vit_2022_1124/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_2022_11_29/inference_test_log/"
 infer_log_file_name: "frame_infer_relust.csv"
 
 yaml_name: "infer_config.yaml"
