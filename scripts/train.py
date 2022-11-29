@@ -242,12 +242,12 @@ class Trainer:
         self.saveGraph(record_train_loss, record_valid_loss)
 
     def saveParam(self):
-        save_path = self.save_top_path + "/weights_vit.pth"
+        save_path = self.save_top_path + "/weights.pth"
         torch.save(self.net.state_dict(), save_path)
         print("Saved Weight")
 
     def saveWeight_Interval(self, epoch):
-        save_path = self.save_top_path + "/weights_vit" + "_" + str(epoch) + ".pth"
+        save_path = self.save_top_path + "/weights" + "_" + str(epoch) + ".pth"
         torch.save(self.net.state_dict(), save_path)
         print("Saved Weight in Epoch: {}".format(epoch))
 
