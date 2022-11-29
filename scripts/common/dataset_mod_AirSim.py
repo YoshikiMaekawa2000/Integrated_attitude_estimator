@@ -123,7 +123,7 @@ class AttitudeEstimatorDataset(data.Dataset):
             tmp_roll = float(self.data_list[index + i][6]) * -1.0 * 180.0 / 3.141592
             tmp_pitch = float(self.data_list[index + i][7]) * 180.0 / 3.141592
 
-            print(tmp_roll, tmp_pitch)
+            #print(tmp_roll, tmp_pitch)
 
             roll_list = self.float_to_array(tmp_roll)
             pitch_list = self.float_to_array(tmp_pitch)
