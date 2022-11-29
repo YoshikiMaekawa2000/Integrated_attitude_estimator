@@ -58,13 +58,12 @@ index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dic
 
 multiGPU: 1 #1 is ture
 
-#For TimeSformer
 hyperparameters:
   img_size: 224
   resize: 224
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 8
+  num_frames: 4
   deg_threshold: 30
   batch_size: 512 # 220 in TimeSformer 512 in ResNet50
   num_epochs: 10
