@@ -31,7 +31,7 @@ from tensorboardX import SummaryWriter
 
 from models import vit
 from models import senet
-from common import dataset_mod_gimbal
+from common import dataset_mod_Gimbal
 from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
@@ -353,7 +353,7 @@ if __name__ == "__main__":
             whiteup_frame = whiteup_frame
         )
     elif train_type == "Gimbal":
-        train_dataset = dataset_mod_gimbal.AttitudeEstimatorDataset(
+        train_dataset = dataset_mod_Gimbal.AttitudeEstimatorDataset(
             data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
             transform = data_transform_mod.DataTransform(
                 resize,
@@ -397,7 +397,7 @@ if __name__ == "__main__":
             whiteup_frame = whiteup_frame
         )
     elif train_type == "Gimbal":
-        valid_dataset = dataset_mod_gimbal.AttitudeEstimatorDataset(
+        valid_dataset = dataset_mod_Gimbal.AttitudeEstimatorDataset(
             data_list = make_datalist_mod.makeMultiDataList(valid_sequence, csv_name),
             transform = data_transform_mod.DataTransform(
                 resize,
