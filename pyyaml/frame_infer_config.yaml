@@ -1,3 +1,5 @@
+dataset_type: "AirSim" # AirSim or Gimbal
+
 infer_dataset:
   - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145457/"
   - "/home/ssd_dir/gimbal_attitude_image/known_env/test_image/dji_rs3pro_20221118_145840/"
@@ -20,15 +22,26 @@ index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dic
 hyperparameters:
   img_size: 224
   resize: 224
-  patch_size: 16
+  network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
-  attention_type: 'divided_space_time'
-  depth: 3 #num transforemer layers
-  num_heads: 12
   deg_threshold: 30
+  batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
+  num_epochs: 10
+  optimizer_name: "RAdam"
+  lr: 1e-5
+  alpha: 5e-5
+  num_workers: 40
+  save_step: 10
   mean_element: 0.5
   std_element: 0.5
   do_white_makeup: False
   do_white_makeup_from_back: False
   whiteup_frame: 0
+  timesformer:
+    patch_size: 16
+    attention_type: 'divided_space_time'
+    depth: 3 #num transforemer layers
+    num_heads: 12
+  senet:
+    resnet_model: "resnet50" # 18 34 50 101 152

@@ -33,7 +33,9 @@ from collections import OrderedDict
 from tensorboardX import SummaryWriter
 
 from models import vit
-from scripts.common import dataset_mod_gimbal
+from models import senet
+from common import dataset_mod_Gimbal
+from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
 
@@ -63,6 +65,11 @@ class FrameInfer:
 
         self.index_csv_path = self.cfg['index_csv_path']
 
+        self.dataset_type = str(CFG["dataset_type"])
+        print("Training type: ", self.dataset_type)
+
+        self.network_type = str(CFG["hyperparameters"]["network_type"])
+
         self.img_size = int(self.cfg['hyperparameters']['img_size'])
         self.resize = int(self.cfg['hyperparameters']['resize'])
         self.patch_size = int(self.cfg['hyperparameters']['patch_size'])
@@ -77,6 +84,15 @@ class FrameInfer:
         self.do_white_makeup = bool(self.cfg['hyperparameters']['do_white_makeup'])
         self.do_white_makeup_from_back = bool(self.cfg['hyperparameters']['do_white_makeup_from_back'])
         self.whiteup_frame = int(self.cfg['hyperparameters']['whiteup_frame'])
+
+        # TimeSformer params
+        self.patch_size = int(CFG["hyperparameters"]["timesformer"]["patch_size"])
+        self.attention_type = str(CFG["hyperparameters"]["timesformer"]["attention_type"])
+        self.depth = int(CFG["hyperparameters"]["timesformer"]["depth"])
+        self.num_heads = int(CFG["hyperparameters"]["timesformer"]["num_heads"])
+
+        # SENet params
+        self.resnet_model = str(CFG["hyperparameters"]["senet"]["resnet_model"])
 
         self.transform = data_transform_mod.DataTransform(self.resize, self.mean_element, self.std_element)
 
@@ -96,28 +112,58 @@ class FrameInfer:
 
         #self.data_list = self.getDatalist()
 
-        self.test_dataset = dataset_mod_gimbal.AttitudeEstimatorDataset(
-            data_list=make_datalist_mod.makeMultiDataList(self.infer_sequence, self.csv_name),
-            #data_list = self.data_list,
-            transform = data_transform_mod.DataTransform(
-                self.resize,
-                self.mean_element,
-                self.std_element
-            ),
-            phase = "train",
-            index_dict_path = self.index_csv_path,
-            dim_fc_out = self.num_classes,
-            timesteps = self.num_frames,
-            deg_threshold = self.deg_threshold,
-            resize = self.resize,
-            do_white_makeup = self.do_white_makeup,
-            do_white_makeup_from_back = self.do_white_makeup_from_back,
-            whiteup_frame = self.whiteup_frame
-        )
+        print("Load Test Dataset")
+
+        if self.dataset_type == "AirSim":
+            self.test_dataset = dataset_mod_AirSim.AttitudeEstimatorDataset(
+                data_list = make_datalist_mod.makeMultiDataList(self.infer_sequence, self.csv_name),
+                transform = data_transform_mod.DataTransform(
+                    self.resize,
+                    self.mean_element,
+                    self.std_element
+                ),
+                phase = "valid",
+                index_dict_path = self.index_csv_path,
+                dim_fc_out = self.num_classes,
+                timesteps = self.num_frames,
+                deg_threshold = self.deg_threshold,
+                resize = self.resize,
+                do_white_makeup = self.do_white_makeup,
+                do_white_makeup_from_back = self.do_white_makeup_from_back,
+                whiteup_frame = self.whiteup_frame
+            )
+        elif self.dataset_type == "Gimbal":
+            self.test_dataset = dataset_mod_Gimbal.AttitudeEstimatorDataset(
+                data_list = make_datalist_mod.makeMultiDataList(self.infer_sequence, self.csv_name),
+                transform = data_transform_mod.DataTransform(
+                    self.resize,
+                    self.mean_element,
+                    self.std_element
+                ),
+                phase = "valid",
+                index_dict_path = self.index_csv_path,
+                dim_fc_out = self.num_classes,
+                timesteps = self.num_frames,
+                deg_threshold = self.deg_threshold,
+                resize = self.resize,
+                do_white_makeup = self.do_white_makeup,
+                do_white_makeup_from_back = self.do_white_makeup_from_back,
+                whiteup_frame = self.whiteup_frame
+            )
+        else:
+            print("Error: train_type is not defined")
+            quit()
 
     def getNetwork(self):
-        net = vit.TimeSformer(self.img_size, self.patch_size, self.num_classes, self.num_frames, self.depth, self.num_heads, self.attention_type, self.weights_path, 'eval')
         print("Load Network")
+        if self.network_type == "TimeSformer":
+            net = vit.TimeSformer(self.img_size, self.patch_size, self.num_classes, self.num_frames, self.depth, self.num_heads, self.attention_type, self.weights_path, 'eval')
+        elif self.network_type == "SENet":
+            net = senet.SENet(model=self.resnet_model, dim_fc_out=self.num_classes, norm_layer=nn.BatchNorm2d, pretrained_model=self.weights_path, time_step=self.num_frames, use_SELayer=True)
+        else:
+            print("Error: Network type is not defined")
+            quit()
+
         print(net)
         net.to(self.device)
         net.eval()
@@ -261,12 +307,12 @@ class FrameInfer:
         return value
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("./frame_infer_vit.py")
+    parser = argparse.ArgumentParser("./frame_infer.py")
 
     parser.add_argument(
         "--config", "-c",
         type=str,
-        default="../pyyaml/frame_infer_vit_config.yaml",
+        default="../pyyaml/frame_infer_config.yaml",
         required=False,
         help="Infer config file path"
     )
