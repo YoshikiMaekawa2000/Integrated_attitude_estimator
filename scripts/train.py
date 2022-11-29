@@ -177,7 +177,7 @@ class Trainer:
 
                     #img_list = torch.FloatTensor(1, 3, 8, 224, 224)
 
-                    #print(label_roll[0], label_pitch[0])
+                    print(label_roll[0], label_pitch[0])
                     # print(label_roll.size())
 
                     img_list = img_list.to(self.device)
