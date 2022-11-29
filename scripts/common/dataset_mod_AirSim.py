@@ -150,8 +150,8 @@ class AttitudeEstimatorDataset(data.Dataset):
         #print(concated_image.size())
         #print("\n")
 
-        print(label_roll)
-        print(label_pitch)
+        # print(label_roll)
+        # print(label_pitch)
         
         
 
