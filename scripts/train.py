@@ -286,7 +286,7 @@ if __name__ == "__main__":
         quit()
 
     save_top_path = CFG["save_top_path"]
-    yaml_path = save_top_path + "/train_config_vit.yaml"
+    yaml_path = save_top_path + "/train_config.yaml"
     shutil.copy(FLAGS.train_cfg, yaml_path)
 
     train_type = str(CFG["train_type"])

@@ -22,8 +22,6 @@ class VerifyInfer:
 
     def data_load(self):
         data_list = []
-        roll_val_list = []
-        pitch_val_list = []
         
         with open(self.infer_log_path) as csvfile:
             reader = csv.reader(csvfile)
@@ -48,6 +46,7 @@ class VerifyInfer:
         counter_list = []
 
         for row in self.data_list:
+            #print(row)
             tmp_roll_list.append(float(row[0]))
             tmp_pitch_list.append(float(row[1]))
 
@@ -78,6 +77,7 @@ class VerifyInfer:
         fig_counter = []
 
         for i in range(self.start_seq, self.end_seq, self.step_seq):
+            #print(i)
             roll_list.append(tmp_roll_list[i])
             pitch_list.append(tmp_pitch_list[i])
 
@@ -95,19 +95,21 @@ class VerifyInfer:
 
         c1,c2,c3,c4, c5 = "blue","green","red","black", "orange"
 
-        ax_roll.plot(fig_counter, diff_roll, c=c1, label="Diff Roll")
+        #ax_roll.plot(fig_counter, diff_roll, c=c1, label="Diff Roll")
         ax_roll.plot(fig_counter, gt_roll_list, c=c2, label="GT Roll")
         ax_roll.plot(fig_counter, roll_list, c=c3, label="Inferenced Roll")
         
-        ax_pitch.plot(fig_counter, gt_pitch_list, c=c1, label="Diff Pitch")
-        ax_pitch.plot(fig_counter, diff_pitch, c=c2, label="GT Pitch")
+        #ax_pitch.plot(fig_counter, diff_pitch, c=c1, label="Diff Pitch")
+        ax_pitch.plot(fig_counter, gt_pitch_list, c=c2, label="GT Pitch")
         ax_pitch.plot(fig_counter, pitch_list, c=c3, label="Inferenced Pitch")
 
         ax_roll.set_xlabel("Seq Num")
         ax_roll.set_ylabel("Roll")
+        ax_roll.set_ylim(-30.0, 30.0)
 
         ax_pitch.set_xlabel("Seq Num")
         ax_pitch.set_ylabel("Pitch")
+        ax_pitch.set_ylim(-30.0, 30.0)
 
         ax_roll.legend()
         ax_pitch.legend()

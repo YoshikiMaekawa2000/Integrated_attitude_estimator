@@ -10,10 +10,10 @@ infer_dataset:
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_2022_11_29/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_2022_12_01/train_log/"
 weights_file_name: "weights.pth"
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_2022_11_29/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_2022_12_01/inference_test_log/"
 infer_log_file_name: "frame_infer_relust.csv"
 
 yaml_name: "infer_config.yaml"

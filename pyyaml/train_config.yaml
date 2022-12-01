@@ -1,56 +1,56 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "resnet50-0676ba61.pth" 
+pretrained_weights_file_name: "weights_2022_12_01_resnet_pretrain.pth" 
 # weights_2022_1123_timesformer.pth
 # resnet101-63fe2227.pth
 # resnet50-0676ba61.pth
 
 # #For Pretrain
-train:
-  - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence1/degree_10"
-  - "/home/strage/flight_airsim_image/train_sequence2/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence2/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence2/degree_10"
-  - "/home/strage/flight_airsim_image/train_sequence3/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence3/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence3/degree_10"
-  - "/home/strage/flight_airsim_image/sequence1"
-  - "/home/strage/flight_airsim_image/sequence2"
-  - "/home/strage/flight_airsim_image/sequence3"
-  - "/home/strage/flight_airsim_image/sequence4"
-  - "/home/strage/flight_airsim_image/sequence5"
-  - "/home/strage/flight_airsim_image/sequence9"
-  - "/home/strage/flight_airsim_image/sequence10"
-valid:
-  - "/home/strage/flight_airsim_image/sequence6"
-  - "/home/strage/flight_airsim_image/sequence7"
-  - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
+# train:
+#   - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence1/degree_10"
+#   - "/home/strage/flight_airsim_image/train_sequence2/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence2/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence2/degree_10"
+#   - "/home/strage/flight_airsim_image/train_sequence3/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence3/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence3/degree_10"
+#   - "/home/strage/flight_airsim_image/sequence1"
+#   - "/home/strage/flight_airsim_image/sequence2"
+#   - "/home/strage/flight_airsim_image/sequence3"
+#   - "/home/strage/flight_airsim_image/sequence4"
+#   - "/home/strage/flight_airsim_image/sequence5"
+#   - "/home/strage/flight_airsim_image/sequence9"
+#   - "/home/strage/flight_airsim_image/sequence10"
+# valid:
+#   - "/home/strage/flight_airsim_image/sequence6"
+#   - "/home/strage/flight_airsim_image/sequence7"
+#   - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
 
 # #For Real Env
-# train:
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131145"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131610"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_132306"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_114642"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_115528"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_155909"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_160802"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_161232"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_161633"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_162644"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_154646"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_155836"
+train:
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131145"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_131610"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221101_132306"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_114642"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_115528"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_155909"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_160802"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221109_161232"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_161633"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_162644"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_154646"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_155836"
 
-# valid:
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_162156"
-#   - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_163059"
+valid:
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221116_162156"
+  - "/home/strage/gimbal_attitude_image/known_env/dji_rs3pro_20221114_163059"
 
-train_type: "AirSim" # AirSim or Gimbal
+train_type: "Gimbal" # AirSim or Gimbal
 
 csv_name: "data_list.csv"
 
