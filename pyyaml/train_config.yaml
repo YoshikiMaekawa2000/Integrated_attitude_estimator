@@ -1,7 +1,7 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "weights_2022_12_01_resnet_pretrain.pth" 
+pretrained_weights_file_name: "resnet50-0676ba61.pth" 
 # weights_2022_1123_timesformer.pth
 # resnet101-63fe2227.pth
 # resnet50-0676ba61.pth
@@ -66,7 +66,7 @@ hyperparameters:
   num_frames: 8
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
-  num_epochs: 100 #50 in pretrain, 100 in finetuning
+  num_epochs: 150 #50 in pretrain, 100 in finetuning
   optimizer_name: "RAdam"
   lr: 1e-5
   alpha: 5e-5
