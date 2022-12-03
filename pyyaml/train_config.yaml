@@ -1,10 +1,11 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "weights_2022_12_01_resnet_pretrain.pth" 
+pretrained_weights_file_name: "resnet50-0676ba61.pth" 
 # weights_2022_1123_timesformer.pth
 # resnet101-63fe2227.pth
 # resnet50-0676ba61.pth
+# weights_2022_12_01_resnet_pretrain.pth
 
 # #For Pretrain
 # train:
