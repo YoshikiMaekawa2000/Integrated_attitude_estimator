@@ -202,13 +202,8 @@ class FrameInfer:
             #print(input_image.size())
             input_image = input_image.to(self.device)
 
-            result = []
-            roll_result_list = []
-            pitch_result_list = []
             roll_hist_array = [0.0 for _ in range(self.num_classes)]
             pitch_hist_array = [0.0 for _ in range(self.num_classes)]
-            roll_value_array = []
-            pitch_value_array = []
 
             roll_inf, pitch_inf = self.prediction(input_image)
 
