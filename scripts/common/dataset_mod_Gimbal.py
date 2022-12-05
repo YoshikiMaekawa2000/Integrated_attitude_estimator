@@ -101,6 +101,10 @@ class AttitudeEstimatorDataset(data.Dataset):
             #img_pil = img_pil.convert("L") # convert to grayscale
             img_pil = img_pil.convert("RGB")
 
+            arrPIL = np.asarray(img_pil)
+            plt.imshow(arrPIL)
+            plt.show()
+
             if self.do_white_makeup == True and i < self.whiteup_frame and self.do_white_makeup_from_back == False:
                 #Convert to white makeup for verification
                 img_pil = Image.new('RGB', (self.resize, self.resize), 'white')

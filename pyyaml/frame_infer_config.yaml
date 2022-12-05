@@ -24,16 +24,26 @@ index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dic
 
 hyperparameters:
   img_size: 224
-  resize: 224
+  transform_params:
+    resize: 224 # For ColorGitter
+    brightness: 0.4
+    contrast: 0.4
+    saturation: 0.5
+    hue: 0.25
+    kernel_size: 5 # For Gaussian Blur
+    sigma_min: 0.2
+    sigma_max: 2.0
+    equalize_p: 0.5 # For Random Equalize
+    elastic_alpha: 25.0 # For ElasticTransform
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
-  num_epochs: 10
+  num_epochs: 50 #50 in pretrain, 100 in finetuning
   optimizer_name: "RAdam"
   lr: 1e-5
-  alpha: 5e-5
+  alpha: 5e-4
   num_workers: 40
   save_step: 10
   mean_element: 0.5

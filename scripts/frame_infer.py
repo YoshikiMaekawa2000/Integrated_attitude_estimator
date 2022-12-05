@@ -71,7 +71,18 @@ class FrameInfer:
         self.network_type = str(CFG["hyperparameters"]["network_type"])
 
         self.img_size = int(self.cfg['hyperparameters']['img_size'])
-        self.resize = int(self.cfg['hyperparameters']['resize'])
+        
+        self.resize = int(CFG["hyperparameters"]["transform_params"]["resize"])
+        self.brightness = float(CFG["hyperparameters"]["transform_params"]["brightness"])
+        self.contrast = float(CFG["hyperparameters"]["transform_params"]["contrast"])
+        self.saturation = float(CFG["hyperparameters"]["transform_params"]["saturation"])
+        self.hue = float(CFG["hyperparameters"]["transform_params"]["hue"])
+        self.kernel_size = int(CFG["hyperparameters"]["transform_params"]["kernel_size"])
+        self.sigma_min = float(CFG["hyperparameters"]["transform_params"]["sigma_min"])
+        self.sigma_max = float(CFG["hyperparameters"]["transform_params"]["sigma_max"])
+        self.equalize_p = float(CFG["hyperparameters"]["transform_params"]["equalize_p"])
+        self.elastic_alpha = float(CFG["hyperparameters"]["transform_params"]["elastic_alpha"])
+
         self.num_classes = int(self.cfg['hyperparameters']['num_classes'])
         self.num_frames = int(self.cfg['hyperparameters']['num_frames'])
         self.deg_threshold = int(self.cfg['hyperparameters']['deg_threshold'])
@@ -116,7 +127,17 @@ class FrameInfer:
                 transform = data_transform_mod.DataTransform(
                     self.resize,
                     self.mean_element,
-                    self.std_element
+                    self.std_element,
+                    self.brightness,
+                    self.contrast,
+                    self.saturation,
+                    self.hue,
+                    self.kernel_size,
+                    self.sigma_min,
+                    self.sigma_max,
+                    self.equalize_p,
+                    self.elastic_alpha,
+                    "eval"
                 ),
                 phase = "valid",
                 index_dict_path = self.index_csv_path,
@@ -134,7 +155,17 @@ class FrameInfer:
                 transform = data_transform_mod.DataTransform(
                     self.resize,
                     self.mean_element,
-                    self.std_element
+                    self.std_element,
+                    self.brightness,
+                    self.contrast,
+                    self.saturation,
+                    self.hue,
+                    self.kernel_size,
+                    self.sigma_min,
+                    self.sigma_max,
+                    self.equalize_p,
+                    self.elastic_alpha,
+                    "eval"
                 ),
                 phase = "valid",
                 index_dict_path = self.index_csv_path,

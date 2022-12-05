@@ -61,10 +61,20 @@ multiGPU: 1 #1 is ture
 
 hyperparameters:
   img_size: 224
-  resize: 224
+  transform_params:
+    resize: 224 # For ColorGitter
+    brightness: 0.4
+    contrast: 0.4
+    saturation: 0.5
+    hue: 0.25
+    kernel_size: 3 # For Gaussian Blur
+    sigma_min: 0.4
+    sigma_max: 2.0
+    equalize_p: 0.5 # For Random Equalize
+    elastic_alpha: 50.0 # For ElasticTransform
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 4
+  num_frames: 8
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 50 #50 in pretrain, 100 in finetuning

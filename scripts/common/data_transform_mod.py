@@ -6,20 +6,29 @@ import math
 
 import torch
 from torchvision import transforms
-from torchvision.transforms.transforms import Resize
-import torch.nn.functional as nn_functional
 
 class DataTransform():
-    def __init__(self, resize, mean, std):
+    def __init__(self, resize, mean, std, brightness, contrast, saturation, hue, kernel_size, sigma_min, sigma_max, equalize_p, elastic_alpha, phase):
         self.mean = mean
         self.std = std
         size = (resize, resize)
 
-        self.img_transform = transforms.Compose([
-            transforms.Resize(size),
-            transforms.ToTensor(),
-            transforms.Normalize((mean,), (std,))
-        ])
+        if phase == "train":
+            self.img_transform = transforms.Compose([
+                transforms.Resize(size),
+                transforms.ColorJitter(brightness=brightness, contrast=contrast, saturation=saturation, hue=hue),
+                transforms.GaussianBlur(kernel_size=kernel_size, sigma=(sigma_min, sigma_max)),
+                transforms.RandomEqualize(p=equalize_p),
+                transforms.ElasticTransform(alpha=elastic_alpha),
+                transforms.ToTensor(),
+                transforms.Normalize((mean,), (std,))
+            ])
+        else:
+            self.img_transform = transforms.Compose([
+                transforms.Resize(size),
+                transforms.ToTensor(),
+                transforms.Normalize((mean,), (std,))
+            ])
 
     def __call__(self, img_pil, roll_numpy, pitch_numpy, phase="train"):
         ## img: numpy -> tensor

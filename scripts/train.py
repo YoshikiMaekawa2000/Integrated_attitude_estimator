@@ -304,7 +304,18 @@ if __name__ == "__main__":
     multiGPU = int(CFG["multiGPU"])
 
     img_size = int(CFG["hyperparameters"]["img_size"])
-    resize = int(CFG["hyperparameters"]["resize"])
+
+    resize = int(CFG["hyperparameters"]["transform_params"]["resize"])
+    brightness = float(CFG["hyperparameters"]["transform_params"]["brightness"])
+    contrast = float(CFG["hyperparameters"]["transform_params"]["contrast"])
+    saturation = float(CFG["hyperparameters"]["transform_params"]["saturation"])
+    hue = float(CFG["hyperparameters"]["transform_params"]["hue"])
+    kernel_size = int(CFG["hyperparameters"]["transform_params"]["kernel_size"])
+    sigma_min = float(CFG["hyperparameters"]["transform_params"]["sigma_min"])
+    sigma_max = float(CFG["hyperparameters"]["transform_params"]["sigma_max"])
+    equalize_p = float(CFG["hyperparameters"]["transform_params"]["equalize_p"])
+    elastic_alpha = float(CFG["hyperparameters"]["transform_params"]["elastic_alpha"])
+    
     network_type = str(CFG["hyperparameters"]["network_type"])
     num_classes = int(CFG["hyperparameters"]["num_classes"])
     num_frames = int(CFG["hyperparameters"]["num_frames"])
@@ -340,7 +351,17 @@ if __name__ == "__main__":
             transform = data_transform_mod.DataTransform(
                 resize,
                 mean_element,
-                std_element
+                std_element,
+                brightness,
+                contrast,
+                saturation,
+                hue,
+                kernel_size,
+                sigma_min,
+                sigma_max,
+                equalize_p,
+                elastic_alpha,
+                "train"
             ),
             phase = "train",
             index_dict_path = index_csv_path,
@@ -358,7 +379,17 @@ if __name__ == "__main__":
             transform = data_transform_mod.DataTransform(
                 resize,
                 mean_element,
-                std_element
+                std_element,
+                brightness,
+                contrast,
+                saturation,
+                hue,
+                kernel_size,
+                sigma_min,
+                sigma_max,
+                equalize_p,
+                elastic_alpha,
+                "train"
             ),
             phase = "train",
             index_dict_path = index_csv_path,
@@ -384,7 +415,17 @@ if __name__ == "__main__":
             transform = data_transform_mod.DataTransform(
                 resize,
                 mean_element,
-                std_element
+                std_element,
+                brightness,
+                contrast,
+                saturation,
+                hue,
+                kernel_size,
+                sigma_min,
+                sigma_max,
+                equalize_p,
+                elastic_alpha,
+                "train"
             ),
             phase = "valid",
             index_dict_path = index_csv_path,
@@ -402,7 +443,17 @@ if __name__ == "__main__":
             transform = data_transform_mod.DataTransform(
                 resize,
                 mean_element,
-                std_element
+                std_element,
+                brightness,
+                contrast,
+                saturation,
+                hue,
+                kernel_size,
+                sigma_min,
+                sigma_max,
+                equalize_p,
+                elastic_alpha,
+                "train"
             ),
             phase = "valid",
             index_dict_path = index_csv_path,
