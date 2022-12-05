@@ -64,7 +64,7 @@ hyperparameters:
   resize: 224
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 8
+  num_frames: 4
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 50 #50 in pretrain, 100 in finetuning

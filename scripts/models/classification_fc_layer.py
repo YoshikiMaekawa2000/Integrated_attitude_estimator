@@ -9,6 +9,8 @@ class ClassificationType(nn.Module):
         #self.dim_fc_in = 100
         if type=="high":
             self.dim_fc_in = 100352
+        elif type=="low":
+            self.dim_fc_in = 25088
         
         self.dim_fc_out = dim_fc_out
         self.dropout_rate = dropout_rate
