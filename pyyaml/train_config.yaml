@@ -80,7 +80,7 @@ hyperparameters:
   num_epochs: 80 #50 in pretrain, 100 in finetuning
   optimizer_name: "RAdam"
   lr: 1e-5
-  alpha: 7e-4
+  alpha: 5e-4
   num_workers: 40
   save_step: 10
   mean_element: 0.5
