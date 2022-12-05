@@ -423,7 +423,7 @@ if __name__ == "__main__":
                 sigma_max,
                 equalize_p,
                 elastic_alpha,
-                "train"
+                "eval"
             ),
             phase = "valid",
             index_dict_path = index_csv_path,
@@ -451,7 +451,7 @@ if __name__ == "__main__":
                 sigma_max,
                 equalize_p,
                 elastic_alpha,
-                "train"
+                "eval"
             ),
             phase = "valid",
             index_dict_path = index_csv_path,
