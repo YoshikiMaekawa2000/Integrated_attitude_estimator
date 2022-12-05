@@ -35,6 +35,7 @@ from common import dataset_mod_Gimbal
 from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
+from einops import rearrange
 
 class Trainer:
     def __init__(self,
@@ -173,12 +174,11 @@ class Trainer:
                 for img_list, label_roll, label_pitch in tqdm(self.dataloaders_dict[phase]):
                     self.optimizer.zero_grad()
 
-                    # print(img_list.size())
-
-                    #img_list = torch.FloatTensor(1, 3, 8, 224, 224)
-
-                    #print(label_roll[0], label_pitch[0])
-                    # print(label_roll.size())
+                    # # To check image transform
+                    # img_show = rearrange(img_list, 'b c t h w -> b t h w c')
+                    # arrPIL = np.asarray(img_show[0][0].detach().numpy().copy())
+                    # plt.imshow(arrPIL)
+                    # plt.show()
 
                     img_list = img_list.to(self.device)
 
@@ -190,8 +190,6 @@ class Trainer:
 
                     with torch.set_grad_enabled(phase=="train"):
                         roll_inf, pitch_inf = self.net(img_list)
-
-                        #print(roll_inf, pitch_inf)
 
                         logged_roll_inf = nn_functional.log_softmax(roll_inf, dim=1)
                         logged_pitch_inf = nn_functional.log_softmax(pitch_inf, dim=1)
