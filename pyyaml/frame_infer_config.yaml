@@ -10,10 +10,10 @@ infer_dataset:
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_train_2022_12_05/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_4frame_2022_12_05/train_log/"
 weights_file_name: "weights.pth"
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_train_2022_12_05/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_4frame_2022_12_05/inference_test_log/"
 infer_log_file_name: "frame_infer_relust.csv"
 
 yaml_name: "infer_config.yaml"
@@ -25,6 +25,7 @@ index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dic
 hyperparameters:
   img_size: 224
   transform_params:
+    do_domain_randomization: "eval" #train or eval
     resize: 224 # For ColorGitter
     brightness: 0.4
     contrast: 0.4
@@ -37,7 +38,7 @@ hyperparameters:
     elastic_alpha: 25.0 # For ElasticTransform
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 8
+  num_frames: 4
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 50 #50 in pretrain, 100 in finetuning

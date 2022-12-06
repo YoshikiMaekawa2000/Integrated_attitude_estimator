@@ -72,6 +72,7 @@ class FrameInfer:
 
         self.img_size = int(self.cfg['hyperparameters']['img_size'])
         
+        self.do_domain_randomization =str(self.cfg['hyperparameters']["transform_params"]['do_domain_randomization'])
         self.resize = int(CFG["hyperparameters"]["transform_params"]["resize"])
         self.brightness = float(CFG["hyperparameters"]["transform_params"]["brightness"])
         self.contrast = float(CFG["hyperparameters"]["transform_params"]["contrast"])
@@ -101,7 +102,7 @@ class FrameInfer:
         # SENet params
         self.resnet_model = str(CFG["hyperparameters"]["senet"]["resnet_model"])
 
-        self.transform = data_transform_mod.DataTransform(self.resize, self.mean_element, self.std_element)
+        #self.transform = data_transform_mod.DataTransform(self.resize, self.mean_element, self.std_element)
 
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print("Device: ", self.device)
@@ -137,7 +138,7 @@ class FrameInfer:
                     self.sigma_max,
                     self.equalize_p,
                     self.elastic_alpha,
-                    "eval"
+                    self.do_domain_randomization
                 ),
                 phase = "valid",
                 index_dict_path = self.index_csv_path,
@@ -165,7 +166,7 @@ class FrameInfer:
                     self.sigma_max,
                     self.equalize_p,
                     self.elastic_alpha,
-                    "eval"
+                    self.do_domain_randomization
                 ),
                 phase = "valid",
                 index_dict_path = self.index_csv_path,
