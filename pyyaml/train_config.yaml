@@ -26,8 +26,8 @@ train:
   # - "/home/strage/flight_airsim_image/sequence9"
   # - "/home/strage/flight_airsim_image/sequence10"
 valid:
-  - "/home/strage/flight_airsim_image/sequence6"
-  - "/home/strage/flight_airsim_image/sequence7"
+  # - "/home/strage/flight_airsim_image/sequence6"
+  # - "/home/strage/flight_airsim_image/sequence7"
   - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
   - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
   - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
@@ -62,6 +62,7 @@ multiGPU: 1 #1 is ture
 hyperparameters:
   img_size: 224
   transform_params:
+    do_domain_randomization: "train" #train or eval
     resize: 224 # For ColorGitter
     brightness: 0.04
     contrast: 0.04

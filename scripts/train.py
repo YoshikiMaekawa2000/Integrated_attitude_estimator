@@ -303,6 +303,7 @@ if __name__ == "__main__":
 
     img_size = int(CFG["hyperparameters"]["img_size"])
 
+    do_domain_randomization = str(CFG["hyperparameters"]["transform_params"]["do_domain_randomization"])
     resize = int(CFG["hyperparameters"]["transform_params"]["resize"])
     brightness = float(CFG["hyperparameters"]["transform_params"]["brightness"])
     contrast = float(CFG["hyperparameters"]["transform_params"]["contrast"])
@@ -359,7 +360,7 @@ if __name__ == "__main__":
                 sigma_max,
                 equalize_p,
                 elastic_alpha,
-                "train"
+                do_domain_randomization
             ),
             phase = "train",
             index_dict_path = index_csv_path,
@@ -387,7 +388,7 @@ if __name__ == "__main__":
                 sigma_max,
                 equalize_p,
                 elastic_alpha,
-                "train"
+                do_domain_randomization
             ),
             phase = "train",
             index_dict_path = index_csv_path,
