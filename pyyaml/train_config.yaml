@@ -22,8 +22,9 @@ train:
   - "/home/strage/flight_airsim_image/sequence2"
   - "/home/strage/flight_airsim_image/sequence3"
   - "/home/strage/flight_airsim_image/sequence4"
-  - "/home/strage/flight_airsim_image/sequence5"
   - "/home/strage/flight_airsim_image/sequence9"
+distort:
+  - "/home/strage/flight_airsim_image/sequence5"
   - "/home/strage/flight_airsim_image/sequence10"
 valid:
   - "/home/strage/flight_airsim_image/sequence6"
@@ -45,10 +46,10 @@ valid:
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
+# distort:
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
-
-# valid:
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156"
+# valid:
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059"
 
 train_type: "AirSim" # AirSim or Gimbal
@@ -72,7 +73,8 @@ hyperparameters:
     sigma_min: 0.01
     sigma_max: 0.5
     equalize_p: 0.97 # For Random Equalize
-    elastic_alpha: 20.0 # For ElasticTransform
+    elastic_alpha: 30.0 # For ElasticTransform
+    distort_epoch: 10
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8

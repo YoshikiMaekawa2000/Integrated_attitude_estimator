@@ -56,9 +56,11 @@ class Trainer:
         patch_size,
         net,
         train_dataset,
+        distort_dataset,
         valid_dataset,
         num_workers,
-        save_step):
+        save_step,
+        distort_epoch):
 
         self.save_top_path = save_top_path
         self.pretrained_weights_path = pretrained_weights_path
@@ -77,10 +79,12 @@ class Trainer:
         self.patch_size = patch_size
 
         self.train_dataset = train_dataset
+        self.distort_dataset = distort_dataset
         self.valid_dataset = valid_dataset
 
         self.num_workers = num_workers
         self.save_step = save_step
+        self.distort_epoch = distort_epoch
 
         if self.multiGPU == 0:
                 self.device = torch.device("cuda:0" if torch.cuda.is_available else "cpu")
@@ -88,7 +92,7 @@ class Trainer:
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         self.setRandomCondition()
-        self.dataloaders_dict = self.getDataloaders(self.train_dataset, self.valid_dataset, batch_size)
+        self.dataloaders_dict = self.getDataloaders(self.train_dataset, self.distort_dataset, self.valid_dataset, batch_size)
         self.net = self.getNetwork(net)
         self.optimizer = self.getOptimizer(self.optimizer_name, self.lr)
 
@@ -100,9 +104,17 @@ class Trainer:
             torch.backends.cudnn.deterministic = True
             torch.backends.cudnn.benchmark = False
 
-    def getDataloaders(self, train_dataset, valid_dataset, batch_size):
+    def getDataloaders(self, train_dataset, distort_dataset, valid_dataset, batch_size):
         train_dataloader = torch.utils.data.DataLoader(
             train_dataset,
+            batch_size = batch_size,
+            shuffle=False,
+            num_workers = self.num_workers,
+            #pin_memory =True
+        )
+
+        distort_dataloader = torch.utils.data.DataLoader(
+            distort_dataset,
             batch_size = batch_size,
             shuffle=False,
             num_workers = self.num_workers,
@@ -117,7 +129,7 @@ class Trainer:
             #pin_memory = True
         )
 
-        dataloaders_dict = {"train":train_dataloader, "valid":valid_dataloader}
+        dataloaders_dict = {"train":train_dataloader, "distort":distort_dataloader, "valid":valid_dataloader}
 
         return dataloaders_dict
 
@@ -162,11 +174,18 @@ class Trainer:
             print("--------------------------------")
             print("Epoch: {}/{}".format(epoch+1, self.num_epochs))
 
-            for phase in ["train", "valid"]:
+            for phase in ["train", "distort", "valid"]:
                 if phase == "train":
+                    self.net.train()
+                elif phase == "distort":
                     self.net.train()
                 elif phase == "valid":
                     self.net.eval()
+
+                if phase == "distort" and (epoch%self.distort_epoch)!=0:
+                    continue
+                elif phase == "distort" and (epoch%distort_epoch)==0:
+                    print("Distort Phase in Epoch: {}".format(epoch))
                 
                 #Data Load
                 epoch_loss = 0.0
@@ -188,7 +207,7 @@ class Trainer:
                     #Reset Gradient
                     self.optimizer.zero_grad()
 
-                    with torch.set_grad_enabled(phase=="train"):
+                    with torch.set_grad_enabled((phase=="train") or (phase=="distort")):
                         roll_inf, pitch_inf = self.net(img_list)
 
                         logged_roll_inf = nn_functional.log_softmax(roll_inf, dim=1)
@@ -197,7 +216,7 @@ class Trainer:
                         roll_loss = torch.mean(torch.sum(-label_roll*logged_roll_inf, 1))
                         pitch_loss = torch.mean(torch.sum(-label_pitch*logged_pitch_inf, 1))
 
-                        torch.set_printoptions(edgeitems=1000000)
+                        # torch.set_printoptions(edgeitems=1000000)
 
                         if self.device == 'cpu':
                             l2norm = torch.tensor(0., requires_grad = True).cpu()
@@ -295,6 +314,7 @@ if __name__ == "__main__":
     pretrained_weights_path = os.path.join(pretrained_weights_top_directory, pretrained_weights_file_name)
     
     train_sequence = CFG["train"]
+    distort_sequence = CFG["distort"]
     valid_sequence = CFG["valid"]
     csv_name = CFG["csv_name"]
     index_csv_path = CFG["index_csv_path"]
@@ -314,6 +334,7 @@ if __name__ == "__main__":
     sigma_max = float(CFG["hyperparameters"]["transform_params"]["sigma_max"])
     equalize_p = float(CFG["hyperparameters"]["transform_params"]["equalize_p"])
     elastic_alpha = float(CFG["hyperparameters"]["transform_params"]["elastic_alpha"])
+    distort_epoch = int(CFG["hyperparameters"]["transform_params"]["distort_epoch"])
     
     network_type = str(CFG["hyperparameters"]["network_type"])
     num_classes = int(CFG["hyperparameters"]["num_classes"])
@@ -403,8 +424,70 @@ if __name__ == "__main__":
     else:
         print("Error: train_type is not defined")
         quit()
-        
 
+    print("Load Distort Dataset")
+
+    if train_type == "AirSim":
+        distort_dataset = dataset_mod_AirSim.AttitudeEstimatorDataset(
+            data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
+            transform = data_transform_mod.DataTransform(
+                resize,
+                mean_element,
+                std_element,
+                brightness,
+                contrast,
+                saturation,
+                hue,
+                kernel_size,
+                sigma_min,
+                sigma_max,
+                equalize_p,
+                elastic_alpha,
+                "distort"
+            ),
+            phase = "train",
+            index_dict_path = index_csv_path,
+            dim_fc_out = num_classes,
+            timesteps = num_frames,
+            deg_threshold = deg_threshold,
+            resize = resize,
+            do_white_makeup = do_white_makeup,
+            do_white_makeup_from_back = do_white_makeup_from_back,
+            whiteup_frame = whiteup_frame
+        )
+    elif train_type == "Gimbal":
+        distort_dataset = dataset_mod_Gimbal.AttitudeEstimatorDataset(
+            data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
+            transform = data_transform_mod.DataTransform(
+                resize,
+                mean_element,
+                std_element,
+                brightness,
+                contrast,
+                saturation,
+                hue,
+                kernel_size,
+                sigma_min,
+                sigma_max,
+                equalize_p,
+                elastic_alpha,
+                "distort"
+            ),
+            phase = "train",
+            index_dict_path = index_csv_path,
+            dim_fc_out = num_classes,
+            timesteps = num_frames,
+            deg_threshold = deg_threshold,
+            resize = resize,
+            do_white_makeup = do_white_makeup,
+            do_white_makeup_from_back = do_white_makeup_from_back,
+            whiteup_frame = whiteup_frame
+        )
+    else:
+        print("Error: distort_type is not defined")
+        quit()
+        
+    
 
     print("Load Valid Dataset")
 
@@ -497,9 +580,11 @@ if __name__ == "__main__":
         patch_size,
         net,
         train_dataset,
+        distort_dataset,
         valid_dataset,
         num_workers,
-        save_step
+        save_step,
+        distort_epoch
     )
 
     trainer.process()

@@ -14,20 +14,21 @@ class DataTransform():
         size = (resize, resize)
 
         if phase == "train":
-            # self.img_transform = transforms.Compose([
-            #     transforms.Resize(size),
-            #     transforms.ColorJitter(brightness=brightness, contrast=contrast, saturation=saturation, hue=hue),
-            #     transforms.GaussianBlur(kernel_size=kernel_size, sigma=(sigma_min, sigma_max)),
-            #     transforms.RandomEqualize(p=equalize_p),
-            #     transforms.ElasticTransform(alpha=elastic_alpha),
-            #     transforms.ToTensor(),
-            #     transforms.Normalize((mean,), (std,))
-            # ])
             self.img_transform = transforms.Compose([
                 transforms.Resize(size),
                 transforms.ColorJitter(brightness=brightness, contrast=contrast, saturation=saturation, hue=hue),
                 transforms.GaussianBlur(kernel_size=kernel_size, sigma=(sigma_min, sigma_max)),
                 transforms.RandomEqualize(p=equalize_p),
+                transforms.ToTensor(),
+                transforms.Normalize((mean,), (std,))
+            ])
+        elif phase == "distort":
+            self.img_transform = transforms.Compose([
+                transforms.Resize(size),
+                transforms.ColorJitter(brightness=brightness, contrast=contrast, saturation=saturation, hue=hue),
+                transforms.GaussianBlur(kernel_size=kernel_size, sigma=(sigma_min, sigma_max)),
+                transforms.RandomEqualize(p=equalize_p),
+                transforms.ElasticTransform(alpha=elastic_alpha),
                 transforms.ToTensor(),
                 transforms.Normalize((mean,), (std,))
             ])
