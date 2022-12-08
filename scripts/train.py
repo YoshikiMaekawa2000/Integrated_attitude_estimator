@@ -36,6 +36,7 @@ from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
 from einops import rearrange
+from collections import OrderedDict
 
 class Trainer:
     def __init__(self,
@@ -146,15 +147,23 @@ class Trainer:
         print("optimizer: {}".format(optimizer_name))
         return optimizer
 
+    def fix_model_state_dict(self, state_dict):
+        new_state_dict = OrderedDict()
+        for k, v in state_dict.items():
+            name = k
+            if name.startswith('module.'):
+                name = name[7:]  # remove 'module.' of dataparallel
+            new_state_dict[name] = v
+        return new_state_dict
 
     def getNetwork(self, net):
         print("Loading Pretrained Network")
-        pretrained_model = torch.load(self.pretrained_weights_path)
-        print(pretrained_model)
-        net.load_state_dict(pretrained_model, strict=False)
-        print("Model's state_dict:")
-        for param_tensor in net.state_dict():
-            print(param_tensor, "\t", net.state_dict()[param_tensor].size())
+        pretrained_state_dict = torch.load(self.pretrained_weights_path)
+        #print(pretrained_model)
+        net.load_state_dict(self.fix_model_state_dict(pretrained_state_dict), strict=False)
+        # print("Model's state_dict:")
+        # for param_tensor in net.state_dict():
+        #     print(param_tensor, "\t", net.state_dict()[param_tensor].size())
         net = net.to(self.device)
 
         if self.multiGPU == 1 and self.device == "cuda":
