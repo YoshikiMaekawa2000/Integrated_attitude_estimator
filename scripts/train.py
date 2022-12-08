@@ -115,7 +115,7 @@ class Trainer:
 
         distort_dataloader = torch.utils.data.DataLoader(
             distort_dataset,
-            batch_size = batch_size/2,
+            batch_size = int(batch_size/2),
             shuffle=True,
             num_workers = self.num_workers,
             #pin_memory =True
