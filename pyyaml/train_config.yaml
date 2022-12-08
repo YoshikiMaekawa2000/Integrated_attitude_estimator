@@ -1,37 +1,37 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "resnet50-0676ba61.pth" 
+pretrained_weights_file_name: "weights_2022_12_08_resnet_pretrain.pth" 
 # weights_2022_1123_timesformer.pth
 # resnet101-63fe2227.pth
 # resnet50-0676ba61.pth
 # weights_2022_12_01_resnet_pretrain.pth
 
 #For Pretrain
-train:
-  - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence1/degree_10"
-  - "/home/strage/flight_airsim_image/train_sequence2/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence2/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence2/degree_10"
-  - "/home/strage/flight_airsim_image/train_sequence3/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence3/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence3/degree_10"
-  - "/home/strage/flight_airsim_image/sequence1"
-  - "/home/strage/flight_airsim_image/sequence2"
-  - "/home/strage/flight_airsim_image/sequence3"
-  - "/home/strage/flight_airsim_image/sequence4"
-  - "/home/strage/flight_airsim_image/sequence9"
-distort:
-  - "/home/strage/flight_airsim_image/sequence5"
-  - "/home/strage/flight_airsim_image/sequence10"
-valid:
-  - "/home/strage/flight_airsim_image/sequence6"
-  - "/home/strage/flight_airsim_image/sequence7"
-  - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
-  - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
-  - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
+# train:
+#   - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence1/degree_10"
+#   - "/home/strage/flight_airsim_image/train_sequence2/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence2/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence2/degree_10"
+#   - "/home/strage/flight_airsim_image/train_sequence3/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence3/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence3/degree_10"
+#   - "/home/strage/flight_airsim_image/sequence1"
+#   - "/home/strage/flight_airsim_image/sequence2"
+#   - "/home/strage/flight_airsim_image/sequence3"
+#   - "/home/strage/flight_airsim_image/sequence4"
+#   - "/home/strage/flight_airsim_image/sequence9"
+# distort:
+#   - "/home/strage/flight_airsim_image/sequence5"
+#   - "/home/strage/flight_airsim_image/sequence10"
+# valid:
+#   - "/home/strage/flight_airsim_image/sequence6"
+#   - "/home/strage/flight_airsim_image/sequence7"
+#   - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
+#   - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
+#   - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
 
 # #For Real Env
 train:
@@ -74,13 +74,13 @@ hyperparameters:
     sigma_max: 0.5
     equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 30.0 # For ElasticTransform
-    distort_epoch: 10
+    distort_epoch: 5
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
-  num_epochs: 50 #50 in pretrain, 100 in finetuning
+  num_epochs: 100 #50 in pretrain, 100 in finetuning
   optimizer_name: "RAdam"
   lr: 1e-5
   alpha: 5e-4
