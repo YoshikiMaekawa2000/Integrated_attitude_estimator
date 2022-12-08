@@ -44,11 +44,11 @@ train:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_160802"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_161232"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
 distort:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
 valid:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059"
 
@@ -64,7 +64,7 @@ multiGPU: 1 #1 is ture
 hyperparameters:
   img_size: 224
   transform_params:
-    do_domain_randomization: "train" #train or eval
+    do_domain_randomization: "eval" #train or eval
     resize: 224 # For ColorGitter
     brightness: 0.04
     contrast: 0.04
@@ -75,7 +75,7 @@ hyperparameters:
     sigma_max: 0.5
     equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 30.0 # For ElasticTransform
-    distort_epoch: 5
+    distort_epoch: 3
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
@@ -84,7 +84,7 @@ hyperparameters:
   num_epochs: 80 #50 in pretrain, 100 in finetuning
   optimizer_name: "RAdam"
   lr: 1e-5
-  alpha: 5e-4
+  alpha: 7e-4
   num_workers: 40
   save_step: 10
   mean_element: 0.5
