@@ -207,7 +207,7 @@ class Trainer:
                     #Reset Gradient
                     self.optimizer.zero_grad()
 
-                    with torch.set_grad_enabled(phase=="train"):
+                    with torch.set_grad_enabled(phase=="train" or phase=="distort"):
                         roll_inf, pitch_inf = self.net(img_list)
 
                         logged_roll_inf = nn_functional.log_softmax(roll_inf, dim=1)
@@ -234,32 +234,6 @@ class Trainer:
 
                         epoch_loss += total_loss.item() * img_list.size(0)
 
-                    with torch.set_grad_enabled(phase=="distort"):
-                        roll_inf, pitch_inf = self.net(img_list)
-
-                        logged_roll_inf = nn_functional.log_softmax(roll_inf, dim=1)
-                        logged_pitch_inf = nn_functional.log_softmax(pitch_inf, dim=1)
-
-                        roll_loss = torch.mean(torch.sum(-label_roll*logged_roll_inf, 1))
-                        pitch_loss = torch.mean(torch.sum(-label_pitch*logged_pitch_inf, 1))
-
-                        # torch.set_printoptions(edgeitems=1000000)
-
-                        if self.device == 'cpu':
-                            l2norm = torch.tensor(0., requires_grad = True).cpu()
-                        else:
-                            l2norm = torch.tensor(0., requires_grad = True).cuda()
-
-                        for w in self.net.parameters():
-                            l2norm = l2norm + torch.norm(w)**2
-                        
-                        total_loss = roll_loss + pitch_loss + self.alpha*l2norm
-
-                        if phase == "train":
-                            total_loss.backward()
-                            self.optimizer.step()
-
-                        epoch_loss += total_loss.item() * img_list.size(0)
 
                 epoch_loss = epoch_loss/len(self.dataloaders_dict[phase].dataset)
                 print("{} Loss: {:.4f}".format(phase, epoch_loss))
@@ -456,7 +430,7 @@ if __name__ == "__main__":
 
     if train_type == "AirSim":
         distort_dataset = dataset_mod_AirSim.AttitudeEstimatorDataset(
-            data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
+            data_list = make_datalist_mod.makeMultiDataList(distort_sequence, csv_name),
             transform = data_transform_mod.DataTransform(
                 resize,
                 mean_element,
@@ -484,7 +458,7 @@ if __name__ == "__main__":
         )
     elif train_type == "Gimbal":
         distort_dataset = dataset_mod_Gimbal.AttitudeEstimatorDataset(
-            data_list = make_datalist_mod.makeMultiDataList(train_sequence, csv_name),
+            data_list = make_datalist_mod.makeMultiDataList(distort_sequence, csv_name),
             transform = data_transform_mod.DataTransform(
                 resize,
                 mean_element,
