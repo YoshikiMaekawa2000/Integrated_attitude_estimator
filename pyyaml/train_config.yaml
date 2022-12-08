@@ -75,7 +75,7 @@ hyperparameters:
     sigma_max: 0.5
     equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 30.0 # For ElasticTransform
-    distort_epoch: 3
+    distort_epoch: 5
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
@@ -84,7 +84,7 @@ hyperparameters:
   num_epochs: 50
   optimizer_name: "RAdam"
   lr: 1e-5
-  alpha: 7e-4
+  alpha: 9e-4
   num_workers: 40
   save_step: 10
   mean_element: 0.5
