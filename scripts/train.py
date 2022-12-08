@@ -149,7 +149,7 @@ class Trainer:
 
     def getNetwork(self, net):
         print("Loading Network")
-        net.load_state_dict(torch.load(self.pretrained_weights_path))
+        net.load_state_dict(torch.load(self.pretrained_weights_path), strict=False)
         net = net.to(self.device)
 
         if self.multiGPU == 1 and self.device == "cuda":
