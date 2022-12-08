@@ -160,7 +160,7 @@ class Trainer:
         print("Loading Pretrained Network")
         pretrained_state_dict = torch.load(self.pretrained_weights_path)
         #print(pretrained_model)
-        net.load_state_dict(self.fix_model_state_dict(pretrained_state_dict), strict=False)
+        net.load_state_dict(self.fix_model_state_dict(pretrained_state_dict))
         # print("Model's state_dict:")
         # for param_tensor in net.state_dict():
         #     print(param_tensor, "\t", net.state_dict()[param_tensor].size())
