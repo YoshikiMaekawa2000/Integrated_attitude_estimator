@@ -150,6 +150,9 @@ class Trainer:
     def getNetwork(self, net):
         print("Loading Network")
         net.load_state_dict(torch.load(self.pretrained_weights_path), strict=False)
+        print("Model's state_dict:")
+        for param_tensor in net.state_dict():
+            print(param_tensor, "\t", net.state_dict()[param_tensor].size())
         net = net.to(self.device)
 
         if self.multiGPU == 1 and self.device == "cuda":
