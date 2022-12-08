@@ -61,7 +61,8 @@ class Trainer:
         valid_dataset,
         num_workers,
         save_step,
-        distort_epoch):
+        distort_epoch,
+        train_system):
 
         self.save_top_path = save_top_path
         self.pretrained_weights_path = pretrained_weights_path
@@ -86,6 +87,8 @@ class Trainer:
         self.num_workers = num_workers
         self.save_step = save_step
         self.distort_epoch = distort_epoch
+
+        self.train_system = train_system
 
         if self.multiGPU == 0:
                 self.device = torch.device("cuda:0" if torch.cuda.is_available else "cpu")
@@ -160,7 +163,10 @@ class Trainer:
         print("Loading Pretrained Network")
         pretrained_state_dict = torch.load(self.pretrained_weights_path)
         #print(pretrained_model)
-        net.load_state_dict(self.fix_model_state_dict(pretrained_state_dict))
+        if train_system == "finetune":
+            net.load_state_dict(self.fix_model_state_dict(pretrained_state_dict))
+        else:
+            net.load_state_dict(pretrained_state_dict, strict=False)
         # print("Model's state_dict:")
         # for param_tensor in net.state_dict():
         #     print(param_tensor, "\t", net.state_dict()[param_tensor].size())
@@ -323,6 +329,7 @@ if __name__ == "__main__":
     shutil.copy(FLAGS.train_cfg, yaml_path)
 
     train_type = str(CFG["train_type"])
+    train_system = str(CFG["train_system"])
     print("Training type: ", train_type)
 
     pretrained_weights_top_directory = CFG["pretrained_weights_top_directory"]
@@ -600,7 +607,8 @@ if __name__ == "__main__":
         valid_dataset,
         num_workers,
         save_step,
-        distort_epoch
+        distort_epoch,
+        train_system
     )
 
     trainer.process()

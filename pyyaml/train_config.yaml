@@ -53,6 +53,7 @@ valid:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059"
 
 train_type: "Gimbal" # AirSim or Gimbal
+train_system: "finetune" # pretrain or finetune
 
 csv_name: "data_list.csv"
 
