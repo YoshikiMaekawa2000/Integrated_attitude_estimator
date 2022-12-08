@@ -148,7 +148,7 @@ class Trainer:
 
 
     def getNetwork(self, net):
-        print("Loading Network")
+        print("Loading Pretrained Network")
         net.load_state_dict(torch.load(self.pretrained_weights_path), strict=False)
         print("Model's state_dict:")
         for param_tensor in net.state_dict():
