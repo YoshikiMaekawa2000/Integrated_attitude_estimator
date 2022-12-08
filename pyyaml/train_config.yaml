@@ -79,7 +79,7 @@ hyperparameters:
   num_classes: 63
   num_frames: 8
   deg_threshold: 30
-  batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
+  batch_size: 600 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 100 #50 in pretrain, 100 in finetuning
   optimizer_name: "RAdam"
   lr: 1e-5
