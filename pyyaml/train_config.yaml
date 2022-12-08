@@ -44,11 +44,11 @@ train:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_160802"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_161232"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
 distort:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
 valid:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059"
 
