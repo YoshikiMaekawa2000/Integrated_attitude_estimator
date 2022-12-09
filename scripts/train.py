@@ -189,6 +189,7 @@ class Trainer:
         writer = SummaryWriter(log_dir = self.save_top_path + "/log")
 
         record_train_loss = []
+        record_distort_loss = []
         record_valid_loss = []
 
         for epoch in range(self.num_epochs):
@@ -265,7 +266,7 @@ class Trainer:
                 if phase == "train":
                     record_train_loss.append(epoch_loss)
                     writer.add_scalar("Loss/Train", epoch_loss, epoch)
-                else:
+                elif phase == "valid":
                     record_valid_loss.append(epoch_loss)
                     writer.add_scalar("Loss/Valid", epoch_loss, epoch)
 
