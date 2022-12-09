@@ -269,6 +269,9 @@ class Trainer:
                 elif phase == "valid":
                     record_valid_loss.append(epoch_loss)
                     writer.add_scalar("Loss/Valid", epoch_loss, epoch)
+                elif phase == "distort":
+                    record_distort_loss.append(epoch_loss)
+                    writer.add_scalar("Loss/Distort", epoch_loss, epoch)
 
             if record_train_loss and record_valid_loss:
                 writer.add_scalars("Loss/train_and_val", {"train": record_train_loss[-1], "val": record_valid_loss[-1]}, epoch)
