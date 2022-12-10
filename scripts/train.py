@@ -51,7 +51,8 @@ class Trainer:
         batch_size,
         num_epochs,
         optimizer_name,
-        lr,
+        lr_feature,
+        lr_fc,
         alpha,
         num_frames,
         patch_size,
@@ -75,10 +76,13 @@ class Trainer:
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.optimizer_name = optimizer_name
-        self.lr = lr
+        self.lr_feature = lr_feature
+        self.lr_fc = lr_fc
         self.alpha = alpha
         self.num_frames = num_frames
         self.patch_size = patch_size
+
+        self.tmp_net = net
 
         self.train_dataset = train_dataset
         self.distort_dataset = distort_dataset
@@ -98,7 +102,7 @@ class Trainer:
         self.setRandomCondition()
         self.dataloaders_dict = self.getDataloaders(self.train_dataset, self.distort_dataset, self.valid_dataset, batch_size)
         self.net = self.getNetwork(net)
-        self.optimizer = self.getOptimizer(self.optimizer_name, self.lr)
+        self.optimizer = self.getOptimizer(self.optimizer_name, self.lr_feature, self.lr_fc)
 
     def setRandomCondition(self, keep_reproducibility=False, seed=123456789):
         if keep_reproducibility:
@@ -137,15 +141,30 @@ class Trainer:
 
         return dataloaders_dict
 
-    def getOptimizer(self, optimizer_name, lr_vit):
+    def getOptimizer(self, optimizer_name, lr_feature, lr_fc):
+
+        list_cnn_param_value, list_roll_fc_param_value, list_pitch_fc_param_value = self.tmp_net.getParamValueList()
 
         if optimizer_name == "SGD":
-            optimizer = optim.SGD(self.net.parameters() ,lr = lr, momentum=0.9, 
-            weight_decay=0.0)
+            #optimizer = optim.SGD(self.net.parameters() ,lr = lr_feature, momentum=0.9, weight_decay=0.0)
+            optimizer = optim.SGD([
+                {"params": list_cnn_param_value, "lr": lr_feature},
+                {"params": list_roll_fc_param_value, "lr": lr_fc},
+                {"params": list_pitch_fc_param_value, "lr": lr_fc},
+            ], momentum=0.9, weight_decay=0.0)
         elif optimizer_name == "Adam":
-            optimizer = optim.Adam(self.net.parameters(), lr = lr_vit, weight_decay=0.0)
+            optimizer = optim.Adam([
+                {"params": list_cnn_param_value, "lr": lr_feature},
+                {"params": list_roll_fc_param_value, "lr": lr_fc},
+                {"params": list_pitch_fc_param_value, "lr": lr_fc},
+            ], momentum=0.9, weight_decay=0.0)
         elif optimizer_name == "RAdam":
-            optimizer = optim.RAdam(self.net.parameters(), lr = lr_vit, weight_decay=0.0)
+            #optimizer = optim.RAdam(self.net.parameters(), lr = lr_vit, weight_decay=0.0)
+            optimizer = optim.RAdam([
+                {"params": list_cnn_param_value, "lr": lr_feature},
+                {"params": list_roll_fc_param_value, "lr": lr_fc},
+                {"params": list_pitch_fc_param_value, "lr": lr_fc},
+            ], weight_decay=0.0)
 
         print("optimizer: {}".format(optimizer_name))
         return optimizer
@@ -370,7 +389,8 @@ if __name__ == "__main__":
     batch_size = int(CFG["hyperparameters"]["batch_size"])
     num_epochs = int(CFG["hyperparameters"]["num_epochs"])
     optimizer_name = str(CFG["hyperparameters"]["optimizer_name"])
-    lr = float(CFG["hyperparameters"]["lr"])
+    lr_feature = float(CFG["hyperparameters"]["lr_feature"])
+    lr_fc = float(CFG["hyperparameters"]["lr_fc"])
     alpha = float(CFG["hyperparameters"]["alpha"])
     num_workers = int(CFG["hyperparameters"]["num_workers"])
     save_step = int(CFG["hyperparameters"]["save_step"])
@@ -601,7 +621,8 @@ if __name__ == "__main__":
         batch_size,
         num_epochs,
         optimizer_name,
-        lr,
+        lr_feature,
+        lr_fc,
         alpha,
         num_frames,
         patch_size,

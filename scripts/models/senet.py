@@ -65,4 +65,4 @@ class SENet(nn.Module):
             if "pitch_fc" in param_name:
                 list_pitch_fc_param_value.append(param_value)
 
-        return list_resnet_param_value, list_roll_fc_param_value
+        return list_resnet_param_value, list_roll_fc_param_value, list_pitch_fc_param_value

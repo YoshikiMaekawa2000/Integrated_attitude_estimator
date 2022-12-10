@@ -83,7 +83,8 @@ hyperparameters:
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 100
   optimizer_name: "RAdam"
-  lr: 1e-5
+  lr_feature: 1e-5
+  lr_fc: 1e-5
   alpha: 3e-3
   num_workers: 60
   save_step: 10
