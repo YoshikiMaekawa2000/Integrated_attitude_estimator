@@ -84,7 +84,7 @@ hyperparameters:
   num_epochs: 100
   optimizer_name: "RAdam"
   lr: 1e-5
-  alpha: 1e-3
+  alpha: 3e-3
   num_workers: 60
   save_step: 10
   mean_element: 0.5
