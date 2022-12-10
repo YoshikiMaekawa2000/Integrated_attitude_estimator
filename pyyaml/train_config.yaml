@@ -64,7 +64,7 @@ multiGPU: 1 #1 is ture
 hyperparameters:
   img_size: 224
   transform_params:
-    do_domain_randomization: "eval" #train or eval
+    do_domain_randomization: "train" #train or eval
     resize: 224 # For ColorGitter
     brightness: 0.04
     contrast: 0.04

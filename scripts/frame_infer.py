@@ -239,8 +239,13 @@ class FrameInfer:
 
             roll_inf, pitch_inf = self.prediction(input_image)
 
+            #print(roll_inf)
+
             roll = self.array_to_value_simple(roll_inf)
             pitch = self.array_to_value_simple(pitch_inf)
+
+            # print(roll)
+            # print(pitch)
 
             correct_roll = self.array_to_value_simple_label(np.array(label_roll.to('cpu').detach().numpy().copy()))
             correct_pitch = self.array_to_value_simple_label(np.array(label_pitch.to('cpu').detach().numpy().copy()))
