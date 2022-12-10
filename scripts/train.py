@@ -65,6 +65,8 @@ class Trainer:
         distort_epoch,
         train_system):
 
+        print("Activated Training Functions")
+
         self.save_top_path = save_top_path
         self.pretrained_weights_path = pretrained_weights_path
         self.multiGPU = multiGPU
@@ -143,25 +145,25 @@ class Trainer:
 
     def getOptimizer(self, optimizer_name, lr_feature, lr_fc):
 
-        list_cnn_param_value, list_roll_fc_param_value, list_pitch_fc_param_value = self.tmp_net.getParamValueList()
+        list_feature_extractor_param_value, list_roll_fc_param_value, list_pitch_fc_param_value = self.tmp_net.getParamValueList()
 
         if optimizer_name == "SGD":
             #optimizer = optim.SGD(self.net.parameters() ,lr = lr_feature, momentum=0.9, weight_decay=0.0)
             optimizer = optim.SGD([
-                {"params": list_cnn_param_value, "lr": lr_feature},
+                {"params": list_feature_extractor_param_value, "lr": lr_feature},
                 {"params": list_roll_fc_param_value, "lr": lr_fc},
                 {"params": list_pitch_fc_param_value, "lr": lr_fc},
             ], momentum=0.9, weight_decay=0.0)
         elif optimizer_name == "Adam":
             optimizer = optim.Adam([
-                {"params": list_cnn_param_value, "lr": lr_feature},
+                {"params": list_feature_extractor_param_value, "lr": lr_feature},
                 {"params": list_roll_fc_param_value, "lr": lr_fc},
                 {"params": list_pitch_fc_param_value, "lr": lr_fc},
             ], momentum=0.9, weight_decay=0.0)
         elif optimizer_name == "RAdam":
             #optimizer = optim.RAdam(self.net.parameters(), lr = lr_vit, weight_decay=0.0)
             optimizer = optim.RAdam([
-                {"params": list_cnn_param_value, "lr": lr_feature},
+                {"params": list_feature_extractor_param_value, "lr": lr_feature},
                 {"params": list_roll_fc_param_value, "lr": lr_fc},
                 {"params": list_pitch_fc_param_value, "lr": lr_fc},
             ], weight_decay=0.0)

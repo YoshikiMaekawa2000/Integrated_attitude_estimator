@@ -225,13 +225,13 @@ class VisionTransformer(nn.Module):
                       nn.init.constant_(m.temporal_fc.bias, 0)
                     i += 1
 
-        self.mlp_head_roll = nn.Sequential(
+        self.roll_fc = nn.Sequential(
             nn.LayerNorm(self.embed_dim),
             nn.Linear(self.embed_dim, self.num_classes),
             nn.Softmax(dim=1)
         )
 
-        self.mlp_head_pitch = nn.Sequential(
+        self.pitch_fc = nn.Sequential(
             nn.LayerNorm(self.embed_dim),
             nn.Linear(self.embed_dim, self.num_classes),
             nn.Softmax(dim=1)
@@ -257,7 +257,7 @@ class VisionTransformer(nn.Module):
         self.num_classes = num_classes
         #self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
-    def forward_features(self, x):
+    def feature_extractor(self, x):
         # print(x.size())
         B = x.shape[0]
         x, T, W = self.patch_embed(x)
@@ -312,9 +312,9 @@ class VisionTransformer(nn.Module):
         return x[:, 0]
 
     def forward(self, x):
-        x = self.forward_features(x)
-        roll = self.mlp_head_roll(x)
-        pitch = self.mlp_head_pitch(x)
+        x = self.feature_extractor(x)
+        roll = self.roll_fc(x)
+        pitch = self.pitch_fc(x)
 
         return roll, pitch
 
@@ -343,3 +343,19 @@ class TimeSformer(nn.Module):
     def forward(self, x):
         x = self.model(x)
         return x
+
+    def getParamValueList(self):
+        list_feature_extractor_param_value = []
+        list_roll_fc_param_value = []
+        list_pitch_fc_param_value = []
+
+        for param_name, param_value in self.named_parameters():
+            param_value.requires_grad = True
+            if "roll_fc" in param_name:
+                list_roll_fc_param_value.append(param_value)
+            elif "pitch_fc" in param_name:
+                list_pitch_fc_param_value.append(param_value)
+            else:
+                list_feature_extractor_param_value.append(param_value)
+
+        return list_feature_extractor_param_value, list_roll_fc_param_value, list_pitch_fc_param_value
