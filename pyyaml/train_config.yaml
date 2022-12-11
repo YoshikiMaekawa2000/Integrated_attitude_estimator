@@ -85,7 +85,7 @@ hyperparameters:
   lr_feature: 1e-6
   lr_fc: 1e-6
   alpha: 5e-4
-  num_workers: 60
+  num_workers: 35
   save_step: 10
   mean_element: 0.5
   std_element: 0.5
