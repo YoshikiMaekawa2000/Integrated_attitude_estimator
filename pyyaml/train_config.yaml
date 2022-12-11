@@ -22,15 +22,15 @@ train:
   - "/home/strage/flight_airsim_image/sequence3"
   - "/home/strage/flight_airsim_image/sequence4"
   - "/home/strage/flight_airsim_image/sequence9"
+  - "/home/strage/flight_airsim_image/sequence10"
 distort:
   - "/home/strage/flight_airsim_image/sequence5"
-  - "/home/strage/flight_airsim_image/sequence10"
 valid:
   - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
   - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
   - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
-  # - "/home/strage/flight_airsim_image/sequence6"
-  # - "/home/strage/flight_airsim_image/sequence7"
+  - "/home/strage/flight_airsim_image/sequence6"
+  - "/home/strage/flight_airsim_image/sequence7"
 
 # #For Real Env
 # train:
