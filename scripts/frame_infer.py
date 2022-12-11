@@ -111,11 +111,18 @@ class FrameInfer:
 
         self.value_dict = []
 
+        self.value_dict.append([-1*int(self.deg_threshold)-1, 0])
+
         with open(self.index_dict_path) as fd:
             reader = csv.reader(fd)
             for row in reader:
-                num = float(row[0])
-                self.value_dict.append(num)
+                #num = float(row[0])
+                tmp_row = [int(row[0]), int(row[1])+1]
+                self.value_dict.append(tmp_row)
+
+        self.value_dict.append([int(self.deg_threshold)+1, int(self.num_classes)-1])
+
+        # print("Value: ", self.value_dict)
 
 
         #self.data_list = self.getDatalist()
@@ -306,31 +313,35 @@ class FrameInfer:
         value = 0.0
         
         for tmp, label in zip(output_array[0], self.value_dict):
-            value += tmp * label
+            value += tmp * float(label[0])
 
         if max_index == 0:
             value = -31.0
         elif max_index == 62: #361
             value = 31.0
 
+        # print("value infer:", value)
+
         return value
 
-    def array_to_value_simple_label(self, output_array):
-        max_index = int(np.argmax(output_array))
+    def array_to_value_simple_label(self, label_array):
+        max_index = int(np.argmax(label_array))
         plus_index = max_index + 1
         minus_index = max_index - 1
         value = 0.0
         
-        for tmp, label in zip(output_array, self.value_dict):
+        for tmp, label in zip(label_array, self.value_dict):
             #print("val :", tmp)
             #print("label :", label)
             #print(tmp*label)
-            value += tmp * label
+            value += tmp * float(label[0])
 
         if max_index == 0:
             value = -31.0
         elif max_index == 62: #361
             value = 31.0
+
+        # print("value label:", value)
 
         return value
 
