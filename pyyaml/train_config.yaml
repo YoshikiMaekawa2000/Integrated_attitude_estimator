@@ -74,7 +74,7 @@ hyperparameters:
     sigma_max: 0.5
     equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 30.0 # For ElasticTransform
-    distort_epoch: 2
+    distort_epoch: 5
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
