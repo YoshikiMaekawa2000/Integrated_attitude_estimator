@@ -1,10 +1,10 @@
 save_top_path: "/home/log/train_log"
 
 pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
-pretrained_weights_file_name: "weights_2022_12_01_resnet_pretrain.pth"
+pretrained_weights_file_name: "weights_2022_12_08_resnet_pretrain.pth"
 # resnet101-63fe2227.pth
 # resnet50-0676ba61.pth
-# weights_2022_12_01_resnet_pretrain.pth
+# weights_2022_12_08_resnet_pretrain.pth
 
 #For Pretrain
 # train:
@@ -34,22 +34,22 @@ pretrained_weights_file_name: "weights_2022_12_01_resnet_pretrain.pth"
 
 # #For Real Env
 train:
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_131145"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_131610"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_132306"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_114642"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_115528"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_160802"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_161232"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_161633"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131145"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131610"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_132306"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_114642"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_115528"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_160802"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_161232"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
 distort:
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_162156"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_154646"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_155836"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_155909"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_155909"
 valid:
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_163059"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059"
 
 train_type: "Gimbal" # AirSim or Gimbal
 train_system: "finetune" # pretrain or finetune
@@ -82,9 +82,9 @@ hyperparameters:
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 100
   optimizer_name: "RAdam"
-  lr_feature: 1e-5
-  lr_fc: 1e-5
-  alpha: 3e-3
+  lr_feature: 1e-6
+  lr_fc: 1e-4
+  alpha: 5e-4
   num_workers: 60
   save_step: 10
   mean_element: 0.5
