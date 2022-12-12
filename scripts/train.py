@@ -18,6 +18,7 @@ import yaml
 from shutil import copyfile
 import os
 import shutil
+import csv
 import __init__ as booger
 
 import torch
@@ -42,6 +43,7 @@ class Trainer:
     def __init__(self,
         save_top_path,
         pretrained_weights_path,
+        index_dict_path,
         multiGPU,
         img_size,
         mean_element,
@@ -69,6 +71,7 @@ class Trainer:
 
         self.save_top_path = save_top_path
         self.pretrained_weights_path = pretrained_weights_path
+        self.index_dict_path = index_dict_path
         self.multiGPU = multiGPU
         self.img_size = img_size
         self.mean_element = mean_element
@@ -105,6 +108,21 @@ class Trainer:
         self.dataloaders_dict = self.getDataloaders(self.train_dataset, self.distort_dataset, self.valid_dataset, batch_size)
         self.net = self.getNetwork(net)
         self.optimizer = self.getOptimizer(self.optimizer_name, self.lr_feature, self.lr_fc)
+
+        self.value_dict = []
+
+        self.value_dict.append([-1*int(self.deg_threshold)-1, 0])
+
+        with open(self.index_dict_path) as fd:
+            reader = csv.reader(fd)
+            for row in reader:
+                #num = float(row[0])
+                tmp_row = [int(row[0]), int(row[1])+1]
+                self.value_dict.append(tmp_row)
+
+        self.value_dict.append([int(self.deg_threshold)+1, int(self.num_classes)-1])
+        # print(self.value_dict)
+
 
     def setRandomCondition(self, keep_reproducibility=False, seed=123456789):
         if keep_reproducibility:
@@ -269,6 +287,14 @@ class Trainer:
 
                         # torch.set_printoptions(edgeitems=1000000)
 
+                        # print_infer_roll = self.array_to_value_simple(roll_inf.to('cpu').detach().numpy().copy())
+                        # print_label_roll = self.array_to_value_simple_label_in_train(label_roll.to('cpu').detach().numpy().copy())
+                        # print(roll_inf)
+                        # print(label_roll)
+                        # print("Infer Roll: {}".format(print_infer_roll))
+                        # print("Label Roll: {}".format(print_label_roll))
+                        # print("\n\n")
+
                         if self.device == 'cpu':
                             l2norm = torch.tensor(0., requires_grad = True).cpu()
                         else:
@@ -334,6 +360,39 @@ class Trainer:
         graph.savefig(self.save_top_path + "/train_log.jpg")
         plt.show()
 
+    def array_to_value_simple(self, output_array):
+        max_index = int(np.argmax(output_array))
+        plus_index = max_index + 1
+        minus_index = max_index - 1
+        value = 0.0
+        
+        for tmp, label in zip(output_array[0], self.value_dict):
+            value += tmp * float(label[0])
+
+        if max_index == 0:
+            value = -31.0
+        elif max_index == 62: #361
+            value = 31.0
+
+        return value
+
+    def array_to_value_simple_label_in_train(self, label_array):
+        max_index = int(np.argmax(label_array))
+        plus_index = max_index + 1
+        minus_index = max_index - 1
+        value = 0.0
+        
+        for tmp, label in zip(label_array[0], self.value_dict):
+            value += tmp * float(label[0])
+
+        if max_index == 0:
+            value = -31.0
+        elif max_index == 62: #361
+            value = 31.0
+
+        # print("value: {}".format(value))
+        return value
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("train.py")
 
@@ -369,6 +428,8 @@ if __name__ == "__main__":
     pretrained_weights_file_name = CFG["pretrained_weights_file_name"]
     pretrained_weights_path = os.path.join(pretrained_weights_top_directory, pretrained_weights_file_name)
     
+    index_csv_path = str(CFG["index_csv_path"])
+
     train_sequence = CFG["train"]
     distort_sequence = CFG["distort"]
     valid_sequence = CFG["valid"]
@@ -622,6 +683,7 @@ if __name__ == "__main__":
     trainer = Trainer(
         save_top_path,
         pretrained_weights_path,
+        index_csv_path,
         multiGPU,
         img_size,
         mean_element,
