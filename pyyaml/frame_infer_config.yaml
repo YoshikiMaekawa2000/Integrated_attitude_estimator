@@ -35,7 +35,7 @@ hyperparameters:
     kernel_size: 5 # For Gaussian Blur
     sigma_min: 0.2
     sigma_max: 2.0
-    equalize_p: 0.5 # For Random Equalize
+    equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 25.0 # For ElasticTransform
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63

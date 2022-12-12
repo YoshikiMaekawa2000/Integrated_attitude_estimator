@@ -115,17 +115,25 @@ class Trainer:
             torch.backends.cudnn.benchmark = False
 
     def getDataloaders(self, train_dataset, distort_dataset, valid_dataset, batch_size):
+
+        distort_batch_size = int(batch_size)
+        if (batch_size % 2) == 0:
+            distort_batch_size = int(batch_size/2)
+        else:
+            distort_batch_size = int(batch_size/2) + 1
+
+
         train_dataloader = torch.utils.data.DataLoader(
             train_dataset,
             batch_size = batch_size,
-            shuffle=False,
+            shuffle=True,
             num_workers = self.num_workers,
             #pin_memory =True
         )
 
         distort_dataloader = torch.utils.data.DataLoader(
             distort_dataset,
-            batch_size = int(batch_size/2),
+            batch_size = distort_batch_size,
             shuffle=True,
             num_workers = self.num_workers,
             #pin_memory =True

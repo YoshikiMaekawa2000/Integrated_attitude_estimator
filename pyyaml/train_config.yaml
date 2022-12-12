@@ -73,20 +73,20 @@ hyperparameters:
     kernel_size: 3 # For Gaussian Blur
     sigma_min: 0.01
     sigma_max: 0.5
-    equalize_p: 0.97 # For Random Equalize
+    equalize_p: 0.95 # For Random Equalize
     elastic_alpha: 30.0 # For ElasticTransform
     distort_epoch: 10
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
   deg_threshold: 30
-  batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
+  batch_size: 6 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 150
   optimizer_name: "RAdam"
   lr_feature: 1e-6
   lr_fc: 1e-4
   alpha: 3e-4
-  num_workers: 35 # num_workers <= 35
+  num_workers: 3 # num_workers <= 35
   save_step: 10
   mean_element: 0.5
   std_element: 0.5

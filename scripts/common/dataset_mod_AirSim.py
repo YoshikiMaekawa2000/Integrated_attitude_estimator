@@ -125,6 +125,11 @@ class AttitudeEstimatorDataset(data.Dataset):
 
             #print(tmp_roll, tmp_pitch)
 
+            # if i == self.num_frames-1:
+            #     arrPIL = np.asarray(img_pil)
+            #     plt.imshow(arrPIL)
+            #     plt.show()
+
             roll_list = self.float_to_array(tmp_roll)
             pitch_list = self.float_to_array(tmp_pitch)
 
