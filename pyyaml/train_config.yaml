@@ -85,7 +85,7 @@ hyperparameters:
   optimizer_name: "RAdam"
   lr_feature: 1e-6
   lr_fc: 1e-4
-  alpha: 3e-4
+  alpha: 7e-4
   num_workers: 35 # num_workers <= 35
   save_step: 10
   mean_element: 0.5
