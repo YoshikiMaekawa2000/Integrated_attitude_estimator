@@ -238,7 +238,6 @@ class FrameInfer:
         for input_image, label_roll, label_pitch in self.test_dataset:
             start_clock = time.time()
             input_image = input_image.unsqueeze(dim=0)
-            #print(input_image.size())
             input_image = input_image.to(self.device)
 
             roll_hist_array = [0.0 for _ in range(self.num_classes)]
@@ -246,13 +245,8 @@ class FrameInfer:
 
             roll_inf, pitch_inf = self.prediction(input_image)
 
-            #print(roll_inf)
-
             roll = self.array_to_value_simple(roll_inf)
             pitch = self.array_to_value_simple(pitch_inf)
-
-            # print(roll)
-            # print(pitch)
 
             correct_roll = self.array_to_value_simple_label(np.array(label_roll.to('cpu').detach().numpy().copy()))
             correct_pitch = self.array_to_value_simple_label(np.array(label_pitch.to('cpu').detach().numpy().copy()))
@@ -320,8 +314,6 @@ class FrameInfer:
         elif max_index == 62: #361
             value = 31.0
 
-        # print("value infer:", value)
-
         return value
 
     def array_to_value_simple_label(self, label_array):
@@ -331,17 +323,12 @@ class FrameInfer:
         value = 0.0
         
         for tmp, label in zip(label_array, self.value_dict):
-            #print("val :", tmp)
-            #print("label :", label)
-            #print(tmp*label)
             value += tmp * float(label[0])
 
         if max_index == 0:
             value = -31.0
         elif max_index == 62: #361
             value = 31.0
-
-        # print("value label:", value)
 
         return value
 
