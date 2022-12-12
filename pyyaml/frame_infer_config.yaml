@@ -1,20 +1,20 @@
-dataset_type: "Gimbal" # AirSim or Gimbal
-
-infer_dataset:
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145457/"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/"
-  #  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE IN TESTING
+dataset_type: "AirSim" # AirSim or Gimbal
 
 # infer_dataset:
-#   - "/home/strage/flight_airsim_image/sequence8"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145457/"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/"
+#   #  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE IN TESTING
+
+infer_dataset:
+  - "/home/strage/flight_airsim_image/sequence8"
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_4frame_2022_12_05/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_10_epoch_2022_12_12/train_log/"
 weights_file_name: "weights.pth"
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_4frame_2022_12_05/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_pretrain_10_epoch_2022_12_12/inference_test_log/"
 infer_log_file_name: "frame_infer_relust____.csv"
 
 yaml_name: "infer_config.yaml"
