@@ -44,11 +44,11 @@ train:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_161232"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_155909"
 distort:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_155909"
 valid:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059"
 
@@ -75,7 +75,7 @@ hyperparameters:
     sigma_max: 0.5
     equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 30.0 # For ElasticTransform
-    distort_epoch: 5
+    distort_epoch: 10
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
   num_frames: 8
@@ -85,7 +85,7 @@ hyperparameters:
   optimizer_name: "RAdam"
   lr_feature: 1e-6
   lr_fc: 1e-4
-  alpha: 5e-4
+  alpha: 3e-4
   num_workers: 35 # num_workers <= 35
   save_step: 10
   mean_element: 0.5
