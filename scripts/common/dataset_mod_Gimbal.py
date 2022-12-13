@@ -120,7 +120,7 @@ class AttitudeEstimatorDataset(data.Dataset):
                 # plt.imshow(arrPIL)
                 # plt.show()
 
-            tmp_roll = float(self.data_list[index + i][3])
+            tmp_roll = float(self.data_list[index + i][3]) * (-1.0)
             tmp_pitch = float(self.data_list[index + i][4])
 
             # print(self.data_list[index + i])
