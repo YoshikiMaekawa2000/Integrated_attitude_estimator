@@ -160,7 +160,7 @@ class Trainer:
         valid_dataloader = torch.utils.data.DataLoader(
             valid_dataset,
             batch_size = batch_size,
-            shuffle=False,
+            shuffle=True,
             num_workers = self.num_workers,
             #pin_memory = True
         )
