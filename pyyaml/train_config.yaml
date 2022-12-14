@@ -87,7 +87,7 @@ hyperparameters:
   lr_fc: 1e-4
   alpha: 7e-4
   num_workers: 35 # num_workers <= 35
-  save_step: 10
+  save_step: 30
   mean_element: 0.5
   std_element: 0.5
   do_white_makeup: False
