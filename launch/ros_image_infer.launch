@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="integrated_attitude_estimator" name="ros_image_infer" type="ros_infer.py" output="screen" />
+</launch>

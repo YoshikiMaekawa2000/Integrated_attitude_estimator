@@ -3,7 +3,7 @@ image_name="integrated_attitude_estimator"
 tag_name="noetic"
 script_dir=$(cd $(dirname $0); pwd)
 
-xhost +
+# xhost +
 docker run -it \
     --net="host" \
     --gpus all \
