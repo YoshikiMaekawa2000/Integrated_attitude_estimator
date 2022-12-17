@@ -84,6 +84,7 @@ class IntegratedAttitudeEstimator:
         self.image_topic_name = self.CFG["ros_params"]["image_topic_name"]
         self.gt_angle_topic_name = self.CFG["ros_params"]["gt_angle_topic_name"]
         self.inferenced_angle_topic_name = self.CFG["ros_params"]["inferenced_angle_topic_name"]
+        self.absolute_error_topic_name = self.CFG["ros_params"]["absolute_error_topic_name"]
 
         self.network_type = str(CFG["hyperparameters"]["network_type"])
         self.img_size = int(self.CFG['hyperparameters']['img_size'])
@@ -143,6 +144,9 @@ class IntegratedAttitudeEstimator:
         # Publishing
         self.inferenced_angle = EularAngle()
         self.pub_infer_angle = rospy.Publisher( self.inferenced_angle_topic_name, EularAngle, queue_size=1)
+
+        self.diff_angle = EularAngle()
+        self.pub_diff_angle = rospy.Publisher( self.absolute_error_topic_name, EularAngle, queue_size=1)
 
     def getNetwork(self):
         print("Load Network")
@@ -247,7 +251,12 @@ class IntegratedAttitudeEstimator:
         self.inferenced_angle.pitch = pitch
         self.inferenced_angle.yaw = 0.0
 
+        self.diff_angle.roll = diff_roll
+        self.diff_angle.pitch = diff_pitch
+        self.diff_angle.yaw = 0.0
+
         self.pub_infer_angle.publish(self.inferenced_angle)
+        self.pub_diff_angle.publish(self.diff_angle)
     
         print("Period [s]: ", time.time() - start_clock)
 
