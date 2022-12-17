@@ -1,3 +1,8 @@
 <launch>
     <node pkg="integrated_attitude_estimator" name="ros_image_infer" type="ros_infer.py" output="screen" />
+    <node pkg="integrated_attitude_estimator" name="publish_correct_angle" type="publish_correct_angle.py" output="screen" />
+    <node name="image_republish" pkg="image_transport" type="republish" args="compressed raw">
+        <remap from="in" to="/camera/color/image_raw" />
+        <remap from="out" to="/decompressed_image" />
+    </node>
 </launch>

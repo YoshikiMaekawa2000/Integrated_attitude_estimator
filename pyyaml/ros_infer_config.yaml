@@ -1,8 +1,8 @@
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_13/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_16/train_log/"
 weights_file_name: "weights.pth"
 
 save_in_csv: False
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_13/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_16/inference_test_log/"
 infer_log_file_name: "ros_infer_relust.csv"
 
 yaml_name: "ros_infer_config.yaml"
@@ -10,8 +10,8 @@ yaml_name: "ros_infer_config.yaml"
 index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
 
 ros_params:
-  image_topic_name: "/image_raw"
-  gt_angle_topic_name: "/correct_angle"
+  image_topic_name: "/decompressed_image"
+  gt_angle_topic_name: "/gt_correct_angle"
 
 hyperparameters:
   img_size: 224

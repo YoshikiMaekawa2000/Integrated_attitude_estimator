@@ -54,7 +54,7 @@ from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
 
-from integrated_attitude_estimator.msg import *
+from integrated_attitude_estimator.msg import EularAngle
 
 class IntegratedAttitudeEstimator:
     def __init__(self, FLAGS, CFG):
