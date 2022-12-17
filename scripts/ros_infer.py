@@ -13,6 +13,7 @@ import datetime
 import numpy as np
 import random
 import cv2
+import PIL.Image as Image
 
 import argparse
 import subprocess
@@ -36,6 +37,8 @@ from collections import OrderedDict
 
 from tensorboardX import SummaryWriter
 
+from einops import rearrange, reduce, repeat
+
 import rospy
 from sensor_msgs.msg import Image as ImageMsg
 from geometry_msgs.msg import Vector3Stamped
@@ -58,6 +61,8 @@ from integrated_attitude_estimator.msg import EularAngle
 
 class IntegratedAttitudeEstimator:
     def __init__(self, FLAGS, CFG):
+        self.count = 0
+
         self.FLAGS = FLAGS
         self.CFG = CFG
 
@@ -78,6 +83,7 @@ class IntegratedAttitudeEstimator:
 
         self.image_topic_name = self.CFG["ros_params"]["image_topic_name"]
         self.gt_angle_topic_name = self.CFG["ros_params"]["gt_angle_topic_name"]
+        self.inferenced_angle_topic_name = self.CFG["ros_params"]["inferenced_angle_topic_name"]
 
         self.network_type = str(CFG["hyperparameters"]["network_type"])
         self.img_size = int(self.CFG['hyperparameters']['img_size'])
@@ -113,10 +119,11 @@ class IntegratedAttitudeEstimator:
         # Network params
         self.load_net = False
         self.net = self.getNetwork()
+        self.input_tensor = torch.zeros([self.num_frames, 3, self.img_size, self.img_size], dtype=torch.float32)
 
         # Transform Params
         self.img_transform = transforms.Compose([
-            transforms.Resize(self.img_size),
+            transforms.Resize((self.img_size, self.img_size)),
             transforms.ToTensor(),
             transforms.Normalize((self.mean_element,), (self.std_element,))
         ])
@@ -130,6 +137,12 @@ class IntegratedAttitudeEstimator:
         # ROS GT Angle Subscriber
         self.sub_gt_angle = rospy.Subscriber(self.gt_angle_topic_name, EularAngle, self.gt_angle_callback, queue_size=1)
         self.gt_angle = EularAngle()
+
+        self.rate = rospy.Rate(25) # 25hz
+
+        # Publishing
+        self.inferenced_angle = EularAngle()
+        self.pub_infer_angle = rospy.Publisher( self.inferenced_angle_topic_name, EularAngle, queue_size=1)
 
     def getNetwork(self):
         print("Load Network")
@@ -174,24 +187,119 @@ class IntegratedAttitudeEstimator:
 
     def image_callback(self, msg):
         try:
+            # start_clock = time.time()
+
             self.color_img_cv = self.bridge.imgmsg_to_cv2(msg, "bgr8")
-            if self.image_count < self.num_frames:
-                self.image_queue.append(self.color_img_cv)
-                self.image_count += 1
-            elif self.image_count == self.num_frames:
-                self.image_queue.pop(0)
-                self.image_queue.append(self.color_img_cv)
-                if self.load_net == True:
-                    self.network_prediction()
-            else:
-                print("Error: image_count is out of range")
-                quit()
+            self.input_tensor = self.convert_to_tensor().detach().clone()
+
+            # print("Period [s]: ", time.time() - start_clock)
+            # if self.image_count < self.num_frames:
+            #     self.image_queue.append(self.color_img_cv)
+            #     self.image_count += 1
+            # elif self.image_count == self.num_frames:
+            #     self.image_queue.pop(0)
+            #     self.image_queue.append(self.color_img_cv)
+            #     if self.load_net == True:
+            #         self.network_prediction()
+            # else:
+            #     print("Error: image_count is out of range")
+            #     quit()
         except CvBridgeError as e:
             print(e)
 
     def network_prediction(self):
-        print("Foo")
+        start_clock = time.time()
+        print("Prediction in count: ", self.count)
+        input = self.input_tensor.unsqueeze(0)
+        input = rearrange(input, 'b t c h w -> b c t h w')
+        input = input.to(self.device)
 
+        roll_hist_array = [0.0 for _ in range(self.num_classes)]
+        pitch_hist_array = [0.0 for _ in range(self.num_classes)]
+
+        roll_inf, pitch_inf = self.net(input)
+        roll_inf = np.array(roll_inf.to('cpu').detach().numpy().copy())
+        pitch_inf = np.array(pitch_inf.to('cpu').detach().numpy().copy())
+
+        roll = self.array_to_value_simple(roll_inf)
+        pitch = self.array_to_value_simple(pitch_inf)
+        
+        correct_roll = self.gt_angle.roll/3.141592*180
+        correct_pitch = self.gt_angle.pitch/3.141592*180
+
+        diff_roll = np.abs(roll - correct_roll)
+        diff_pitch = np.abs(pitch - correct_pitch)
+
+        # diff_total_roll += diff_roll
+        # diff_total_pitch += diff_pitch
+
+        print("------------------------------------")
+        print("Inference    :", self.count)
+        print("Infered Roll :" + str(roll) +  "[deg]")
+        print("GT Roll      :" + str(correct_roll) + "[deg]")
+        print("Infered Pitch:" + str(pitch) + "[deg]")
+        print("GT Pitch     :" + str(correct_pitch) + "[deg]")
+        print("Diff Roll    :" + str(diff_roll) + " [deg]")
+        print("Diff Pitch   :" + str(diff_pitch) + " [deg]")
+
+        tmp_result_csv = [roll, pitch, correct_roll, correct_pitch, diff_roll, diff_pitch]
+        self.inferenced_angle.roll = roll
+        self.inferenced_angle.pitch = pitch
+        self.inferenced_angle.yaw = 0.0
+
+        self.pub_infer_angle.publish(self.inferenced_angle)
+    
+        print("Period [s]: ", time.time() - start_clock)
+
+    def convert_to_tensor(self):
+        input_tensor = self.input_tensor[1:, :, :, :]
+        # count = 0
+        # for tmp_img in self.image_queue:
+        #     tmp_img = cv2.cvtColor(tmp_img, cv2.COLOR_BGR2RGB)
+        #     tmp_img = Image.fromarray(tmp_img)
+        #     tmp_img_tensor = self.img_transform(tmp_img)
+        #     tmp_img_tensor = tmp_img_tensor.unsqueeze(0)
+        #     if count == 0:
+        #         input_tensor = tmp_img_tensor.detach().clone()
+        #     else:
+        #         input_tensor = torch.cat((input_tensor, tmp_img_tensor), dim=0)
+        #     # print(tmp_img_tensor.size())
+
+        #     count += 1
+
+        tmp_img = cv2.cvtColor(self.color_img_cv, cv2.COLOR_BGR2RGB)
+        tmp_img = Image.fromarray(tmp_img)
+        tmp_img_tensor = self.img_transform(tmp_img)
+        tmp_img_tensor = tmp_img_tensor.unsqueeze(0)
+        input_tensor = torch.cat((input_tensor, tmp_img_tensor), dim=0)
+
+
+        # print(input_tensor.size())
+        return input_tensor
+
+    def array_to_value_simple(self, output_array):
+        max_index = int(np.argmax(output_array))
+        plus_index = max_index + 1
+        minus_index = max_index - 1
+        value = 0.0
+        
+        for tmp, label in zip(output_array[0], self.value_dict):
+            value += tmp * float(label[0])
+
+        if max_index == 0:
+            value = -31.0
+        elif max_index == 62: #361
+            value = 31.0
+
+        return value
+
+    def spin_node(self):
+        while not rospy.is_shutdown():
+            self.rate.sleep()
+            self.network_prediction()
+            self.count += 1
+
+        rospy.spin()
 
 if __name__ == '__main__':
     rospy.init_node('ros_infer', anonymous=True)
@@ -216,5 +324,6 @@ if __name__ == '__main__':
         quit()
 
     integrated_attitude_estimator = IntegratedAttitudeEstimator(FLAGS, CFG)
+    integrated_attitude_estimator.spin_node()
 
     rospy.spin()
