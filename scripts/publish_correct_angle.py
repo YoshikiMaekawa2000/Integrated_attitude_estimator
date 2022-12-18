@@ -65,6 +65,7 @@ class PublishCorrectAngle:
         self.gt_angle.roll = (self.gimbal_angle.roll + self.imu_calibrated_angle.roll)/2.0
         self.gt_angle.pitch = (self.gimbal_angle.pitch + self.imu_calibrated_angle.pitch)/2.0
         self.gt_angle.yaw = (self.gimbal_angle.yaw + self.imu_calibrated_angle.yaw)/2.0
+        self.gt_angle.header.stamp = rospy.Time.now()
         self.gt_angle_pub.publish(self.gt_angle)
 
 if __name__ == '__main__':

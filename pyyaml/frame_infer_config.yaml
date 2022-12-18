@@ -4,20 +4,21 @@ infer_dataset:
   - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145457/"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/"
   - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/"
-  ##  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE IN TESTING
+  # - "/home/strage/gimbal_attitude_image/25hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # Unknown environment
+  ##  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE IN TESTING
 
 # infer_dataset:
 #   - "/home/strage/flight_airsim_image/sequence8"
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_16/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_18/train_log/"
 weights_file_name: "weights.pth"
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_16/inference_test_log/"
-infer_log_file_name: "frame_infer_relust.csv"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_18/inference_test_log/"
+infer_log_file_name: "frame_infer_relust_100hz.csv"
 
-yaml_name: "infer_config.yaml"
+yaml_name: "infer_config_100hz.yaml"
 
 index_dict_name: "index_dict_-30_30_range_step1deg.csv"
 

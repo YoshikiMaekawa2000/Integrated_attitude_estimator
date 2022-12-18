@@ -19,6 +19,7 @@ class DataTransform():
                 transforms.ColorJitter(brightness=brightness, contrast=contrast, saturation=saturation, hue=hue),
                 transforms.GaussianBlur(kernel_size=kernel_size, sigma=(sigma_min, sigma_max)),
                 transforms.RandomEqualize(p=equalize_p),
+                transforms.RandomErasing(p=0.5, scale=(0.02, 0.5), ratio=(0.3, 3.3), value=1.0),
                 transforms.ToTensor(),
                 transforms.Normalize((mean,), (std,))
             ])
@@ -28,6 +29,7 @@ class DataTransform():
                 transforms.ColorJitter(brightness=brightness, contrast=contrast, saturation=saturation, hue=hue),
                 transforms.GaussianBlur(kernel_size=kernel_size, sigma=(sigma_min, sigma_max)),
                 transforms.RandomEqualize(p=equalize_p),
+                transforms.RandomErasing(p=0.5, scale=(0.02, 0.5), ratio=(0.3, 3.3), value=1.0),
                 transforms.ElasticTransform(alpha=elastic_alpha),
                 transforms.ToTensor(),
                 transforms.Normalize((mean,), (std,))

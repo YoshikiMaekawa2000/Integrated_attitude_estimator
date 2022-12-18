@@ -250,10 +250,12 @@ class IntegratedAttitudeEstimator:
         self.inferenced_angle.roll = roll
         self.inferenced_angle.pitch = pitch
         self.inferenced_angle.yaw = 0.0
+        self.inferenced_angle.header.stamp = rospy.Time.now()
 
         self.diff_angle.roll = diff_roll
         self.diff_angle.pitch = diff_pitch
         self.diff_angle.yaw = 0.0
+        self.diff_angle.header.stamp = rospy.Time.now()
 
         self.pub_infer_angle.publish(self.inferenced_angle)
         self.pub_diff_angle.publish(self.diff_angle)
