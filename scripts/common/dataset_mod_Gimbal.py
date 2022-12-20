@@ -93,6 +93,7 @@ class AttitudeEstimatorDataset(data.Dataset):
         image_array = []
         roll_array = []
         pitch_array = []
+        process_time_array = []
 
         
         for i in range(self.num_frames):
@@ -123,6 +124,8 @@ class AttitudeEstimatorDataset(data.Dataset):
 
             tmp_roll = float(self.data_list[index + i][3])
             tmp_pitch = float(self.data_list[index + i][4])
+            process_time = float(self.data_list[index + i][2])
+            process_time_array.append(process_time)
 
             # print(self.data_list[index + i])
             # print_roll = tmp_roll / 3.141592 * 180.0
@@ -157,6 +160,7 @@ class AttitudeEstimatorDataset(data.Dataset):
         concated_image = rearrange(concated_image, 't c h w -> c t h w')
         label_roll = roll_array[self.num_frames-1]
         label_pitch = pitch_array[self.num_frames-1]
+        label_time = process_time_array[self.num_frames-1]
         
         #print("\n")
         #print(concated_image.size())
@@ -167,4 +171,4 @@ class AttitudeEstimatorDataset(data.Dataset):
         # print(label_roll)
         # print(label_pitch)
 
-        return concated_image, label_roll, label_pitch
+        return concated_image, label_roll, label_pitch, label_time

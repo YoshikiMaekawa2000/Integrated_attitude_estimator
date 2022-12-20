@@ -259,7 +259,7 @@ class Trainer:
                 #Data Load
                 epoch_loss = 0.0
 
-                for img_list, label_roll, label_pitch in tqdm(self.dataloaders_dict[phase]):
+                for img_list, label_roll, label_pitch, label_time in tqdm(self.dataloaders_dict[phase]):
                     self.optimizer.zero_grad()
 
                     # # To check image transform

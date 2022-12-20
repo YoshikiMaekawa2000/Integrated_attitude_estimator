@@ -32,6 +32,8 @@ from collections import OrderedDict
 
 from tensorboardX import SummaryWriter
 
+import rospy
+
 from models import vit
 from models import senet
 from common import dataset_mod_Gimbal
@@ -235,7 +237,9 @@ class FrameInfer:
         diff_total_roll = 0.0
         diff_total_pitch = 0.0
 
-        for input_image, label_roll, label_pitch in self.test_dataset:
+        ros_init_time = 0.0
+
+        for input_image, label_roll, label_pitch, label_time in self.test_dataset:
             start_clock = time.time()
             input_image = input_image.unsqueeze(dim=0)
             input_image = input_image.to(self.device)
@@ -261,8 +265,20 @@ class FrameInfer:
             diff_total_roll += diff_roll
             diff_total_pitch += diff_pitch
 
+            inference_time = 0.0
+
+            if self.dataset_type == "AirSim":
+                inference_time = label_time
+            elif self.dataset_type == "Gimbal":
+                if infer_count == 0:
+                    ros_init_time = rospy.Time(0, label_time)
+                    inference_time = (rospy.Time(0, label_time) - ros_init_time).to_sec()
+                else:
+                    inference_time = (rospy.Time(0, label_time) - ros_init_time).to_sec()
+
             print("------------------------------------")
             print("Inference: ", infer_count)
+            print("Inference Time: ", inference_time)
             print("Infered Roll:  " + str(roll) +  "[deg]")
             print("GT Roll:       " + str(correct_roll) + "[deg]")
             print("Infered Pitch: " + str(pitch) + "[deg]")
@@ -270,7 +286,7 @@ class FrameInfer:
             print("Diff Roll: " + str(diff_roll) + " [deg]")
             print("Diff Pitch: " + str(diff_pitch) + " [deg]")
 
-            tmp_result_csv = [roll, pitch, correct_roll, correct_pitch, diff_roll, diff_pitch]
+            tmp_result_csv = [roll, pitch, correct_roll, correct_pitch, diff_roll, diff_pitch, inference_time]
             result_csv.append(tmp_result_csv)
 
             print("Period [s]: ", time.time() - start_clock)

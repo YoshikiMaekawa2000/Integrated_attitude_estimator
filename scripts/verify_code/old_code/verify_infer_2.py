@@ -124,7 +124,7 @@ if __name__ == '__main__':
         '--verify_infer', '-vi',
         type=str,
         required=False,
-        default='./verify_infer_vit_2.yaml',
+        default='./verify_infer_2.yaml',
     )
 
     FLAGS, unparsed = parser.parse_known_args()
