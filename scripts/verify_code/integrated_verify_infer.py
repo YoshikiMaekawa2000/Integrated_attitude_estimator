@@ -15,6 +15,9 @@ class VerifyInfer:
 
         self.start_seq = int(CFG['start_seq'])
         self.end_seq = int(CFG['end_seq'])
+        if self.end_seq < 0:
+            print("Invalid end seq")
+            exit()
         self.step_seq = int(CFG['step_seq'])
 
         self.fig_1_name = CFG["fig_1_name"]
