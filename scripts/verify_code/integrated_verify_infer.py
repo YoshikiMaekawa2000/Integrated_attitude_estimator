@@ -14,10 +14,10 @@ class VerifyInfer:
         self.infer_log_csv_path = self.infer_log_base_path + ".csv"
 
         self.start_seq = int(CFG['start_seq'])
-        self.end_seq = int(CFG['end_seq'])
-        if self.end_seq < 0:
-            print("Invalid end seq")
-            exit()
+        # self.end_seq = int(CFG['end_seq'])
+        # if self.end_seq < 0:
+        #     print("Invalid end seq")
+        #     exit()
         self.step_seq = int(CFG['step_seq'])
 
         self.fig_1_name = CFG["fig_1_name"]
@@ -30,6 +30,7 @@ class VerifyInfer:
 
         self.data_list = self.data_load()
         print("Data Length: ", len(self.data_list))
+        self.end_seq = len(self.data_list)-1
 
     def data_load(self):
         data_list = []
