@@ -11,7 +11,7 @@ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=downloa
 wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=12wG1-Mn-a-O5_mgx3-V3qissycmVx0Lx' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=12wG1-Mn-a-O5_mgx3-V3qissycmVx0Lx" -O $script_dir/weights/weights_2022_12_08_resnet50_pretrain.pth && rm -rf /tmp/cookies.txt
 
 # https://drive.google.com/file/d/1lVgqLxjPCYGZoJ7Fxt5rxm3JteKaah9j/view?usp=sharing
-wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1lVgqLxjPCYGZoJ7Fxt5rxm3JteKaah9j' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1lVgqLxjPCYGZoJ7Fxt5rxm3JteKaah9j" -O $script_dir/weights/weights_2022_12_12_resnet50_pretrain_10_epoch.pth && rm -rf /tmp/cookies.txt
+wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1lVgqLxjPCYGZoJ7Fxt5rxm3JteKaah9j' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1lVgqLxjPCYGZoJ7Fxt5rxm3JteKaah9j" -O $script_dir/weights/weights_2022_12_12_resnet50_pretrain_10_epoch_8frame.pth && rm -rf /tmp/cookies.txt
 
 # Original Weights of TimeSformer
 #wget -O TimeSformer_divST_8x32_224_K600.pyth "https://www.dropbox.com/s/4h2qt41m2z3aqrb/TimeSformer_divST_8x32_224_K600.pyth?dl=1"
