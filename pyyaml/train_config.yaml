@@ -8,8 +8,6 @@ pretrained_weights_file_name: "weights_2022_12_24_resnet50_pretrain_10_epoch_1fr
 # weights_2022_12_22_resnet50_pretrain_10_epoch_4frame.pth # Train in few epochs and learning rate by AirSim #4Frame
 # weights_2022_12_24_resnet50_pretrain_10_epoch_1frame.pth # Train in few epochs and learning rate by AirSim #1Frame
 
-# weights_2022_12_22_resnet50_finetune.pth
-
 
 # For Pretrain
 # train:

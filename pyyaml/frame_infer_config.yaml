@@ -15,6 +15,9 @@ csv_name: "data_list.csv"
 weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_24_4frame/train_log/"
 weights_file_name: "weights.pth"
 
+# weights_2022_12_22_resnet50_finetune_8frame.pth
+# weights_2022_12_22_resnet50_finetune_4frame.pth
+
 infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_24_4frame/inference_test_log/"
 infer_log_file_name: "frame_infer_relust_seq4_100hz.csv"
 
