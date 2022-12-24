@@ -2,8 +2,8 @@ dataset_type: "Gimbal" # AirSim or Gimbal
 
 infer_dataset: # Gimbal
   # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
-  # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
-  - "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
+  - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
+  # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
   # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
   ##  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE
 
@@ -12,13 +12,13 @@ infer_dataset: # Gimbal
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_22_mixed_hz/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_24_4frame/train_log/"
 weights_file_name: "weights.pth"
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_22_mixed_hz/inference_test_log/"
-infer_log_file_name: "frame_infer_relust_seq3_100hz.csv"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_24_4frame/inference_test_log/"
+infer_log_file_name: "frame_infer_relust_seq2_100hz.csv"
 
-yaml_name: "infer_config_seq3_100hz.yaml"
+yaml_name: "infer_config_seq2_100hz.yaml"
 
 index_dict_name: "index_dict_-30_30_range_step1deg.csv"
 
@@ -40,7 +40,7 @@ hyperparameters:
     elastic_alpha: 25.0 # For ElasticTransform
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 8
+  num_frames: 4 # 8 or 4 or
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 50 #50 in pretrain, 100 in finetuning

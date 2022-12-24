@@ -1,5 +1,5 @@
-infer_log_top_path: "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca21/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_22_mixed_hz/inference_test_log/"
-infer_log_base_name: "frame_infer_relust_seq3_100hz"
+infer_log_top_path: "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca21/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_24_4frame/inference_test_log/"
+infer_log_base_name: "frame_infer_relust_seq2_100hz"
 fig_1_name: "_fig1"
 fig_2_name: "_fig2"
 
