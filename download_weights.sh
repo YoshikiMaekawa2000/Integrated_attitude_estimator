@@ -32,6 +32,9 @@ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=downloa
 # Pretrain in 1 frame
 wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1O_cFrGKRBL5k9fFyQ7RSKQCZG16nEmXC' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1O_cFrGKRBL5k9fFyQ7RSKQCZG16nEmXC" -O $script_dir/weights/weights_2022_12_24_resnet50_pretrain_10_epoch_1frame.pth && rm -rf /tmp/cookies.txt
 
+# https://drive.google.com/file/d/1LS786XUI6a7TKc53Mam9SvTren_1gY8H/view?usp=sharing
+# Fine tune in 1 frame
+wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1LS786XUI6a7TKc53Mam9SvTren_1gY8H' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1LS786XUI6a7TKc53Mam9SvTren_1gY8H" -O $script_dir/weights/weights_2022_12_25_resnet50_finetune_1frame.pth && rm -rf /tmp/cookies.txt
 
 # Original Weights of TimeSformer
 #wget -O TimeSformer_divST_8x32_224_K600.pyth "https://www.dropbox.com/s/4h2qt41m2z3aqrb/TimeSformer_divST_8x32_224_K600.pyth?dl=1"
