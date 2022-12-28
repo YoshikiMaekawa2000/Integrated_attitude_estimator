@@ -60,7 +60,7 @@ RUN pip3 install torch \
                 matplotlib \
                 pyyaml \
                 ttach \
-                grad-cam \
+                grad-cam==1.2.9 \
                 tensorboardX
 
 ######### ROS Noetic insatall ##########
