@@ -1,11 +1,12 @@
-infer_dataset_top_directory: # Gimbal
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
-  # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
-  # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
-  # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
+infer_dataset_top_directory:  "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
+  # "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
+  # "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
+  # "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
+  # "/home/strage/gimbal_attitude_image/100hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
 
-camera_image_directory: "/camera_image"
-image_num: "5000"
+csv_name: "data_list.csv"
+camera_image_directory: "camera_image"
+image_num: 1000
 image_format: ".png"
 
 weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_25_1frame/train_log/"
