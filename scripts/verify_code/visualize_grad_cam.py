@@ -37,17 +37,6 @@ sys.path.append('../')
 from models import vit
 from models import senet
 
-class GradCAMNetwork(nn.Module):
-    def __init__(self, feature_extractor, fully_connected):
-        super(GradCAMNetwork, self).__init__()
-        self.feature_extractor = feature_extractor
-        self.fully_connected = fully_connected
-    
-    def forward(self, x):
-        x = self.feature_extractor(x)
-        x = self.fully_connected(x)
-        return x
-
 class GradCam:
     def __init__(self, CFG):
         self.CFG = CFG
