@@ -149,7 +149,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
             conv1_weight = conv1_weight.to(conv1_type)
             state_dict[conv1_name + '.weight'] = conv1_weight
 
-    module_base = 'model.'
+    # module_base = 'model.'
     
     
     # # classifier_name = module_base + cfg['classifier']
@@ -215,14 +215,23 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
 
 
     ## Resizing the positional embeddings in case they don't match
-    if num_patches + 1 != state_dict[module_base + 'pos_embed'].size(1):
-        pos_embed = state_dict[module_base +'pos_embed']
+    # if num_patches + 1 != state_dict[module_base + 'pos_embed'].size(1):
+    #     pos_embed = state_dict[module_base +'pos_embed']
+    #     cls_pos_embed = pos_embed[0,0,:].unsqueeze(0).unsqueeze(1)
+    #     other_pos_embed = pos_embed[0,1:,:].unsqueeze(0).transpose(1, 2)
+    #     new_pos_embed = F.interpolate(other_pos_embed, size=(num_patches), mode='nearest')
+    #     new_pos_embed = new_pos_embed.transpose(1, 2)
+    #     new_pos_embed = torch.cat((cls_pos_embed, new_pos_embed), 1)
+    #     state_dict[module_base +'pos_embed'] = new_pos_embed
+
+    if num_patches + 1 != state_dict['pos_embed'].size(1):
+        pos_embed = state_dict['pos_embed']
         cls_pos_embed = pos_embed[0,0,:].unsqueeze(0).unsqueeze(1)
         other_pos_embed = pos_embed[0,1:,:].unsqueeze(0).transpose(1, 2)
         new_pos_embed = F.interpolate(other_pos_embed, size=(num_patches), mode='nearest')
         new_pos_embed = new_pos_embed.transpose(1, 2)
         new_pos_embed = torch.cat((cls_pos_embed, new_pos_embed), 1)
-        state_dict[module_base +'pos_embed'] = new_pos_embed
+        state_dict['pos_embed'] = new_pos_embed
 
     ## Resizing time embeddings in case they don't match
     if 'time_embed' in state_dict and num_frames != state_dict['time_embed'].size(1):
