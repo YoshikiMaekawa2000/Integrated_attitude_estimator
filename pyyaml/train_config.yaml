@@ -112,7 +112,7 @@ hyperparameters:
   timesformer:
     patch_size: 16
     attention_type: 'divided_space_time' #
-    depth: 4 #num transforemer layers
+    depth: 5 #num transforemer layers
     num_heads: 12
   senet:
     resnet_model: "resnet50" # 18 34 50 101 152
