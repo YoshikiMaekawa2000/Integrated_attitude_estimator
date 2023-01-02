@@ -111,7 +111,7 @@ hyperparameters:
   whiteup_frame: 0
   timesformer:
     patch_size: 16
-    attention_type: 'divided_space_time'
+    attention_type: 'divided_space_time' #
     depth: 4 #num transforemer layers
     num_heads: 12
   senet:
