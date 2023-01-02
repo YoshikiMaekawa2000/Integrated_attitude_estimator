@@ -671,7 +671,7 @@ if __name__ == "__main__":
 
     print("Load Network")
     if network_type == "TimeSformer":
-        net = vit.TimeSformer(img_size, patch_size, num_classes, num_frames, depth, num_heads, attention_type, pretrained_weights_path, 'train')
+        net = vit.TimeSformer(img_size, patch_size, num_classes, num_frames, depth, num_heads, attention_type, pretrained_weights_path, train_system)
     elif network_type == "SENet":
         net = senet.SENet(model=resnet_model, dim_fc_out=num_classes, norm_layer=nn.BatchNorm2d, pretrained_model=pretrained_weights_path, time_step=num_frames, use_SELayer=True)
     else:
