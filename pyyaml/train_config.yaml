@@ -102,7 +102,7 @@ hyperparameters:
   lr_feature: 1e-6 # Pretrain: 1e-6, Finetune: 3e-5
   lr_fc: 1e-6 # Pretrain: 1e-6, Finetune: 1e-4
   alpha: 5e-4 # Pretrain: 5e-4, Finetune: 7e-4.
-  num_workers: 32 # num_workers <= 35
+  num_workers: 1 # num_workers <= 35
   save_step: 30
   mean_element: 0.5
   std_element: 0.5
