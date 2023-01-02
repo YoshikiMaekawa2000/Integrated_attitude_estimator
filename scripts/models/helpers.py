@@ -149,7 +149,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
             conv1_weight = conv1_weight.to(conv1_type)
             state_dict[conv1_name + '.weight'] = conv1_weight
 
-    # module_base = 'module.model.'
+    module_base = 'model.'
     
     
     # # classifier_name = module_base + cfg['classifier']
