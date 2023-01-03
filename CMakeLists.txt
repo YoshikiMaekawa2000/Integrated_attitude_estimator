@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
+find_package(Eigen3 REQUIRED)
+
 add_message_files(DIRECTORY msg
   FILES
   EularAngle.msg
@@ -29,10 +31,10 @@ generate_messages(
 )
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES integrated_attitude_estimator
+ INCLUDE_DIRS include
+ LIBRARIES integrated_attitude_estimator
   CATKIN_DEPENDS nav_msgs roscpp rospy sensor_msgs std_msgs tf tf2_ros message_generation
-#  DEPENDS system_lib
+  DEPENDS system_lib EIGEN3
 )
 
 include_directories(
@@ -41,4 +43,4 @@ include_directories(
 )
 
 add_executable(ekf_attitude_estimator src/ekf_attitude_estimator.cpp)
-target_link_libraries(ekf_attitude_estimator ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
+target_link_libraries(ekf_attitude_estimator ${catkin_LIBRARIES})

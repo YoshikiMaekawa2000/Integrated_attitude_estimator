@@ -37,7 +37,8 @@ RUN apt-get update && \
     can-utils \
     sharutils \
     iproute2 \
-    iputils-ping
+    iputils-ping \
+    libeigen3-dev
 
 RUN apt install -y libmuparser-dev
 
