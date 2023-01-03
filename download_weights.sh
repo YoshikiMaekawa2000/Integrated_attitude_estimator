@@ -43,6 +43,11 @@ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=downloa
 # Original Weights of TimeSformer
 wget -O TimeSformer_divST_8x32_224_K600.pyth "https://www.dropbox.com/s/4h2qt41m2z3aqrb/TimeSformer_divST_8x32_224_K600.pyth?dl=1"
 
+# Pretrained Weights of TimeSformer
+# https://drive.google.com/file/d/1AY1D7b8rU3YZwRA2br4zb-9oLHPoc0n6/view?usp=sharing
+wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1AY1D7b8rU3YZwRA2br4zb-9oLHPoc0n6' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1AY1D7b8rU3YZwRA2br4zb-9oLHPoc0n6" -O $script_dir/weights/weights_2023_01_03_TimeSformer_pretrain_4frame.pth && rm -rf /tmp/cookies.txt
+
+
 wget https://download.pytorch.org/models/resnet18-f37072fd.pth
 wget https://download.pytorch.org/models/resnet34-b627a593.pth
 wget https://download.pytorch.org/models/resnet50-0676ba61.pth

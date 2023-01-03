@@ -1,27 +1,27 @@
-dataset_type: "Gimbal" # AirSim or Gimbal
+dataset_type: "AirSim" # AirSim or Gimbal
 
-infer_dataset: # Gimbal
-  # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
-  # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
-  # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
-  - "/home/strage/gimbal_attitude_image/100hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
-  ##  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE
+# infer_dataset: # Gimbal
+#   # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
+#   # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
+#   # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
+#   - "/home/strage/gimbal_attitude_image/100hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
+#   ##  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644" # Train Data, DONT USE
 
-# infer_dataset: # AirSim
-#   - "/home/strage/flight_airsim_image/sequence8"
+infer_dataset: # AirSim
+  - "/home/strage/flight_airsim_image/sequence8"
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_27_2frame/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_pretrain_2023_01_03_4frame/train_log/"
 weights_file_name: "weights.pth"
 
 # weights_2022_12_22_resnet50_finetune_8frame.pth
 # weights_2022_12_22_resnet50_finetune_4frame.pth
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_27_2frame/inference_test_log/"
-infer_log_file_name: "frame_infer_relust_seq4_100hz.csv"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_pretrain_2023_01_03_4frame/inference_test_log/"
+infer_log_file_name: "frame_infer_relust_seq1_25hz.csv"
 
-yaml_name: "infer_config_seq4_100hz.yaml"
+yaml_name: "infer_config_seq1_25hz.yaml"
 
 index_dict_name: "index_dict_-30_30_range_step1deg.csv"
 
@@ -41,9 +41,9 @@ hyperparameters:
     sigma_max: 2.0
     equalize_p: 0.97 # For Random Equalize
     elastic_alpha: 25.0 # For ElasticTransform
-  network_type: "SENet" # TimeSformer or SENet
+  network_type: "TimeSformer" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 2 # 8 or 4 or 2 or 1
+  num_frames: 4 # 8 or 4 or 2 or 1
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 50 #50 in pretrain, 100 in finetuning
@@ -60,7 +60,7 @@ hyperparameters:
   timesformer:
     patch_size: 16
     attention_type: 'divided_space_time'
-    depth: 3 #num transforemer layers
+    depth: 4 #num transforemer layers
     num_heads: 12
   senet:
     resnet_model: "resnet50" # 18 34 50 101 152
