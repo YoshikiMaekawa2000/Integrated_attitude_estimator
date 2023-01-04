@@ -18,6 +18,7 @@ class EKFAttitudeEstimator{
         EKFAttitudeEstimator();
         ~EKFAttitudeEstimator();
         bool init_process();
+        void gt_angle_callback(const integrated_attitude_estimator::EularAngle::ConstPtr& msg);
         void imu_callback(const sensor_msgs::Imu::ConstPtr& msg);
         integrated_attitude_estimator::EularAngle get_correct_angular_velocity(sensor_msgs::Imu imu_data);
         integrated_attitude_estimator::EularAngle get_imu_angle(sensor_msgs::Imu imu_data);
@@ -27,6 +28,7 @@ class EKFAttitudeEstimator{
         void posterior_process(integrated_attitude_estimator::EularAngle angle, double sigma);
 
         void publish_angle();
+        void save_csv();
 
     private:
         ros::NodeHandle nh;
@@ -34,6 +36,7 @@ class EKFAttitudeEstimator{
 
         ros::Subscriber imu_sub;
         ros::Subscriber angle_sub;
+        ros::Subscriber gt_angle_sub;
         ros::Publisher ekf_angle_pub;
 
         tf2_ros::Buffer tfBuffer;
@@ -56,6 +59,9 @@ class EKFAttitudeEstimator{
         double sigma_imu_velocity = 0.01;
         double sigma_imu_angle = 0.01;
 
+        //GT Angle Params
+        integrated_attitude_estimator::EularAngle gt_angle;
+
         //Using Data
         bool use_imu_angle = true;
         bool use_imu_angular_velocity = true;
@@ -65,4 +71,9 @@ class EKFAttitudeEstimator{
 		Eigen::VectorXd X;
 		Eigen::MatrixXd P;
         integrated_attitude_estimator::EularAngle estimated_angle;
+
+        //Saving Param
+        bool save_as_csv = false;
+        std::string csv_file_directory = "/home/strage/integrated_attitude_estimator_log/ResNet/";
+        std::string csv_file_name = "ekf_attitude_estimator_log.csv";
 };

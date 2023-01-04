@@ -1,0 +1,19 @@
+<launch>
+    <node pkg="integrated_attitude_estimator" name="ros_image_infer" type="ros_infer.py" output="screen" />
+    <node pkg="integrated_attitude_estimator" name="publish_correct_angle" type="publish_correct_angle.py" output="screen" />
+    <node name="image_republish" pkg="image_transport" type="republish" args="compressed raw">
+        <remap from="in" to="/camera/color/image_raw" />
+        <remap from="out" to="/decompressed_image" />
+    </node>
+    <node pkg="integrated_attitude_estimator" name="ekf_attitude_estimator" type="ekf_attitude_estimator.py" output="screen">
+        <param name="use_imu_angle" value="true" type="bool" />
+        <param name="use_imu_velocity" value="true" type="bool" />
+        <param name="use_dnn_angle" value="true" type="bool" />
+        <param name="sigma_imu_angle" value="0.01" type="double" />
+        <param name="sigma_imu_velocity" value="0.01" type="double" />
+        <param name="sigma_dnn_angle" value="0.01" type="double" />
+        <param name="save_as_csv" value="false" type="bool" />
+        <param name="csv_file_directory" value="/home/strage/"/>
+        <param name="csv_file_name" value="ekf_attitude_estimator_log.csv"/>
+    </node>
+</launch>

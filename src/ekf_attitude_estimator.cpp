@@ -4,6 +4,7 @@ EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffe
     //Subscribers
     imu_sub = nh.subscribe("/imu/data", 1, &EKFAttitudeEstimator::imu_callback, this);
     angle_sub = nh.subscribe("/dnn_angle", 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
+    gt_angle_sub = nh.subscribe("/gt_correct_angle", 1, &EKFAttitudeEstimator::gt_angle_callback, this);
     //Publishers
     ekf_angle_pub = nh.advertise<integrated_attitude_estimator::EularAngle>("ekf_angle", 1);
 
@@ -12,7 +13,7 @@ EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffe
 	P = initial_sigma*Eigen::MatrixXd::Identity(robot_state_size, robot_state_size);
 
     bool init_result = init_process();
-    if(!init_result){
+    if(init_result==false){
         ROS_ERROR("Failed to initialize EKF attitude estimator");
         exit(1);
     }
@@ -21,11 +22,72 @@ EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffe
 bool EKFAttitudeEstimator::init_process(){
     bool result = true;
 
+    double dparam = 0.0;
+    bool bparam = true;
+    std::string sparam;
+
+    if(private_nh.getParam("use_imu_angle", bparam)){
+        use_imu_angle = bparam;
+    }
+    if(private_nh.getParam("use_imu_angular_velocity", bparam)){
+        use_imu_angular_velocity = bparam;
+    }
+    if(private_nh.getParam("use_dnn_angle", bparam)){
+        use_dnn_angle = bparam;
+    }
+
+    if(private_nh.getParam("sigma_imu_velocity", dparam)){
+        sigma_imu_velocity = dparam;
+        if(sigma_imu_velocity < 0.0){
+            ROS_ERROR("INVALID PARAMETER: sigma_imu_velocity");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("sigma_imu_angle", dparam)){
+        sigma_imu_angle = dparam;
+        if(sigma_imu_angle < 0.0){
+            ROS_ERROR("INVALID PARAMETER: sigma_imu_angle");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("sigma_dnn_angle", dparam)){
+        sigma_dnn_angle = dparam;
+        if(sigma_dnn_angle < 0.0){
+            ROS_ERROR("INVALID PARAMETER: sigma_dnn_angle");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("save_as_csv", bparam)){
+        save_as_csv = bparam;
+    }
+
+    if(private_nh.getParam("csv_file_directory", sparam)){
+        csv_file_directory = sparam;
+        if(csv_file_directory.length() <= 0){
+            ROS_ERROR("INVALID PARAMETER: csv_file_directory");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("csv_file_name", sparam)){
+        csv_file_name = sparam;
+        if(csv_file_name.length() <= 0){
+            ROS_ERROR("INVALID PARAMETER: csv_file_name");
+            result = false;
+        }
+    }
 
     return result;
 }
 
 EKFAttitudeEstimator::~EKFAttitudeEstimator(){}
+
+void EKFAttitudeEstimator::gt_angle_callback(const integrated_attitude_estimator::EularAngle::ConstPtr& msg){
+    gt_angle = *msg;
+}
 
 void EKFAttitudeEstimator::imu_callback(const sensor_msgs::Imu::ConstPtr& msg){
     imu_data = *msg;
@@ -165,6 +227,13 @@ void EKFAttitudeEstimator::publish_angle(){
     estimated_angle.yaw = 0.0;
 
     ekf_angle_pub.publish(estimated_angle);
+    if(save_as_csv==true){
+        save_csv();
+    }
+}
+
+void EKFAttitudeEstimator::save_csv(){
+    std::string csv_path = csv_file_directory + csv_file_name;
 }
 
 int main(int argc, char **argv){
