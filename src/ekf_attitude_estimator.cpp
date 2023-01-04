@@ -37,18 +37,42 @@ void EKFAttitudeEstimator::imu_callback(const sensor_msgs::Imu::ConstPtr& msg){
         imu_duration = 0.0;
     }
     
-    angular_velocity = get_correct_angular_velocity(imu_data);
-    prior_process(angular_velocity);
-    publish_angle();
+    if(use_imu_angular_velocity==true){
+        angular_velocity = get_correct_angular_velocity(imu_data);
+        prior_process(angular_velocity, sigma_imu_velocity);
+    }
+
+    if(use_imu_angle==true){
+        imu_angle = get_imu_angle(imu_data);
+        posterior_process(imu_angle, sigma_imu_angle);
+    }
+
+    if(use_imu_angular_velocity==true || use_imu_angle==true){
+        publish_angle();
+    }
+}
+
+integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_imu_angle(sensor_msgs::Imu imu_data){
+    integrated_attitude_estimator::EularAngle angle;
+    double imu_roll, imu_pitch, imu_yaw;
+    tf::Quaternion q;
+    quaternionMsgToTF(imu_data.orientation, q);
+    tf::Matrix3x3(q).getRPY(imu_roll, imu_pitch, imu_yaw);
+
+    angle.roll = imu_pitch * -1.0;
+    angle.pitch = (imu_roll + M_PI/2.0) * 1.0;
+    angle.yaw = imu_yaw;
+
+    return angle;
 }
 
 integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_correct_angular_velocity(sensor_msgs::Imu imu_data){
     integrated_attitude_estimator::EularAngle velocity;
 
     // TODO: Correct angular velocity
-    velocity.roll = imu_data.angular_velocity.x;
-    velocity.pitch = imu_data.angular_velocity.y;
-    velocity.yaw = imu_data.angular_velocity.z;
+    velocity.roll = imu_data.angular_velocity.z;
+    velocity.pitch = -1.0 * imu_data.angular_velocity.x;
+    velocity.yaw = -1.0 * imu_data.angular_velocity.y;
 
     return velocity;
 }
@@ -58,11 +82,14 @@ void EKFAttitudeEstimator::dnn_angle_callback(const integrated_attitude_estimato
     dnn_angle.roll = dnn_angle.roll * M_PI / 180.0;
     dnn_angle.pitch = dnn_angle.pitch * M_PI / 180.0;
     dnn_angle.yaw = dnn_angle.yaw * M_PI / 180.0;
-    posterior_process(dnn_angle);
-    publish_angle();
+
+    if(use_dnn_angle==true){
+        posterior_process(dnn_angle, sigma_dnn_angle);
+        publish_angle();
+    }
 }
 
-void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAngle angular_velocity){
+void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAngle angular_velocity, double sigma){
     printf("prior process\n");
     double roll = X(0);
     double pitch = X(1);
@@ -101,7 +128,7 @@ void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAng
     jF(2, 1) = sin(roll)*sin(pitch)/cos(pitch)/cos(pitch)*delta_p + cos(roll)*sin(pitch)/cos(pitch)/cos(pitch)*delta_y;
     jF(2, 2) = 1.0;
 
-    Eigen::MatrixXd Q = sigma_imu*Eigen::MatrixXd::Identity(X.size(), X.size());
+    Eigen::MatrixXd Q = sigma*Eigen::MatrixXd::Identity(X.size(), X.size());
 
     /*Update*/
 	X = F;
@@ -109,18 +136,18 @@ void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAng
 	P = jF*P*jF.transpose() + Q;
 }
 
-void EKFAttitudeEstimator::posterior_process(integrated_attitude_estimator::EularAngle dnn_angle){
+void EKFAttitudeEstimator::posterior_process(integrated_attitude_estimator::EularAngle angle, double sigma){
     printf("posterior process\n");
 
     Eigen::VectorXd Z(3);
-	Z <<	dnn_angle.roll,
-		dnn_angle.pitch,
-		dnn_angle.yaw;
+	Z <<	angle.roll,
+		angle.pitch,
+		angle.yaw;
 
     Eigen::VectorXd Zp = X;
     Eigen::MatrixXd jH = Eigen::MatrixXd::Identity(Z.size(), X.size());
 	Eigen::VectorXd Y = Z - Zp;
-	Eigen::MatrixXd R = sigma_dnn*Eigen::MatrixXd::Identity(Z.size(), Z.size());
+	Eigen::MatrixXd R = sigma*Eigen::MatrixXd::Identity(Z.size(), Z.size());
 	Eigen::MatrixXd S = jH*P*jH.transpose() + R;
 	Eigen::MatrixXd K = P*jH.transpose()*S.inverse();
 	X = X + K*Y;
