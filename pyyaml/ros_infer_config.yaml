@@ -9,11 +9,11 @@ yaml_name: "ros_infer_config.yaml"
 
 index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
 
-ros_params:
-  image_topic_name: "/decompressed_image"
-  gt_angle_topic_name: "/gt_correct_angle"
-  inferenced_angle_topic_name: "/infer_angle"
-  absolute_error_topic_name: "/absolute_error_dnn"
+# ros_params:
+#   image_topic_name: "/decompressed_image"
+#   gt_angle_topic_name: "/gt_correct_angle"
+#   inferenced_angle_topic_name: "/infer_angle"
+#   absolute_error_topic_name: "/absolute_error_dnn"
 
 hyperparameters:
   img_size: 224

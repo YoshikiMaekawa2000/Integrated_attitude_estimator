@@ -42,9 +42,13 @@ class PublishCorrectAngle:
         self.FLAGS = FLAGS
         self.CFG = CFG
 
-        self.gimbal_angle_topic_name = self.CFG["ros_params"]["gimbal_angle_topic_name"]
-        self.imu_calibrated_angle_topic_name = self.CFG["ros_params"]["imu_calibrated_angle_topic_name"]
-        self.gt_angle_topic_name = self.CFG["ros_params"]["gt_angle_topic_name"]
+        # self.gimbal_angle_topic_name = self.CFG["ros_params"]["gimbal_angle_topic_name"]
+        # self.imu_calibrated_angle_topic_name = self.CFG["ros_params"]["imu_calibrated_angle_topic_name"]
+        # self.gt_angle_topic_name = self.CFG["ros_params"]["gt_angle_topic_name"]
+
+        self.gimbal_angle_topic_name = rospy.get_param("~gimbal_angle_topic_name", "/gimbal_angle")
+        self.imu_calibrated_angle_topic_name = rospy.get_param("~imu_calibrated_angle_topic_name", "/imu_correct_angle")
+        self.gt_angle_topic_name = rospy.get_param("~gt_angle_topic_name", "/gt_correct_angle")
 
         self.gimbal_angle = EularAngle()
         self.imu_calibrated_angle = EularAngle()

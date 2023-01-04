@@ -81,10 +81,15 @@ class IntegratedAttitudeEstimator:
 
         self.index_dict_path = self.CFG["index_csv_path"]
 
-        self.image_topic_name = self.CFG["ros_params"]["image_topic_name"]
-        self.gt_angle_topic_name = self.CFG["ros_params"]["gt_angle_topic_name"]
-        self.inferenced_angle_topic_name = self.CFG["ros_params"]["inferenced_angle_topic_name"]
-        self.absolute_error_topic_name = self.CFG["ros_params"]["absolute_error_topic_name"]
+        # self.image_topic_name = self.CFG["ros_params"]["image_topic_name"]
+        # self.gt_angle_topic_name = self.CFG["ros_params"]["gt_angle_topic_name"]
+        # self.inferenced_angle_topic_name = self.CFG["ros_params"]["inferenced_angle_topic_name"]
+        # self.absolute_error_topic_name = self.CFG["ros_params"]["absolute_error_topic_name"]
+
+        self.image_topic_name = rospy.get_param("~image_topic_name")
+        self.gt_angle_topic_name = rospy.get_param('~ground_truth_angle_topic_name')
+        self.inferenced_angle_topic_name = rospy.get_param('~inferenced_angle_topic_name')
+        self.absolute_error_topic_name = rospy.get_param('~absolute_error_topic_name')
 
         self.network_type = str(CFG["hyperparameters"]["network_type"])
         self.img_size = int(self.CFG['hyperparameters']['img_size'])

@@ -14,6 +14,7 @@ docker run -it \
     --device=/dev/dri:/dev/dri \
     --name="integrated_attitude_estimator" \
     --volume="$script_dir/:/home/ros_catkin_ws/src/$image_name/" \
+    --volume="/home/amsl/bagfiles/:/home/bagfiles/" \
     --volume="/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca21/:/home/strage/" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     $image_name:$tag_name \

@@ -49,6 +49,11 @@ class EKFAttitudeEstimator{
         tf2_ros::TransformListener tfListener;
         tf2_ros::TransformBroadcaster tfBroadcaster;
 
+        std::string imu_topic_name = "/imu/data";
+        std::string dnn_angle_topic_name = "/infer_angle";
+        std::string gt_angle_topic_name = "/gt_correct_angle";
+        std::string ekf_angle_topic_name = "/ekf_angle";
+
         const int robot_state_size = 3; // Roll Pitch Yaw
 
         // DNN params

@@ -1,22 +1,22 @@
 #include "integrated_attitude_estimator/ekf_attitude_estimator.h"
 
 EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffer){
-    //Subscribers
-    imu_sub = nh.subscribe("/imu/data", 1, &EKFAttitudeEstimator::imu_callback, this);
-    angle_sub = nh.subscribe("/infer_angle", 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
-    gt_angle_sub = nh.subscribe("/gt_correct_angle", 1, &EKFAttitudeEstimator::gt_angle_callback, this);
-    //Publishers
-    ekf_angle_pub = nh.advertise<integrated_attitude_estimator::EularAngle>("/ekf_angle", 1);
-
-    X = Eigen::VectorXd::Zero(robot_state_size);
-	const double initial_sigma = 1.0e-100;
-	P = initial_sigma*Eigen::MatrixXd::Identity(robot_state_size, robot_state_size);
-
     bool init_result = init_process();
     if(init_result==false){
         ROS_ERROR("Failed to initialize EKF attitude estimator");
         exit(1);
     }
+    
+    //Subscribers
+    imu_sub = nh.subscribe(imu_topic_name, 1, &EKFAttitudeEstimator::imu_callback, this);
+    angle_sub = nh.subscribe(dnn_angle_topic_name, 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
+    gt_angle_sub = nh.subscribe(gt_angle_topic_name, 1, EKFAttitudeEstimator::gt_angle_callback, this);
+    //Publishers
+    ekf_angle_pub = nh.advertise<integrated_attitude_estimator::EularAngle>(ekf_angle_topic_name, 1);
+
+    X = Eigen::VectorXd::Zero(robot_state_size);
+	const double initial_sigma = 1.0e-100;
+	P = initial_sigma*Eigen::MatrixXd::Identity(robot_state_size, robot_state_size);
 }
 
 bool EKFAttitudeEstimator::init_process(){
@@ -76,6 +76,38 @@ bool EKFAttitudeEstimator::init_process(){
         csv_file_name = sparam;
         if(csv_file_name.length() <= 0){
             ROS_ERROR("INVALID PARAMETER: csv_file_name");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("imu_topic_name", sparam)){
+        imu_topic_name = sparam;
+        if(imu_topic_name.length() <= 0){
+            ROS_ERROR("INVALID PARAMETER: imu_topic_name");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("dnn_angle_topic_name", sparam)){
+        dnn_angle_topic_name = sparam;
+        if(dnn_angle_topic_name.length() <= 0){
+            ROS_ERROR("INVALID PARAMETER: dnn_angle_topic_name");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("gt_angle_topic_name", sparam)){
+        gt_angle_topic_name = sparam;
+        if(gt_angle_topic_name.length() <= 0){
+            ROS_ERROR("INVALID PARAMETER: gt_angle_topic_name");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("ekf_angle_topic_name", sparam)){
+        ekf_angle_topic_name = sparam;
+        if(ekf_angle_topic_name.length() <= 0){
+            ROS_ERROR("INVALID PARAMETER: ekf_angle_topic_name");
             result = false;
         }
     }

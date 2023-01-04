@@ -119,7 +119,8 @@ RUN apt-get install -y librealsense2-dkms \
 RUN mkdir -p /home/log && \
     mkdir -p /home/log/train_log && \
     mkdir -p /home/log/inference_test_log && \
-    mkdir -p /home/log/other_test_log
+    mkdir -p /home/log/other_test_log && \
+    mkdir -p /home/bagfiles
 
 RUN cd /home/ros_catkin_ws/src && \
     git clone https://github.com/Hibiki1020/integrated_attitude_estimator.git --recursive && \
