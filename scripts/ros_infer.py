@@ -139,7 +139,7 @@ class IntegratedAttitudeEstimator:
         self.sub_gt_angle = rospy.Subscriber(self.gt_angle_topic_name, EularAngle, self.gt_angle_callback, queue_size=1)
         self.gt_angle = EularAngle()
 
-        self.rate = rospy.Rate(25) # 25hz
+        self.rate = rospy.Rate(50) # 50hz
 
         # Publishing
         self.inferenced_angle = EularAngle()

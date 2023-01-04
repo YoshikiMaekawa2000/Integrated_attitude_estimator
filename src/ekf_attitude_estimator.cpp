@@ -247,22 +247,22 @@ void EKFAttitudeEstimator::publish_angle(){
 
 
     printf("----Estimated angle [deg]----\n");
-    printf("Inference Time    : %f\n", inference_sec);
+    printf("Inference Time     : %6.3f\n", inference_sec);
     printf("\n");
-    printf("Estimated Roll    : %f\n", estimated_angle.roll*180.0/M_PI);
-    printf("Estimated Pitch   : %f\n", estimated_angle.pitch*180.0/M_PI);
+    printf("Estimated Roll     : %6.3f\n", estimated_angle.roll*180.0/M_PI);
+    printf("Estimated Pitch    : %6.3f\n", estimated_angle.pitch*180.0/M_PI);
     printf("\n");
-    printf("DNN Estimated Roll: %f\n", dnn_angle.roll*180.0/M_PI);
-    printf("DNN Estimated Pitch: %f\n", dnn_angle.pitch*180.0/M_PI);
+    printf("DNN Estimated Roll : %6.3f\n", dnn_angle.roll*180.0/M_PI);
+    printf("DNN Estimated Pitch: %6.3f\n", dnn_angle.pitch*180.0/M_PI);
     printf("\n");
-    printf("IMU Roll          : %f\n", imu_angle.roll*180.0/M_PI);
-    printf("IMU Pitch         : %f\n", imu_angle.pitch*180.0/M_PI);
+    printf("IMU Roll           : %6.3f\n", imu_angle.roll*180.0/M_PI);
+    printf("IMU Pitch          : %6.3f\n", imu_angle.pitch*180.0/M_PI);
     printf("\n");
-    printf("Ground Truth Roll : %f\n", gt_angle.roll*180.0/M_PI);
-    printf("Ground Truth Pitch: %f\n", gt_angle.pitch*180.0/M_PI);
+    printf("Ground Truth Roll  : %6.3f\n", gt_angle.roll*180.0/M_PI);
+    printf("Ground Truth Pitch : %6.3f\n", gt_angle.pitch*180.0/M_PI);
     printf("\n");
-    printf("Diff Roll         : %f\n", (estimated_angle.roll - gt_angle.roll)*180.0/M_PI);
-    printf("Diff Pitch        : %f\n", (estimated_angle.pitch - gt_angle.pitch)*180.0/M_PI);
+    printf("Diff Roll          : %6.3f\n", (estimated_angle.roll - gt_angle.roll)*180.0/M_PI);
+    printf("Diff Pitch         : %6.3f\n", (estimated_angle.pitch - gt_angle.pitch)*180.0/M_PI);
     printf("-----------------------------\n");
 
     ekf_angle_pub.publish(estimated_angle);
