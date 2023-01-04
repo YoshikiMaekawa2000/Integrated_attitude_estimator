@@ -1,8 +1,8 @@
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_16/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_25_1frame/train_log/"
 weights_file_name: "weights.pth"
 
 save_in_csv: False
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_16/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_25_1frame/inference_test_log/"
 infer_log_file_name: "ros_infer_relust.csv"
 
 yaml_name: "ros_infer_config.yaml"
@@ -21,7 +21,7 @@ hyperparameters:
     resize: 224 # For ColorGitter
   network_type: "SENet" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 8
+  num_frames: 1
   deg_threshold: 30
   mean_element: 0.5
   std_element: 0.5

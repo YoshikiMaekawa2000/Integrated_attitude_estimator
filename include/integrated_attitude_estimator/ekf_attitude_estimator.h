@@ -9,6 +9,9 @@
 #include <eigen3/Eigen/Core>
 #include <eigen3/Eigen/LU>
 
+#include <fstream>
+#include <sstream>
+
 //Custom message
 #include "integrated_attitude_estimator/EularAngle.h"
 
@@ -23,16 +26,19 @@ class EKFAttitudeEstimator{
         integrated_attitude_estimator::EularAngle get_correct_angular_velocity(sensor_msgs::Imu imu_data);
         integrated_attitude_estimator::EularAngle get_imu_angle(sensor_msgs::Imu imu_data);
         void dnn_angle_callback(const integrated_attitude_estimator::EularAngle::ConstPtr& msg);
-
         void prior_process(integrated_attitude_estimator::EularAngle angular_velocity, double sigma);
         void posterior_process(integrated_attitude_estimator::EularAngle angle, double sigma);
 
         void publish_angle();
-        void save_csv();
+        void save_csv(ros::Time time);
 
     private:
         ros::NodeHandle nh;
         ros::NodeHandle private_nh;
+
+        int count = 0;
+        ros::Time init_time;
+        bool get_bag_data = false;
 
         ros::Subscriber imu_sub;
         ros::Subscriber angle_sub;

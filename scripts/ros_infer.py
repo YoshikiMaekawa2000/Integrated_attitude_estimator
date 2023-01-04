@@ -213,7 +213,7 @@ class IntegratedAttitudeEstimator:
 
     def network_prediction(self):
         start_clock = time.time()
-        print("Prediction in count: ", self.count)
+        # print("Prediction in count: ", self.count)
         input = self.input_tensor.unsqueeze(0)
         input = rearrange(input, 'b t c h w -> b c t h w')
         input = input.to(self.device)
@@ -237,30 +237,30 @@ class IntegratedAttitudeEstimator:
         # diff_total_roll += diff_roll
         # diff_total_pitch += diff_pitch
 
-        print("------------------------------------")
-        print("Inference    :", self.count)
-        print("Infered Roll :" + str(roll) +  "[deg]")
-        print("GT Roll      :" + str(correct_roll) + "[deg]")
-        print("Infered Pitch:" + str(pitch) + "[deg]")
-        print("GT Pitch     :" + str(correct_pitch) + "[deg]")
-        print("Diff Roll    :" + str(diff_roll) + " [deg]")
-        print("Diff Pitch   :" + str(diff_pitch) + " [deg]")
+        # print("------------------------------------")
+        # print("Inference    :", self.count)
+        # print("Infered Roll :" + str(roll) +  "[deg]")
+        # print("GT Roll      :" + str(correct_roll) + "[deg]")
+        # print("Infered Pitch:" + str(pitch) + "[deg]")
+        # print("GT Pitch     :" + str(correct_pitch) + "[deg]")
+        # print("Diff Roll    :" + str(diff_roll) + " [deg]")
+        # print("Diff Pitch   :" + str(diff_pitch) + " [deg]")
 
         tmp_result_csv = [roll, pitch, correct_roll, correct_pitch, diff_roll, diff_pitch]
-        self.inferenced_angle.roll = roll
-        self.inferenced_angle.pitch = pitch
-        self.inferenced_angle.yaw = 0.0
+        self.inferenced_angle.roll = roll/180*3.141592
+        self.inferenced_angle.pitch = pitch/180*3.141592
+        self.inferenced_angle.yaw = 0.0/180*3.141592
         self.inferenced_angle.header.stamp = rospy.Time.now()
 
-        self.diff_angle.roll = diff_roll
-        self.diff_angle.pitch = diff_pitch
-        self.diff_angle.yaw = 0.0
+        self.diff_angle.roll = diff_roll/180*3.141592
+        self.diff_angle.pitch = diff_pitch/180*3.141592
+        self.diff_angle.yaw = 0.0/180*3.141592
         self.diff_angle.header.stamp = rospy.Time.now()
 
         self.pub_infer_angle.publish(self.inferenced_angle)
         self.pub_diff_angle.publish(self.diff_angle)
     
-        print("Period [s]: ", time.time() - start_clock)
+        # print("Period [s]: ", time.time() - start_clock)
 
     def convert_to_tensor(self):
         input_tensor = self.input_tensor[1:, :, :, :]

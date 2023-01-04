@@ -3,10 +3,10 @@
 EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffer){
     //Subscribers
     imu_sub = nh.subscribe("/imu/data", 1, &EKFAttitudeEstimator::imu_callback, this);
-    angle_sub = nh.subscribe("/dnn_angle", 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
+    angle_sub = nh.subscribe("/infer_angle", 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
     gt_angle_sub = nh.subscribe("/gt_correct_angle", 1, &EKFAttitudeEstimator::gt_angle_callback, this);
     //Publishers
-    ekf_angle_pub = nh.advertise<integrated_attitude_estimator::EularAngle>("ekf_angle", 1);
+    ekf_angle_pub = nh.advertise<integrated_attitude_estimator::EularAngle>("/ekf_angle", 1);
 
     X = Eigen::VectorXd::Zero(robot_state_size);
 	const double initial_sigma = 1.0e-100;
@@ -91,26 +91,43 @@ void EKFAttitudeEstimator::gt_angle_callback(const integrated_attitude_estimator
 
 void EKFAttitudeEstimator::imu_callback(const sensor_msgs::Imu::ConstPtr& msg){
     imu_data = *msg;
-    imu_prev_time = imu_current_time;
-    imu_current_time = imu_data.header.stamp;
-    imu_duration = (imu_current_time - imu_prev_time).toSec();
-    
-    if(imu_duration > 0.5){
-        imu_duration = 0.0;
-    }
-    
-    if(use_imu_angular_velocity==true){
-        angular_velocity = get_correct_angular_velocity(imu_data);
-        prior_process(angular_velocity, sigma_imu_velocity);
-    }
 
-    if(use_imu_angle==true){
-        imu_angle = get_imu_angle(imu_data);
-        posterior_process(imu_angle, sigma_imu_angle);
+    if(imu_data.orientation.x == 0.0 && imu_data.orientation.y == 0.0 && imu_data.orientation.z == 0.0 && imu_data.orientation.w == 0.0){
+        //Do nothing
     }
+    else{
+        if(count == 0){
+            init_time = ros::Time::now();
+            get_bag_data = true;
+            imu_prev_time = init_time;
+            imu_current_time = init_time;
+            imu_duration = (imu_current_time - imu_prev_time).toSec();
+        }
+        else{
+            imu_prev_time = imu_current_time;
+            imu_current_time = imu_data.header.stamp;
+            imu_duration = (imu_current_time - imu_prev_time).toSec();
+        }
+        
+        if(imu_duration > 0.5){
+            imu_duration = 0.0;
+        }
+        
+        if(use_imu_angular_velocity==true){
+            angular_velocity = get_correct_angular_velocity(imu_data);
+            prior_process(angular_velocity, sigma_imu_velocity);
+        }
 
-    if(use_imu_angular_velocity==true || use_imu_angle==true){
-        publish_angle();
+        if(use_imu_angle==true){
+            imu_angle = get_imu_angle(imu_data);
+            posterior_process(imu_angle, sigma_imu_angle);
+        }
+
+        if((use_imu_angular_velocity==true || use_imu_angle==true) && get_bag_data==true){
+            publish_angle();
+        }
+
+        count += 1;
     }
 }
 
@@ -122,7 +139,7 @@ integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_imu_angle(se
     tf::Matrix3x3(q).getRPY(imu_roll, imu_pitch, imu_yaw);
 
     angle.roll = imu_pitch * -1.0;
-    angle.pitch = (imu_roll + M_PI/2.0) * 1.0;
+    angle.pitch = (imu_roll + M_PI/2.0) * -1.0;
     angle.yaw = imu_yaw;
 
     return angle;
@@ -141,18 +158,18 @@ integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_correct_angu
 
 void EKFAttitudeEstimator::dnn_angle_callback(const integrated_attitude_estimator::EularAngle::ConstPtr& msg){
     dnn_angle = *msg;
-    dnn_angle.roll = dnn_angle.roll * M_PI / 180.0;
-    dnn_angle.pitch = dnn_angle.pitch * M_PI / 180.0;
-    dnn_angle.yaw = dnn_angle.yaw * M_PI / 180.0;
+    dnn_angle.roll = dnn_angle.roll;
+    dnn_angle.pitch = dnn_angle.pitch;
+    dnn_angle.yaw = dnn_angle.yaw;
 
-    if(use_dnn_angle==true){
+    if(use_dnn_angle==true && get_bag_data==true){
         posterior_process(dnn_angle, sigma_dnn_angle);
         publish_angle();
     }
 }
 
 void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAngle angular_velocity, double sigma){
-    printf("prior process\n");
+    //printf("prior process\n");
     double roll = X(0);
     double pitch = X(1);
     double yaw = X(2); // 0.0
@@ -199,7 +216,7 @@ void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAng
 }
 
 void EKFAttitudeEstimator::posterior_process(integrated_attitude_estimator::EularAngle angle, double sigma){
-    printf("posterior process\n");
+    //printf("posterior process\n");
 
     Eigen::VectorXd Z(3);
 	Z <<	angle.roll,
@@ -222,18 +239,62 @@ void EKFAttitudeEstimator::posterior_process(integrated_attitude_estimator::Eula
 
 void EKFAttitudeEstimator::publish_angle(){
     estimated_angle.header.stamp = ros::Time::now();
+    double inference_sec = (estimated_angle.header.stamp - init_time).toSec();
+
     estimated_angle.roll = X(0);
     estimated_angle.pitch = X(1);
     estimated_angle.yaw = 0.0;
 
+
+    printf("----Estimated angle [deg]----\n");
+    printf("Inference Time    : %f\n", inference_sec);
+    printf("\n");
+    printf("Estimated Roll    : %f\n", estimated_angle.roll*180.0/M_PI);
+    printf("Estimated Pitch   : %f\n", estimated_angle.pitch*180.0/M_PI);
+    printf("\n");
+    printf("DNN Estimated Roll: %f\n", dnn_angle.roll*180.0/M_PI);
+    printf("DNN Estimated Pitch: %f\n", dnn_angle.pitch*180.0/M_PI);
+    printf("\n");
+    printf("IMU Roll          : %f\n", imu_angle.roll*180.0/M_PI);
+    printf("IMU Pitch         : %f\n", imu_angle.pitch*180.0/M_PI);
+    printf("\n");
+    printf("Ground Truth Roll : %f\n", gt_angle.roll*180.0/M_PI);
+    printf("Ground Truth Pitch: %f\n", gt_angle.pitch*180.0/M_PI);
+    printf("\n");
+    printf("Diff Roll         : %f\n", (estimated_angle.roll - gt_angle.roll)*180.0/M_PI);
+    printf("Diff Pitch        : %f\n", (estimated_angle.pitch - gt_angle.pitch)*180.0/M_PI);
+    printf("-----------------------------\n");
+
     ekf_angle_pub.publish(estimated_angle);
     if(save_as_csv==true){
-        save_csv();
+        save_csv(estimated_angle.header.stamp);
     }
 }
 
-void EKFAttitudeEstimator::save_csv(){
+void EKFAttitudeEstimator::save_csv(ros::Time time){
     std::string csv_path = csv_file_directory + csv_file_name;
+    std::ofstream final_csvfile(csv_path, std::ios::app); //ios::app で追記モードで開ける
+    double inference_sec = (time - init_time).toSec();
+
+    std::string str_inference_time = std::to_string(inference_sec);
+
+    std::string str_estimated_roll = std::to_string(estimated_angle.roll);
+    std::string str_estimated_pitch = std::to_string(estimated_angle.pitch);
+    std::string str_estimated_yaw = std::to_string(estimated_angle.yaw);
+
+    std::string str_gt_roll = std::to_string(gt_angle.roll);
+    std::string str_gt_pitch = std::to_string(gt_angle.pitch);
+    std::string str_gt_yaw = std::to_string(gt_angle.yaw);
+
+    final_csvfile << str_inference_time << ","
+                    << str_estimated_roll << ","
+                    << str_estimated_pitch << ","
+                    << str_estimated_yaw << ","
+                    << str_gt_roll << ","
+                    << str_gt_pitch << ","
+                    << str_gt_yaw << std::endl;
+    
+    final_csvfile.close();
 }
 
 int main(int argc, char **argv){
