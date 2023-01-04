@@ -1,7 +1,7 @@
 dataset_type: "Gimbal" # AirSim or Gimbal
 
 infer_dataset: # Gimbal
-  - "/home/strage/gimbal_attitude_image/40hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
+  - "/home/strage/gimbal_attitude_image/70hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
   # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
   # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
   # - "/home/strage/gimbal_attitude_image/100hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
@@ -19,9 +19,9 @@ weights_file_name: "weights.pth"
 # weights_2022_12_22_resnet50_finetune_4frame.pth
 
 infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_04_4frame/inference_test_log/"
-infer_log_file_name: "frame_infer_relust_seq1_40hz.csv"
+infer_log_file_name: "frame_infer_relust_seq1_70hz.csv"
 
-yaml_name: "infer_config_seq1_40hz.yaml"
+yaml_name: "infer_config_seq1_70hz.yaml"
 
 index_dict_name: "index_dict_-30_30_range_step1deg.csv"
 

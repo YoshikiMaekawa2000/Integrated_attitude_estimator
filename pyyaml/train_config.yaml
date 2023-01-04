@@ -15,7 +15,7 @@ pretrained_weights_file_name: "TimeSformer_divST_8x32_224_K600.pyth"
 # TimeSformer_divST_8x32_224_K600.pyth
 # weights_2023_01_03_TimeSformer_pretrain_4frame.pth
 
-For Pretrain
+# For Pretrain
 train:
   - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
   - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
