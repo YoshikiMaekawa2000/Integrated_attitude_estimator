@@ -55,6 +55,11 @@ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=downloa
 # https://drive.google.com/file/d/1dsyu0Pkca0hcDwKub4cNcuFinkm02VmG/view?usp=sharing
 wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1dsyu0Pkca0hcDwKub4cNcuFinkm02VmG' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1dsyu0Pkca0hcDwKub4cNcuFinkm02VmG" -O $script_dir/weights/weights_2023_01_05_TimeSformer_pretrain_1frame.pth && rm -rf /tmp/cookies.txt
 
+# pretrain weights of TimeSformer in 1 frame (8 depth)
+# https://drive.google.com/file/d/1wqFvmWmAiw2rtykAk2Esdz5_Uta7EbFy/view?usp=sharing
+wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1wqFvmWmAiw2rtykAk2Esdz5_Uta7EbFy' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1wqFvmWmAiw2rtykAk2Esdz5_Uta7EbFy" -O $script_dir/weights/weights_2023_01_05_TimeSformer_pretrain_1frame_8depth.pth && rm -rf /tmp/cookies.txt
+
+
 wget https://download.pytorch.org/models/resnet18-f37072fd.pth
 wget https://download.pytorch.org/models/resnet34-b627a593.pth
 wget https://download.pytorch.org/models/resnet50-0676ba61.pth
