@@ -12,13 +12,13 @@ infer_dataset: # Gimbal
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_05_1frame/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_06_1frame_8depth/train_log/"
 weights_file_name: "weights.pth"
 
 # weights_2022_12_22_resnet50_finetune_8frame.pth
 # weights_2022_12_22_resnet50_finetune_4frame.pth
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_05_1frame/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_06_1frame_8depth/inference_test_log/"
 infer_log_file_name: "frame_infer_relust_seq4_25hz.csv"
 
 yaml_name: "infer_config_seq4_25hz.yaml"
@@ -60,7 +60,7 @@ hyperparameters:
   timesformer:
     patch_size: 16
     attention_type: 'divided_space_time'
-    depth: 4 #num transforemer layers
+    depth: 8 #num transforemer layers
     num_heads: 12
   senet:
     resnet_model: "resnet50" # 18 34 50 101 152
