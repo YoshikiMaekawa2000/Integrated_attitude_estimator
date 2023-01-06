@@ -99,7 +99,7 @@ hyperparameters:
   num_classes: 63
   num_frames: 8 # 8, 4, 2, 1,
   deg_threshold: 30
-  batch_size: 64 # 160 in TimeSformer(4 frame), 640 in TimeSformer(1 frame), 640 in ResNet50
+  batch_size: 128 # 160 in TimeSformer(4 frame), 640 in TimeSformer(1 frame), 640 in ResNet50
   num_epochs: 10 # 10 in pretrain, 200 in finetune(ResNet), 80 in finetune(TimeSformer)
   optimizer_name: "RAdam"
   lr_feature: 1e-6 # Pretrain: 1e-6, Finetune: 3e-5
@@ -115,7 +115,7 @@ hyperparameters:
   timesformer:
     patch_size: 16
     attention_type: 'divided_space_time' #
-    depth: 8 #num transforemer layers
+    depth: 4 #num transforemer layers
     num_heads: 12
   senet:
     resnet_model: "resnet50" # 18 34 50 101 152
