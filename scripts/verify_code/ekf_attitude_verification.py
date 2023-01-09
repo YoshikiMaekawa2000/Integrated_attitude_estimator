@@ -135,8 +135,8 @@ class VerifyInfer:
         ax_roll.set_xlim(0, self.end_time)
         ax_pitch.set_xlim(0, self.end_time)
 
-        ax_roll.legend()
-        ax_pitch.legend()
+        ax_roll.legend(loc='upper right')
+        ax_pitch.legend(loc='upper right')
 
         print("CSV 1 MAE Roll: ", self.csv_1_MAE_roll, "[deg]")
         print("CSV 1 MAE Pitch: ", self.csv_1_MAE_pitch, "[deg]")
