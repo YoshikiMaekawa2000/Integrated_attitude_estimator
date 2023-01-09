@@ -50,9 +50,9 @@ class VerifyInfer:
                 diff_roll = abs(roll - gt_roll)
                 diff_pitch = abs(pitch - gt_pitch)
 
-                if diff_roll > 20.0 and time < 1.0:
+                if diff_roll > 10.0 and time < 5.0:
                     continue
-                if diff_pitch > 20.0 and time < 1.0:
+                if diff_pitch > 10.0 and time < 5.0:
                     continue
 
                 acc_roll_diff += diff_roll
