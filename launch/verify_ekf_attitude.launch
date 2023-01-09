@@ -9,24 +9,6 @@
     <arg name="imu_topic_name" default="/imu/data" />
     <arg name="ekf_angle_topic_name" default="/ekf_angle" />
 
-    <!--Bagfile Param-->
-    <arg name="bagfile_directory" default="/home/bagfiles/outdoor/south/" />
-    <!--Seq1-->
-    <arg name="bagfile_name" default="dji_rs3pro_20221118_145840.bag" />
-    <arg name="record_time" default="160" />
-
-    <!-- Seq2 -->
-    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221118_150138.bag" />
-    <arg name="record_time" default="290" /> -->
-    
-    <!--Seq3-->
-    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221116_160432.bag" />
-    <arg name="record_time" default="450" />-->
-
-    <!--Seq4-->
-    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221118_150706.bag" />
-    <arg name="record_time" default="90" /> -->
-
     <!--CSV Params-->
     <arg name="csv_file_directory" default="/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_25_1frame/inference_test_log/" />
     <arg name="csv_file_name" default="ekf_attitude_estimation_log_w_DNN_w_velocity_w_angle.csv" />
@@ -57,7 +39,7 @@
         <param name="sigma_imu_angle" value="0.05" type="double" />
         <param name="sigma_imu_velocity" value="0.03" type="double" />
         <param name="sigma_dnn_angle" value="0.1" type="double" />
-        <param name="save_as_csv" value="false" type="bool" />
+        <param name="save_as_csv" value="true" type="bool" />
         <param name="csv_file_directory" value="$(arg csv_file_directory)"/>
         <param name="csv_file_name" value="$(arg csv_file_name)"/>
         <param name="imu_topic_name" value="$(arg imu_topic_name)" />
@@ -65,7 +47,5 @@
         <param name="gt_angle_topic_name" value="$(arg ground_truth_angle_topic_name)" />
         <param name="ekf_angle_topic_name" value="$(arg ekf_angle_topic_name)" />
     </node>
-        <remap from="out" to="$(arg image_topic_name)" />
-    </node>
-    <node pkg="rosbag" type="play" name="rosbag" output="screen" args="$(arg bagfile_directory)$(arg bagfile_name) -d $(arg record_time)" />
+
 </launch>

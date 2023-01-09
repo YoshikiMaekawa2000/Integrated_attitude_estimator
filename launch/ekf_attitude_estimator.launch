@@ -9,6 +9,26 @@
     <arg name="imu_topic_name" default="/imu/data" />
     <arg name="ekf_angle_topic_name" default="/ekf_angle" />
 
+
+    <!--Bagfile Param-->
+    <arg name="bagfile_directory" default="/home/bagfiles/outdoor/south/" />
+    <!--Seq1-->
+    <arg name="bagfile_name" default="dji_rs3pro_20221118_145840.bag" />
+    <arg name="record_time" default="160" />
+
+    <!-- Seq2 -->
+    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221118_150138.bag" />
+    <arg name="record_time" default="290" /> -->
+    
+    <!--Seq3-->
+    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221116_160432.bag" />
+    <arg name="record_time" default="450" />-->
+
+    <!--Seq4-->
+    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221118_150706.bag" />
+    <arg name="record_time" default="90" /> -->
+
+
     <node pkg="integrated_attitude_estimator" name="ros_image_infer" type="ros_infer.py" output="screen">
         <param name="/use_sim_time" value="true"/>
         <param name="inferenced_angle_topic_name" value="$(arg inferenced_angle_topic_name)" />
@@ -42,4 +62,5 @@
         <param name="gt_angle_topic_name" value="$(arg ground_truth_angle_topic_name)" />
         <param name="ekf_angle_topic_name" value="$(arg ekf_angle_topic_name)" />
     </node>
+    <node pkg="rosbag" type="play" name="rosbag" output="screen" args="$(arg bagfile_directory)$(arg bagfile_name) -u $(arg record_time)" />
 </launch>
