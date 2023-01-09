@@ -1,6 +1,6 @@
 <launch>
     <!--Bagfile Param-->
-    <arg name="bagfile_directory" default="/home/amsl/bagfiles/outdoor/south/" />
+    <arg name="bagfile_directory" default="/home/bagfiles/outdoor/south/" />
     <!--Seq1-->
     <arg name="bagfile_name" default="dji_rs3pro_20221118_145840.bag" />
     <arg name="record_time" default="160" />

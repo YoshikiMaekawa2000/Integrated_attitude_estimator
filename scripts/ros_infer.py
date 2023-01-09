@@ -77,7 +77,7 @@ class IntegratedAttitudeEstimator:
 
         self.yaml_name = self.CFG["yaml_name"]
         self.yaml_path = os.path.join(self.infer_log_top_directory, self.yaml_name)
-        shutil.copy(FLAGS.config, self.yaml_path)
+        # shutil.copy(FLAGS.config, self.yaml_path)
 
         self.index_dict_path = self.CFG["index_csv_path"]
 

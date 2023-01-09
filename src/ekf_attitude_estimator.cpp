@@ -10,7 +10,8 @@ EKFAttitudeEstimator::EKFAttitudeEstimator():private_nh("~"), tfListener(tfBuffe
     //Subscribers
     imu_sub = nh.subscribe(imu_topic_name, 1, &EKFAttitudeEstimator::imu_callback, this);
     angle_sub = nh.subscribe(dnn_angle_topic_name, 1, &EKFAttitudeEstimator::dnn_angle_callback, this);
-    //gt_angle_sub = nh.subscribe(gt_angle_topic_name, 1, EKFAttitudeEstimator::gt_angle_callback, this);
+    gt_angle_sub = nh.subscribe(gt_angle_topic_name, 1, &EKFAttitudeEstimator::gt_angle_callback, this);
+
     //Publishers
     ekf_angle_pub = nh.advertise<integrated_attitude_estimator::EularAngle>(ekf_angle_topic_name, 1);
 
