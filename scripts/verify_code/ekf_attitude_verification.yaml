@@ -2,15 +2,15 @@ infer_log_path: "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca21/integrated_at
 
 
 #ALL
-csv_1: "ekf_attitude_estimation_log_seq1_w_DNN_w_velocity_w_angle.csv"
+csv_1: "ekf_attitude_estimation_log_seq4_w_DNN_w_velocity_w_angle.csv"
 # W/O IMU angle
-csv_2: "ekf_attitude_estimation_log_seq1_w_DNN_w_velocity_wo_angle.csv"
+csv_2: "ekf_attitude_estimation_log_seq4_w_DNN_w_velocity_wo_angle.csv"
 # W/O IMU angle and IMU velocity
-csv_3: "ekf_attitude_estimation_log_seq1_w_DNN_wo_velocity_wo_angle.csv"
+csv_3: "ekf_attitude_estimation_log_seq4_w_DNN_wo_velocity_wo_angle.csv"
 
-fig_name: "ekf_attitude_graph_seq1.png"
+fig_name: "ekf_attitude_graph_seq4.png"
 
-end_time: 155
+end_time: 85
 # Seq1: 155
 # Seq2: 285
 # Seq3: 445
