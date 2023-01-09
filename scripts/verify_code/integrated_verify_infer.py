@@ -23,6 +23,8 @@ class VerifyInfer:
         self.fig_1_name = CFG["fig_1_name"]
         self.fig_2_name = CFG["fig_2_name"]
 
+        self.end_time = int(CFG['end_time'])
+
         self.mae_roll = 0.0
         self.mae_pitch = 0.0
 
@@ -231,6 +233,10 @@ class VerifyInfer:
         ax_pitch.set_xlabel("Inference Time [sec]")
         ax_pitch.set_ylabel("Pitch [deg]")
         ax_pitch.set_ylim(-30.0, 30.0)
+
+        print("Last Inference Time: ", inference_time_list[-1], "[sec]")
+
+        ax_roll.set_xlim(0, self.end_time)
 
         ax_roll.legend()
         ax_pitch.legend()

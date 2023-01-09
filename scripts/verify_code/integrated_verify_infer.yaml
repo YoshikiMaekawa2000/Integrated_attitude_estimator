@@ -4,5 +4,7 @@ fig_1_name: "_fig1"
 fig_2_name: "_fig2"
 
 start_seq: 0
-# end_seq: -1
 step_seq: 1
+
+end_time: 160
+# Seq1: 160, Seq2: 290, Seq3: 450, Seq4: 90
