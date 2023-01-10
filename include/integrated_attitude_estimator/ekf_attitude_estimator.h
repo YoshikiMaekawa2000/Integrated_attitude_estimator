@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <random>
 
 //Custom message
 #include "integrated_attitude_estimator/EularAngle.h"
@@ -28,6 +29,7 @@ class EKFAttitudeEstimator{
         void dnn_angle_callback(const integrated_attitude_estimator::EularAngle::ConstPtr& msg);
         void prior_process(integrated_attitude_estimator::EularAngle angular_velocity, double sigma);
         void posterior_process(integrated_attitude_estimator::EularAngle angle, double sigma);
+        double randomize_value(double mean, double variance);
 
         void publish_angle();
         void save_csv(ros::Time time);
@@ -87,4 +89,11 @@ class EKFAttitudeEstimator{
         bool save_as_csv = false;
         std::string csv_file_directory = "/home/strage/integrated_attitude_estimator_log/ResNet/";
         std::string csv_file_name = "ekf_attitude_estimator_log.csv";
+
+        // Random
+        bool do_randomize_angle = false;
+        bool do_randomize_velocity = false;
+        double standard_deviation_velocity = 0.03;
+        double standard_deviation_angle = 0.1;
+
 };

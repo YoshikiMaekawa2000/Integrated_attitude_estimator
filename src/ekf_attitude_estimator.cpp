@@ -113,6 +113,30 @@ bool EKFAttitudeEstimator::init_process(){
         }
     }
 
+    if(private_nh.getParam("do_randomize_angle", bparam)){
+        do_randomize_angle = bparam;
+    }
+
+    if(private_nh.getParam("do_randomize_velocity", bparam)){
+        do_randomize_velocity = bparam;
+    }
+
+    if(private_nh.getParam("standard_deviation_angle", dparam)){
+        standard_deviation_angle = dparam;
+        if(standard_deviation_angle < 0.0){
+            ROS_ERROR("INVALID PARAMETER: standard_deviation_angle");
+            result = false;
+        }
+    }
+
+    if(private_nh.getParam("standard_deviation_velocity", dparam)){
+        standard_deviation_velocity = dparam;
+        if(standard_deviation_velocity < 0.0){
+            ROS_ERROR("INVALID PARAMETER: standard_deviation_velocity");
+            result = false;
+        }
+    }
+
     return result;
 }
 
@@ -164,6 +188,16 @@ void EKFAttitudeEstimator::imu_callback(const sensor_msgs::Imu::ConstPtr& msg){
     }
 }
 
+double EKFAttitudeEstimator::randomize_value(double mean, double variance){
+    double random_value = 0.0;
+    std::random_device seed_gen;
+    std::default_random_engine engine(seed_gen());
+
+    std::normal_distribution<float> dist(mean, variance);
+    random_value = dist(engine);
+    return random_value;
+}
+
 integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_imu_angle(sensor_msgs::Imu imu_data){
     integrated_attitude_estimator::EularAngle angle;
     double imu_roll, imu_pitch, imu_yaw;
@@ -175,6 +209,16 @@ integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_imu_angle(se
     angle.pitch = (imu_roll + M_PI/2.0) * -1.0;
     angle.yaw = imu_yaw;
 
+    //std::cout << "angle.roll: " << angle.roll << std::endl;
+
+    if(do_randomize_angle == true){
+        angle.roll = randomize_value(angle.roll, standard_deviation_angle);
+        angle.pitch = randomize_value(angle.pitch, standard_deviation_angle);
+        angle.yaw = randomize_value(angle.yaw, standard_deviation_angle);
+    }
+
+    //std::cout << "angle.roll: " << angle.roll << std::endl;
+
     return angle;
 }
 
@@ -185,6 +229,16 @@ integrated_attitude_estimator::EularAngle EKFAttitudeEstimator::get_correct_angu
     velocity.roll = imu_data.angular_velocity.z;
     velocity.pitch = -1.0 * imu_data.angular_velocity.x;
     velocity.yaw = -1.0 * imu_data.angular_velocity.y;
+
+    //std::cout << "velocity.roll: " << velocity.roll << std::endl;
+
+    if(do_randomize_velocity == true){
+        velocity.roll = randomize_value(velocity.roll, standard_deviation_velocity);
+        velocity.pitch = randomize_value(velocity.pitch, standard_deviation_velocity);
+        velocity.yaw = randomize_value(velocity.yaw, standard_deviation_velocity);
+    }
+
+    //std::cout << "velocity.roll: " << velocity.roll << std::endl;
 
     return velocity;
 }
