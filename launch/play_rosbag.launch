@@ -2,12 +2,12 @@
     <!--Bagfile Param-->
     <arg name="bagfile_directory" default="/home/bagfiles/outdoor/south/" />
     <!--Seq1-->
-    <arg name="bagfile_name" default="dji_rs3pro_20221118_145840.bag" />
-    <arg name="record_time" default="160" />
+    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221118_145840.bag" />
+    <arg name="record_time" default="160" /> -->
 
     <!-- Seq2 -->
-    <!-- <arg name="bagfile_name" default="dji_rs3pro_20221118_150138.bag" />
-    <arg name="record_time" default="290" /> -->
+    <arg name="bagfile_name" default="dji_rs3pro_20221118_150138.bag" />
+    <arg name="record_time" default="290" />
     
     <!--Seq3-->
     <!-- <arg name="bagfile_name" default="dji_rs3pro_20221116_160432.bag" />
