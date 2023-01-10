@@ -11,7 +11,7 @@
 
     <!--CSV Params-->
     <arg name="csv_file_directory" default="/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_25_1frame/inference_test_log/" />
-    <arg name="csv_file_name" default="ekf_attitude_estimation_log_seq4_w_DNN_wo_velocity_wo_angle.csv" />
+    <arg name="csv_file_name" default="ekf_attitude_estimation_log_seq1_w_DNN_w_velocity_w_angle.csv" />
 
 
     <node pkg="integrated_attitude_estimator" name="ros_image_infer" type="ros_infer.py" output="screen">
@@ -38,11 +38,11 @@
         <param name="use_imu_velocity" value="true" type="bool" />
         <param name="use_dnn_angle" value="true" type="bool" />
 
-        <param name="sigma_imu_angle" value="0.05" type="double" />
-        <param name="sigma_imu_velocity" value="0.03" type="double" />
-        <param name="sigma_dnn_angle" value="0.1" type="double" />
+        <param name="sigma_imu_angle" value="0.03" type="double" />
+        <param name="sigma_imu_velocity" value="0.01" type="double" />
+        <param name="sigma_dnn_angle" value="0.05" type="double" />
 
-        <param name="save_as_csv" value="false" type="bool" />
+        <param name="save_as_csv" value="true" type="bool" />
         
         <param name="csv_file_directory" value="$(arg csv_file_directory)"/>
         <param name="csv_file_name" value="$(arg csv_file_name)"/>
