@@ -244,7 +244,7 @@ void EKFAttitudeEstimator::prior_process(integrated_attitude_estimator::EularAng
 
     /*Update*/
 	X = F;
-    X(2) = 0.0;
+    //X(2) = 0.0;
 	P = jF*P*jF.transpose() + Q;
 }
 
@@ -264,7 +264,7 @@ void EKFAttitudeEstimator::posterior_process(integrated_attitude_estimator::Eula
 	Eigen::MatrixXd K = P*jH.transpose()*S.inverse();
 	X = X + K*Y;
 
-    X(2) = 0.0;
+    //X(2) = 0.0;
 
     Eigen::MatrixXd I = Eigen::MatrixXd::Identity(X.size(), X.size());
 	P = (I - K*jH)*P;
