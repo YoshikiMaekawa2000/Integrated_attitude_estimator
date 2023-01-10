@@ -11,7 +11,7 @@
 
     <!--CSV Params-->
     <arg name="csv_file_directory" default="/home/strage/integrated_attitude_estimator_log/ResNet/train_log_resnet50_finetune_2022_12_25_1frame/inference_test_log/" />
-    <arg name="csv_file_name" default="ekf_attitude_estimation_log_seq2_wo_DNN_w_velocity_w_angle_w_angle_noise_w_velocity_noise.csv" />
+    <arg name="csv_file_name" default="ekf_attitude_estimation_log_seq4_wo_DNN_w_velocity_w_angle_w_angle_noise_w_velocity_noise.csv" />
 
 
     <node pkg="integrated_attitude_estimator" name="ros_image_infer" type="ros_infer.py" output="screen">
