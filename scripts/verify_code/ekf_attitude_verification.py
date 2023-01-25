@@ -130,16 +130,16 @@ class VerifyInfer:
         c1,c2,c3,c4,c5 = "blue","green","red","orange", "black" # All, W/O IMU angle, W/O IMU angle and Vel, GT
 
         ax_roll.plot(inference_time_list_3, gt_roll_list, c=c5, linewidth=1.2, label="GT Roll")
-        ax_roll.plot(inference_time_list_1, csv_1_roll_list, c=c1, linewidth=0.5, label="DNN, Velocity, Gyro")
+        ax_roll.plot(inference_time_list_1, csv_1_roll_list, c=c1, linewidth=0.5, label="DNN, Velocity, Angle")
         ax_roll.plot(inference_time_list_2, csv_2_roll_list, c=c2, linewidth=1.2, label="DNN, Velocity")
         ax_roll.plot(inference_time_list_3, csv_3_roll_list, c=c3, linewidth=1.2, label="DNN")
-        ax_roll.plot(inference_time_list_4, csv_4_roll_list, c=c4, linewidth=0.5, label="Velocity, Gyro")
+        ax_roll.plot(inference_time_list_4, csv_4_roll_list, c=c4, linewidth=0.5, label="Velocity, Angle")
 
         ax_pitch.plot(inference_time_list_3, gt_pitch_list, c=c5, linewidth=1.2, label="GT Pitch")
-        ax_pitch.plot(inference_time_list_1, csv_1_pitch_list, c=c1, linewidth=0.5, label="DNN, Velocity, Gyro")
+        ax_pitch.plot(inference_time_list_1, csv_1_pitch_list, c=c1, linewidth=0.5, label="DNN, Velocity, Angle")
         ax_pitch.plot(inference_time_list_2, csv_2_pitch_list, c=c2, linewidth=1.2, label="DNN, Velocity")
         ax_pitch.plot(inference_time_list_3, csv_3_pitch_list, c=c3, linewidth=1.2, label="DNN")
-        ax_pitch.plot(inference_time_list_4, csv_4_pitch_list, c=c4, linewidth=0.5, label="Velocity, Gyro")
+        ax_pitch.plot(inference_time_list_4, csv_4_pitch_list, c=c4, linewidth=0.5, label="Velocity, Angle")
 
         ax_roll.set_xlabel("Inference Time [sec]")
         ax_roll.set_ylabel("Roll [deg]")
@@ -166,10 +166,10 @@ class VerifyInfer:
         print("CSV 4 MAE Pitch: ", self.csv_4_MAE_pitch, "[deg]")
 
         plt.suptitle(
-            "MAE of Roll(DNN, Velocity, Gyro): {:.3f}".format(self.csv_1_MAE_roll) + " [deg], MAE of Pitch(DNN, Velocity, Gyro): {:.3f}".format(self.csv_1_MAE_pitch) + " [deg]" + "\n"
+            "MAE of Roll(DNN, Velocity, Angle): {:.3f}".format(self.csv_1_MAE_roll) + " [deg], MAE of Pitch(DNN, Velocity, Angle): {:.3f}".format(self.csv_1_MAE_pitch) + " [deg]" + "\n"
             "MAE of Roll(DNN, Velocity): {:.3f}".format(self.csv_2_MAE_roll) + " [deg], MAE of Pitch(DNN, Velocity): {:.3f}".format(self.csv_2_MAE_pitch) + " [deg]" + "\n"
             "MAE of Roll(DNN): {:.3f}".format(self.csv_3_MAE_roll) + " [deg], MAE of Pitch(DNN): {:.3f}".format(self.csv_3_MAE_pitch) + " [deg]" + "\n"
-            "MAE of Roll(Velocity, Gyro): {:.3f}".format(self.csv_4_MAE_roll) + " [deg], MAE of Pitch(Velocity, Gyro): {:.3f}".format(self.csv_4_MAE_pitch) + " [deg]"      
+            "MAE of Roll(Velocity, Angle): {:.3f}".format(self.csv_4_MAE_roll) + " [deg], MAE of Pitch(Velocity, Angle): {:.3f}".format(self.csv_4_MAE_pitch) + " [deg]"      
         , fontsize=15)
 
         plt.savefig(self.save_fig_path)

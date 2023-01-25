@@ -1,7 +1,7 @@
 dataset_type: "Gimbal" # AirSim or Gimbal
 
 infer_dataset: # Gimbal
-  # - "/home/strage/gimbal_attitude_image/25hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
+  # - "/home/strage/gimbal_attitude_image/100hz/known_env/test_image/dji_rs3pro_20221118_145840/" # Sequence1
   # - "/home/strage/gimbal_attitude_image/25hz/known_env/test_image/dji_rs3pro_20221118_150138/" # Sequence2
   # - "/home/strage/gimbal_attitude_image/25hz/unknown_env/faculty_of_agriculture_region/dji_rs3pro_20221116_160432/" # seq3 unknown environment 農学部
   - "/home/strage/gimbal_attitude_image/25hz/unknown_env/building_d/dji_rs3pro_20221118_150706/" # seq4 unknown environment D館
@@ -12,13 +12,13 @@ infer_dataset: # Gimbal
 
 csv_name: "data_list.csv"
 
-weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_06_1frame_8depth/train_log/"
+weights_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_11_8frame/train_log/"
 weights_file_name: "weights.pth"
 
 # weights_2022_12_22_resnet50_finetune_8frame.pth
 # weights_2022_12_22_resnet50_finetune_4frame.pth
 
-infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_06_1frame_8depth/inference_test_log/"
+infer_log_top_directory: "/home/strage/integrated_attitude_estimator_log/ViT/train_log_TimeSformer_finetune_2023_01_11_8frame/inference_test_log/"
 infer_log_file_name: "frame_infer_relust_seq4_25hz.csv"
 
 yaml_name: "infer_config_seq4_25hz.yaml"
@@ -43,7 +43,7 @@ hyperparameters:
     elastic_alpha: 25.0 # For ElasticTransform
   network_type: "TimeSformer" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 1 # 8 or 4 or 2 or 1
+  num_frames: 8 # 8 or 4 or 2 or 1
   deg_threshold: 30
   batch_size: 640 # 220 in TimeSformer, 640 in ResNet50
   num_epochs: 50 #50 in pretrain, 100 in finetuning
@@ -60,7 +60,7 @@ hyperparameters:
   timesformer:
     patch_size: 16
     attention_type: 'divided_space_time'
-    depth: 8 #num transforemer layers
+    depth: 4 #num transforemer layers
     num_heads: 12
   senet:
     resnet_model: "resnet50" # 18 34 50 101 152
