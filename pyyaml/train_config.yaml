@@ -58,6 +58,7 @@ valid:
 #   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644"
 #   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_155836"
 #   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_154646"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20230130_161601"
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131145" # 100hz Train Data
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131610"
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_132306"
@@ -70,6 +71,7 @@ valid:
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20230130_161601"
 # distort:
 #   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_162156" # 25hz Train Data
 #   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156" # 100hz Train Data
