@@ -7,7 +7,7 @@ docker run -it \
     --net="host" \
     --gpus all \
     --privileged \
-    --shm-size=490g \
+    --shm-size=470g \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --name="integrated_attitude_estimator" \
