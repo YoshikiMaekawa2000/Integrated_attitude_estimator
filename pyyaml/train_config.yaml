@@ -108,7 +108,7 @@ hyperparameters:
     distort_epoch: 10 # 2 in pretrain, 10 in finetune and pretrain in TimeSformer
   network_type: "TimeSformer" # TimeSformer or SENet
   num_classes: 63
-  num_frames: 8 # 8, 4, 2, 1,
+  num_frames: 8 # 8, 4, 2, 1
   deg_threshold: 30
   batch_size: 220 # 160 in TimeSformer(4 frame), 640 in TimeSformer(1 frame), 640 in ResNet50
   num_epochs: 50 # 10 in pretrain, 200 in finetune(ResNet), 80 in finetune(TimeSformer)
