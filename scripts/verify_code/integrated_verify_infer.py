@@ -6,12 +6,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class VerifyInfer:
-    def __init__(self, CFG):
+    def __init__(self, CFG,  csv_file):
         self.CFG = CFG
-        self.infer_log_top_path = CFG["infer_log_top_path"]
-        self.infer_log_base_name = CFG["infer_log_base_name"]
-        self.infer_log_base_path = os.path.join(self.infer_log_top_path, self.infer_log_base_name)
-        self.infer_log_csv_path = self.infer_log_base_path + ".csv"
+        # self.infer_log_top_path = CFG["infer_log_top_path"]
+        # self.infer_log_base_name = CFG["infer_log_base_name"]
+        # self.infer_log_base_path = os.path.join(self.infer_log_top_path, self.infer_log_base_name)
+        self.infer_log_csv_path = csv_file
+        # self.infer_log_csv_path = self.infer_log_base_path + ".csv"
 
         self.start_seq = int(CFG['start_seq'])
         # self.end_seq = int(CFG['end_seq'])
@@ -36,7 +37,7 @@ class VerifyInfer:
 
     def data_load(self):
         data_list = []
-        
+
         with open(self.infer_log_csv_path) as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
@@ -82,7 +83,7 @@ class VerifyInfer:
             roll_val_list.append(roll_val)
             pitch_val_list.append(pitch_val)
 
-        
+
         acc_roll_diff = acc_roll_diff/size_of_csv
         acc_pitch_diff = acc_pitch_diff/size_of_csv
 
@@ -139,7 +140,7 @@ class VerifyInfer:
         ax5.set_xlim(-31, 31)
         ax5.set_ylim(0, 31)
 
-        fig_1_save_path = self.infer_log_base_path + self.fig_1_name + ".png"
+        fig_1_save_path = self.infer_log_csv_path[:-4] + self.fig_1_name + ".png"
         plt.savefig(fig_1_save_path)
 
         #plt.show()
@@ -221,7 +222,7 @@ class VerifyInfer:
         #ax_roll.plot(fig_counter, diff_roll, c=c1, label="Diff Roll")
         ax_roll.plot(fig_inference_time, gt_roll_list, c=c2, label="GT Roll")
         ax_roll.plot(fig_inference_time, roll_list, c=c3, label="Inferenced Roll")
-        
+
         #ax_pitch.plot(fig_counter, diff_pitch, c=c1, label="Diff Pitch")
         ax_pitch.plot(fig_inference_time, gt_pitch_list, c=c2, label="GT Pitch")
         ax_pitch.plot(fig_inference_time, pitch_list, c=c3, label="Inferenced Pitch")
@@ -243,7 +244,7 @@ class VerifyInfer:
 
         plt.suptitle("MAE of Roll: {:.3f}".format(self.mae_roll) + " [deg], MAE of Pitch: {:.3f}".format(self.mae_pitch) + " [deg]", fontsize=30)
 
-        fig_2_save_path = self.infer_log_base_path + self.fig_2_name + ".png"
+        fig_2_save_path = self.infer_log_csv_path[:-4] + self.fig_2_name + ".png"
         plt.savefig(fig_2_save_path)
 
         # plt.show()

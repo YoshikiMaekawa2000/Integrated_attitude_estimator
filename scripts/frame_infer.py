@@ -1,3 +1,4 @@
+#!/usr/bin python3
 import sys, codecs
 from tkinter import W
 #sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
@@ -40,6 +41,8 @@ from common import dataset_mod_Gimbal
 from common import dataset_mod_AirSim
 from common import make_datalist_mod
 from common import data_transform_mod
+import datetime
+from verify_code.integrated_verify_infer import VerifyInfer
 
 class FrameInfer:
     def __init__(self, CFG, FLAGS):
@@ -47,7 +50,7 @@ class FrameInfer:
         self.FLAGS = FLAGS
 
         self.infer_sequence = self.cfg['infer_dataset']
-        
+
         self.csv_name = self.cfg['csv_name']
 
         self.weights_top_directory = self.cfg['weights_top_directory']
@@ -57,10 +60,10 @@ class FrameInfer:
         self.infer_log_top_directory = self.cfg['infer_log_top_directory']
         self.infer_log_file_name = self.cfg['infer_log_file_name']
         self.infer_log_path = os.path.join(self.infer_log_top_directory, self.infer_log_file_name)
-        
+
         yaml_name = self.cfg['yaml_name']
         yaml_path = self.infer_log_top_directory + yaml_name
-        shutil.copy(FLAGS.config, yaml_path)
+        # shutil.copy(FLAGS.config, yaml_path)
 
         self.index_dict_name = self.cfg['index_dict_name']
         self.index_dict_path = "../index_dict/" + self.index_dict_name
@@ -73,7 +76,7 @@ class FrameInfer:
         self.network_type = str(CFG["hyperparameters"]["network_type"])
 
         self.img_size = int(self.cfg['hyperparameters']['img_size'])
-        
+
         self.do_domain_randomization =str(self.cfg['hyperparameters']["transform_params"]['do_domain_randomization'])
         self.resize = int(CFG["hyperparameters"]["transform_params"]["resize"])
         self.brightness = float(CFG["hyperparameters"]["transform_params"]["brightness"])
@@ -293,7 +296,7 @@ class FrameInfer:
             print("------------------------------------")
 
             infer_count += 1
-            
+
 
 
         print("Inference Test Has Done....")
@@ -302,12 +305,16 @@ class FrameInfer:
         return result_csv
 
     def save_csv(self, result_csv):
-        csv_file = open(self.infer_log_path, 'w')
+        csv_path = self.infer_log_path + str(datetime.datetime.now().date()) + ".csv"
+
+        csv_file = open(csv_path, 'w+')
         csv_w = csv.writer(csv_file)
         for row in result_csv:
             csv_w.writerow(row)
         csv_file.close()
         print("Save Inference Data")
+
+        return csv_path
 
     def prediction(self, img_list):
         roll_inf, pitch_inf = self.net(img_list)
@@ -321,7 +328,7 @@ class FrameInfer:
         plus_index = max_index + 1
         minus_index = max_index - 1
         value = 0.0
-        
+
         for tmp, label in zip(output_array[0], self.value_dict):
             value += tmp * float(label[0])
 
@@ -337,7 +344,7 @@ class FrameInfer:
         plus_index = max_index + 1
         minus_index = max_index - 1
         value = 0.0
-        
+
         for tmp, label in zip(label_array, self.value_dict):
             value += tmp * float(label[0])
 
@@ -371,4 +378,29 @@ if __name__ == "__main__":
 
     frame_infer = FrameInfer(CFG, FLAGS)
     result_csv = frame_infer.spin()
-    frame_infer.save_csv(result_csv)
+    csv_file = frame_infer.save_csv(result_csv)
+
+    ### verify ###
+    # parser = argparse.ArgumentParser('./verify_infer_vit_2.py')
+    #
+    # parser.add_argument(
+    #     '--verify_infer', '-vi',
+    #     type=str,
+    #     required=False,
+    #     default='./integrated_verify_infer.yaml',
+    # )
+    #
+    # FLAGS, unparsed = parser.parse_known_args()
+
+    #Load yaml file
+    # try:
+    #     print("Opening yaml file %s", FLAGS.verify_infer)
+    #     CFG = yaml.safe_load(open(FLAGS.verify_infer, 'r'))
+    # except Exception as e:
+    #     print(e)
+    #     print("Error yaml file %s", FLAGS.verify_infer)
+    #     quit()
+
+    verify_infer = VerifyInfer(CFG, csv_file)
+    verify_infer.save_scatter_graph()
+    verify_infer.save_seq_graph()
