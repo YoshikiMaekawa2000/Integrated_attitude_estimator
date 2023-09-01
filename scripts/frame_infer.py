@@ -250,6 +250,7 @@ class FrameInfer:
             roll_hist_array = [0.0 for _ in range(self.num_classes)]
             pitch_hist_array = [0.0 for _ in range(self.num_classes)]
 
+
             roll_inf, pitch_inf = self.prediction(input_image)
 
             roll = self.array_to_value_simple(roll_inf)

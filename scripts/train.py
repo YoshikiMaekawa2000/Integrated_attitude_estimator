@@ -231,7 +231,7 @@ class Trainer:
 
     def process(self):
         start_clock = time.time()
-        
+
         #Loss recorder
         writer = SummaryWriter(log_dir = self.save_top_path + "/log")
 
@@ -255,7 +255,7 @@ class Trainer:
                     continue
                 elif phase == "distort" and (epoch%distort_epoch)==0:
                     print("Distort Phase in Epoch: {}".format(epoch))
-                
+
                 #Data Load
                 epoch_loss = 0.0
 
@@ -302,7 +302,7 @@ class Trainer:
 
                         for w in self.net.parameters():
                             l2norm = l2norm + torch.norm(w)**2
-                        
+
                         total_loss = roll_loss + pitch_loss + self.alpha*l2norm
 
                         if phase == "train":
@@ -334,7 +334,7 @@ class Trainer:
         mins = (time.time() - start_clock) // 60
         secs = (time.time() - start_clock) % 60
         print("Training Time: ", mins, "[min]", secs, "[sec]")
-        
+
         writer.close()
         self.saveParam()
         self.saveGraph(record_train_loss, record_valid_loss)
@@ -365,7 +365,7 @@ class Trainer:
         plus_index = max_index + 1
         minus_index = max_index - 1
         value = 0.0
-        
+
         for tmp, label in zip(output_array[0], self.value_dict):
             value += tmp * float(label[0])
 
@@ -381,7 +381,7 @@ class Trainer:
         plus_index = max_index + 1
         minus_index = max_index - 1
         value = 0.0
-        
+
         for tmp, label in zip(label_array[0], self.value_dict):
             value += tmp * float(label[0])
 
@@ -427,7 +427,7 @@ if __name__ == "__main__":
     pretrained_weights_top_directory = CFG["pretrained_weights_top_directory"]
     pretrained_weights_file_name = CFG["pretrained_weights_file_name"]
     pretrained_weights_path = os.path.join(pretrained_weights_top_directory, pretrained_weights_file_name)
-    
+
     index_csv_path = str(CFG["index_csv_path"])
 
     train_sequence = CFG["train"]
@@ -452,7 +452,7 @@ if __name__ == "__main__":
     equalize_p = float(CFG["hyperparameters"]["transform_params"]["equalize_p"])
     elastic_alpha = float(CFG["hyperparameters"]["transform_params"]["elastic_alpha"])
     distort_epoch = int(CFG["hyperparameters"]["transform_params"]["distort_epoch"])
-    
+
     network_type = str(CFG["hyperparameters"]["network_type"])
     num_classes = int(CFG["hyperparameters"]["num_classes"])
     num_frames = int(CFG["hyperparameters"]["num_frames"])
@@ -604,8 +604,8 @@ if __name__ == "__main__":
     else:
         print("Error: distort_type is not defined")
         quit()
-        
-    
+
+
 
     print("Load Valid Dataset")
 
@@ -671,6 +671,7 @@ if __name__ == "__main__":
 
     print("Load Network")
     if network_type == "TimeSformer":
+        print(pretrained_weights_path)
         net = vit.TimeSformer(img_size, patch_size, num_classes, num_frames, depth, num_heads, attention_type, pretrained_weights_path, train_system)
     elif network_type == "SENet":
         net = senet.SENet(model=resnet_model, dim_fc_out=num_classes, norm_layer=nn.BatchNorm2d, pretrained_model=pretrained_weights_path, time_step=num_frames, use_SELayer=True)

@@ -1,6 +1,6 @@
-save_top_path: "/home/log/train_log"
+save_top_path: "/home/amsl/log/"
 
-pretrained_weights_top_directory: "/home/ros_catkin_ws/src/integrated_attitude_estimator/weights/"
+pretrained_weights_top_directory: "/home/amsl/catkin_ws/src/integrated_attitude_estimator/weights/"
 pretrained_weights_file_name: "weights_2023_02_02_TimeSformer_pretrain_8frame_for_IROS.pth"
 
 # # For SENet
@@ -22,74 +22,74 @@ pretrained_weights_file_name: "weights_2023_02_02_TimeSformer_pretrain_8frame_fo
 # weights_2023_02_02_TimeSformer_pretrain_8frame_for_IROS.pth
 
 # For Pretrain
-# train:
-#   - "/home/strage/flight_airsim_image/train_sequence1/degree_0"
-#   - "/home/strage/flight_airsim_image/train_sequence1/degree_5"
-#   - "/home/strage/flight_airsim_image/train_sequence1/degree_10"
-#   - "/home/strage/flight_airsim_image/train_sequence2/degree_0"
-#   - "/home/strage/flight_airsim_image/train_sequence2/degree_5"
-#   - "/home/strage/flight_airsim_image/train_sequence2/degree_10"
-#   - "/home/strage/flight_airsim_image/train_sequence3/degree_0"
-#   - "/home/strage/flight_airsim_image/train_sequence3/degree_5"
-#   - "/home/strage/flight_airsim_image/train_sequence3/degree_10"
-#   - "/home/strage/flight_airsim_image/sequence1"
-#   - "/home/strage/flight_airsim_image/sequence2"
-#   - "/home/strage/flight_airsim_image/sequence3"
-#   - "/home/strage/flight_airsim_image/sequence4"
-#   - "/home/strage/flight_airsim_image/sequence9"
-#   - "/home/strage/flight_airsim_image/sequence10"
-# distort:
-#   - "/home/strage/flight_airsim_image/sequence5"
-# valid:
-#   - "/home/strage/flight_airsim_image/train_sequence4/degree_0"
-#   - "/home/strage/flight_airsim_image/train_sequence4/degree_5"
-#   - "/home/strage/flight_airsim_image/train_sequence4/degree_10"
-#   - "/home/strage/flight_airsim_image/sequence6"
-#   - "/home/strage/flight_airsim_image/sequence7"
+train:
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence1/degree_0"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence1/degree_5"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence1/degree_10"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence2/degree_0"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence2/degree_5"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence2/degree_10"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence3/degree_0"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence3/degree_5"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence3/degree_10"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence1"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence2"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence3"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence4"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence9"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence10"
+distort:
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence5"
+valid:
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence4/degree_0"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence4/degree_5"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/train_sequence4/degree_10"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence6"
+  - "/media/amsl/96fde31e-3b9b-4160-8d8a-a4b913579ca2/SI2022/flight_airsim_image/sequence7"
 
 # #For Real Env
-train:
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_131145" # 25hz Train Data
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_131610"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_132306"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_114642"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_115528"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_155909"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_160802"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_161232"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_161633"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_155836"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_154646"
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20230130_161601"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131145" # 100hz Train Data
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131610"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_132306"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_114642"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_115528"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_155909"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_160802"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_161232"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20230130_161601"
-distort:
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_162156" # 25hz Train Data
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156" # 100hz Train Data
-valid:
-  - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_163059" # 25hz Valid Data
-  - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059" # 100hz Valid Data
+# train:
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_131145" # 25hz Train Data
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_131610"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221101_132306"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_114642"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_115528"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_155909"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_160802"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221109_161232"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_161633"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_162644"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_155836"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_154646"
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20230130_161601"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131145" # 100hz Train Data
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_131610"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221101_132306"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_114642"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_115528"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_155909"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_160802"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221109_161232"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_161633"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_162644"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_155836"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_154646"
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20230130_161601"
+# distort:
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221116_162156" # 25hz Train Data
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221116_162156" # 100hz Train Data
+# valid:
+#   - "/home/strage/gimbal_attitude_image/25hz/known_env/dji_rs3pro_20221114_163059" # 25hz Valid Data
+#   - "/home/strage/gimbal_attitude_image/100hz/known_env/dji_rs3pro_20221114_163059" # 100hz Valid Data
 
-train_type: "Gimbal" # AirSim or Gimbal
-train_system: "finetune" # pretrain or finetune
+train_type: "AirSim" # AirSim or Gimbal
+train_system: "pretrain" # pretrain or finetune
 
 csv_name: "data_list.csv"
 
-index_csv_path: "/home/ros_catkin_ws/src/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
+index_csv_path: "/home/amsl/catkin_ws/src/integrated_attitude_estimator/index_dict/index_dict_-30_30_range_step1deg.csv"
 
-multiGPU: 1 #1 is ture
+multiGPU: 0 #1 is ture
 
 hyperparameters:
   img_size: 224
@@ -110,13 +110,13 @@ hyperparameters:
   num_classes: 63
   num_frames: 8 # 8, 4, 2, 1
   deg_threshold: 30
-  batch_size: 220 # 160 in TimeSformer(4 frame), 640 in TimeSformer(1 frame), 640 in ResNet50
+  batch_size: 16 # 160 in TimeSformer(4 frame), 640 in TimeSformer(1 frame), 640 in ResNet50
   num_epochs: 50 # 10 in pretrain, 200 in finetune(ResNet), 80 in finetune(TimeSformer)
   optimizer_name: "RAdam"
   lr_feature: 6e-5 # Pretrain: 1e-6, Finetune: 3e-5
   lr_fc: 1e-4 # Pretrain: 1e-6, Finetune: 1e-4
   alpha: 7e-4 # Pretrain: 5e-4, Finetune: 7e-4.
-  num_workers: 35 # num_workers <= 35
+  num_workers: 8 # num_workers <= 35
   save_step: 10
   mean_element: 0.5
   std_element: 0.5
